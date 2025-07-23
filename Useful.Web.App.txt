@@ -2,7 +2,12 @@ Best & Useful Websites ++
 
 ++ Free Domain And Host
 https://in.000webhost.com/
-https://www.freenom.com/en/index.html?lang=en
+https://www.freenom.com/
+https://www.netlify.com/
+https://github.com/
+https://www.digitalocean.com/
+https://www.heroku.com/
+https://www.hostinger.com/
 
 ++ Domain Expiry Checker
 https://www.site24x7.com/tools/domain-expiry.html
