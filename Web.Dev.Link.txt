@@ -7,13 +7,20 @@ cs
 https://park-ui.com/
 https://codepen.io/
 
+background
+https://app.haikei.app/
 
+color
+https://coolors.co/
 
 icons
 svgbackgrounds.com
 iconify.design
 magicpattern.design
 https://cssicon.space/
+
+image
+https://unsplash.com/
 
 grid
 https://cssgridgenerator.io
