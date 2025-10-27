@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Learning Roadmap - Basic to Advanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+            line-height: 1.8;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .subsection {
+            margin-bottom: 25px;
+        }
+
+        .subsection-title {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subsection ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .subsection li {
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .subsection li:before {
+            content: "▸";
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: -20px;
+        }
+
+        .tips-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .tips-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .tips-box ul {
+            list-style: none;
+        }
+
+        .tips-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .tips-box li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .resources-box {
+            background: #fff4e6;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .resources-box h3 {
+            color: #ff9800;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .download-section {
+                display: none;
+            }
+            
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Complete Math Learning Path</h1>
+            <p>Your Step-by-Step Guide from Basic to Advanced Mathematics</p>
+        </div>
+
+        <div class="content" id="content">
+            <div class="section">
+                <h2 class="section-title">Foundation Level (Grades 1-5)</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">1. Number Sense & Operations</h3>
+                    <ul>
+                        <li>Counting, place value, comparing numbers</li>
+                        <li>Addition, subtraction, multiplication, division</li>
+                        <li>Fractions, decimals, and percentages</li>
+                        <li>Factors, multiples, prime numbers</li>
+                        <li>Order of operations (PEMDAS/BODMAS)</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">2. Basic Geometry</h3>
+                    <ul>
+                        <li>Shapes: triangles, squares, circles, rectangles</li>
+                        <li>Perimeter and area of basic shapes</li>
+                        <li>Lines, angles, and their types</li>
+                        <li>Symmetry and transformations</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">3. Measurement</h3>
+                    <ul>
+                        <li>Units of length, weight, volume, time</li>
+                        <li>Converting between units</li>
+                        <li>Reading scales and graphs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Intermediate Level (Grades 6-8)</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">4. Pre-Algebra</h3>
+                    <ul>
+                        <li>Integers and rational numbers</li>
+                        <li>Ratios, proportions, and rates</li>
+                        <li>Introduction to variables and expressions</li>
+                        <li>Solving simple equations</li>
+                        <li>Introduction to coordinate plane</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">5. Advanced Fractions & Decimals</h3>
+                    <ul>
+                        <li>Operations with fractions and decimals</li>
+                        <li>Percentages in real-world problems</li>
+                        <li>Powers and exponents</li>
+                        <li>Square roots and cube roots</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">6. Geometry Expansion</h3>
+                    <ul>
+                        <li>Volume and surface area (cubes, cylinders, spheres)</li>
+                        <li>Pythagorean theorem</li>
+                        <li>Circle properties (circumference, area)</li>
+                        <li>Basic trigonometry introduction</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">7. Statistics & Probability</h3>
+                    <ul>
+                        <li>Mean, median, mode, range</li>
+                        <li>Data representation (graphs, charts)</li>
+                        <li>Basic probability concepts</li>
+                        <li>Sample spaces and outcomes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">High School Level (Grades 9-12)</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">8. Algebra I</h3>
+                    <ul>
+                        <li>Linear equations and inequalities</li>
+                        <li>Systems of equations</li>
+                        <li>Polynomials (adding, subtracting, multiplying)</li>
+                        <li>Factoring techniques</li>
+                        <li>Graphing linear functions</li>
+                        <li>Word problems and applications</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">9. Geometry</h3>
+                    <ul>
+                        <li>Proofs and logical reasoning</li>
+                        <li>Congruence and similarity</li>
+                        <li>Triangles (properties, theorems)</li>
+                        <li>Quadrilaterals and polygons</li>
+                        <li>Circles (arcs, chords, tangents)</li>
+                        <li>3D geometry and spatial reasoning</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">10. Algebra II</h3>
+                    <ul>
+                        <li>Quadratic equations and functions</li>
+                        <li>Exponential and logarithmic functions</li>
+                        <li>Rational expressions and equations</li>
+                        <li>Radical expressions</li>
+                        <li>Complex numbers</li>
+                        <li>Sequences and series</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">11. Trigonometry</h3>
+                    <ul>
+                        <li>Trigonometric ratios (sin, cos, tan)</li>
+                        <li>Unit circle and radian measure</li>
+                        <li>Trigonometric identities</li>
+                        <li>Solving trigonometric equations</li>
+                        <li>Law of sines and cosines</li>
+                        <li>Applications in real-world problems</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">12. Pre-Calculus</h3>
+                    <ul>
+                        <li>Functions and their properties</li>
+                        <li>Polynomial and rational functions</li>
+                        <li>Conic sections (parabolas, ellipses, hyperbolas)</li>
+                        <li>Matrices and determinants</li>
+                        <li>Vectors and parametric equations</li>
+                        <li>Limits (introduction)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">University/Advanced Level</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">13. Calculus I (Differential Calculus)</h3>
+                    <ul>
+                        <li>Limits and continuity</li>
+                        <li>Derivatives and differentiation rules</li>
+                        <li>Applications of derivatives (optimization, rates of change)</li>
+                        <li>Related rates problems</li>
+                        <li>Curve sketching</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">14. Calculus II (Integral Calculus)</h3>
+                    <ul>
+                        <li>Indefinite and definite integrals</li>
+                        <li>Integration techniques</li>
+                        <li>Applications of integrals (area, volume, work)</li>
+                        <li>Sequences and series</li>
+                        <li>Taylor and Maclaurin series</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">15. Calculus III (Multivariable Calculus)</h3>
+                    <ul>
+                        <li>Partial derivatives</li>
+                        <li>Multiple integrals</li>
+                        <li>Vector calculus</li>
+                        <li>Line and surface integrals</li>
+                        <li>Green's, Stokes', and Divergence theorems</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">16. Linear Algebra</h3>
+                    <ul>
+                        <li>Matrices and matrix operations</li>
+                        <li>Systems of linear equations</li>
+                        <li>Vector spaces and subspaces</li>
+                        <li>Eigenvalues and eigenvectors</li>
+                        <li>Linear transformations</li>
+                        <li>Applications in computer science and data science</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">17. Differential Equations</h3>
+                    <ul>
+                        <li>First-order differential equations</li>
+                        <li>Second-order linear equations</li>
+                        <li>Systems of differential equations</li>
+                        <li>Laplace transforms</li>
+                        <li>Applications in physics and engineering</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">18. Discrete Mathematics</h3>
+                    <ul>
+                        <li>Logic and proof techniques</li>
+                        <li>Set theory</li>
+                        <li>Combinatorics and counting</li>
+                        <li>Graph theory</li>
+                        <li>Number theory</li>
+                        <li>Algorithms and complexity</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">19. Probability & Statistics</h3>
+                    <ul>
+                        <li>Probability distributions</li>
+                        <li>Random variables</li>
+                        <li>Expected value and variance</li>
+                        <li>Hypothesis testing</li>
+                        <li>Regression analysis</li>
+                        <li>Statistical inference</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">20. Abstract Algebra (Optional Advanced)</h3>
+                    <ul>
+                        <li>Groups, rings, and fields</li>
+                        <li>Homomorphisms and isomorphisms</li>
+                        <li>Galois theory</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">21. Real Analysis (Optional Advanced)</h3>
+                    <ul>
+                        <li>Rigorous treatment of limits and continuity</li>
+                        <li>Sequences and series</li>
+                        <li>Metric spaces</li>
+                        <li>Measure theory</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tips-box">
+                <h3>Learning Tips</h3>
+                <ul>
+                    <li>Practice daily - Even 30 minutes consistently beats occasional long sessions</li>
+                    <li>Master each level before moving on - Don't skip fundamentals</li>
+                    <li>Solve lots of problems - Math is learned by doing, not just reading</li>
+                    <li>Use multiple resources - Khan Academy, YouTube, Brilliant.org</li>
+                    <li>Focus on understanding WHY, not just HOW - Understand concepts deeply</li>
+                    <li>Apply to programming - Use your coding skills to visualize math concepts</li>
+                    <li>Join online communities - Reddit's r/learnmath, Stack Exchange</li>
+                </ul>
+            </div>
+
+            <div class="resources-box">
+                <h3>Recommended Free Resources for Android</h3>
+                <ul>
+                    <li><strong>Khan Academy</strong> - Comprehensive lessons with app available</li>
+                    <li><strong>Photomath</strong> - Step-by-step solutions with camera scan</li>
+                    <li><strong>Wolfram Alpha</strong> - For checking work and complex calculations</li>
+                    <li><strong>YouTube Channels:</strong> Khan Academy, 3Blue1Brown, Professor Leonard, PatrickJMT</li>
+                    <li><strong>Brilliant.org</strong> - Interactive learning platform (has free content)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Created by EBRAT HOSEEN | Start from where you feel comfortable and work your way up! 🎯</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        async function generatePDF() {
+            const button = document.querySelector('.download-btn');
+            button.textContent = '⏳ Generating PDF...';
+            button.disabled = true;
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const content = document.getElementById('content');
+                
+                // Create canvas from content
+                const canvas = await html2canvas(content, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = pdfWidth;
+                const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                // Add first page
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pdfHeight;
+
+                // Add additional pages if needed
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+                }
+
+                // Save the PDF
+                pdf.save('Math_Learning_Roadmap_Basic_to_Advanced.pdf');
+                
+                button.textContent = '✅ Downloaded!';
+                setTimeout(() => {
+                    button.textContent = '📥 Download as PDF';
+                    button.disabled = false;
+                }, 2000);
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                button.textContent = '❌ Error - Try Again';
+                setTimeout(() => {
+                    button.textContent = '📥 Download as PDF';
+                    button.disabled = false;
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
