@@ -2,5 +2,4 @@
 
 https://ebrat222.github.io/Junk_Files/FWDR
 
-
-https://ebrat222.github.io/Junk_Files/Best Framework.md
+https://ebrat222.github.io/Junk_Files/Best%20Framework.md
