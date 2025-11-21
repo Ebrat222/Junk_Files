@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React.js Learning Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-tabs button {
+            padding: 12px 24px;
+            border: none;
+            background: white;
+            color: #667eea;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-tabs button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .nav-tabs button.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .topic {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+        }
+        
+        .topic h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        .topic h3 {
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+        
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .code-block .keyword { color: #c678dd; }
+        .code-block .string { color: #98c379; }
+        .code-block .function { color: #61afef; }
+        .code-block .comment { color: #5c6370; font-style: italic; }
+        
+        .tip {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .tip strong {
+            color: #1976d2;
+        }
+        
+        ul {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0;
+            transition: width 1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ðŸš€ React.js Learning Path</h1>
+            <p>From Basic to Advanced - Your Complete Guide</p>
+        </header>
+        
+        <div class="nav-tabs">
+            <button class="active" onclick="showSection('basics')">Basics</button>
+            <button onclick="showSection('components')">Components</button>
+            <button onclick="showSection('hooks')">Hooks</button>
+            <button onclick="showSection('advanced')">Advanced</button>
+            <button onclick="showSection('projects')">Projects</button>
+        </div>
+        
+        <!-- BASICS SECTION -->
+        <div id="basics" class="content-section active">
+            <div class="topic">
+                <h2>1. Introduction to React</h2>
+                <p>React is a JavaScript library for building user interfaces, developed by Facebook. It's component-based, declarative, and uses a Virtual DOM for efficient updates.</p>
+                
+                <h3>Why React?</h3>
+                <ul>
+                    <li>Component-based architecture for reusable UI</li>
+                    <li>Virtual DOM for fast rendering</li>
+                    <li>Large ecosystem and community</li>
+                    <li>Used by major companies (Facebook, Netflix, Airbnb)</li>
+                </ul>
+            </div>
+            
+            <div class="topic">
+                <h2>2. Setting Up React</h2>
+                <h3>Method 1: Create React App</h3>
+                <div class="code-block">npx create-react-app my-app
+cd my-app
+npm start</div>
+                
+                <h3>Method 2: CDN (for learning)</h3>
+                <div class="code-block">&lt;script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"&gt;&lt;/script&gt;
+&lt;script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"&gt;&lt;/script&gt;
+&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</div>
+            </div>
+            
+            <div class="topic">
+                <h2>3. JSX - JavaScript XML</h2>
+                <p>JSX is a syntax extension that looks like HTML but is JavaScript.</p>
+                <div class="code-block"><span class="keyword">const</span> element = &lt;h1&gt;<span class="string">Hello, World!</span>&lt;/h1&gt;;
+
+<span class="comment">// JSX with expressions</span>
+<span class="keyword">const</span> name = <span class="string">'John'</span>;
+<span class="keyword">const</span> element = &lt;h1&gt;<span class="string">Hello, {name}!</span>&lt;/h1&gt;;
+
+<span class="comment">// JSX attributes</span>
+<span class="keyword">const</span> element = &lt;img src={user.avatarUrl} alt={user.name} /&gt;;</div>
+                
+                <div class="tip">
+                    <strong>ðŸ’¡ Tip:</strong> JSX must return a single parent element. Use fragments (&lt;&gt;...&lt;/&gt;) or &lt;div&gt; to wrap multiple elements.
+                </div>
+            </div>
+            
+            <div class="topic">
+                <h2>4. Your First React Component</h2>
+                <div class="code-block"><span class="keyword">function</span> <span class="function">Welcome</span>(props) {
+  <span class="keyword">return</span> &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
+}
+
+<span class="comment">// Using the component</span>
+<span class="keyword">const</span> root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(&lt;<span class="function">Welcome</span> name=<span class="string">"Sarah"</span> /&gt;);</div>
+            </div>
+        </div>
+        
+        <!-- COMPONENTS SECTION -->
+        <div id="components" class="content-section">
+            <div class="topic">
+                <h2>1. Functional Components</h2>
+                <p>Modern React uses functional components with hooks.</p>
+                <div class="code-block"><span class="keyword">function</span> <span class="function">Greeting</span>({ name, age }) {
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;h1&gt;Hello, {name}!&lt;/h1&gt;
+      &lt;p&gt;You are {age} years old.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>2. Props (Properties)</h2>
+                <p>Props are how you pass data from parent to child components.</p>
+                <div class="code-block"><span class="keyword">function</span> <span class="function">UserCard</span>({ user }) {
+  <span class="keyword">return</span> (
+    &lt;div className=<span class="string">"card"</span>&gt;
+      &lt;img src={user.avatar} alt={user.name} /&gt;
+      &lt;h2&gt;{user.name}&lt;/h2&gt;
+      &lt;p&gt;{user.email}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+<span class="comment">// Usage</span>
+&lt;<span class="function">UserCard</span> user={{ name: <span class="string">'John'</span>, email: <span class="string">'john@example.com'</span>, avatar: <span class="string">'...'</span> }} /&gt;</div>
+                
+                <div class="tip">
+                    <strong>ðŸ’¡ Tip:</strong> Props are read-only. Never modify props inside a component.
+                </div>
+            </div>
+            
+            <div class="topic">
+                <h2>3. State Management</h2>
+                <p>State is data that changes over time in your component.</p>
+                <div class="code-block"><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">Counter</span>() {
+  <span class="keyword">const</span> [count, setCount] = useState(0);
+
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Increment
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>4. Event Handling</h2>
+                <div class="code-block"><span class="keyword">function</span> <span class="function">Form</span>() {
+  <span class="keyword">const</span> [name, setName] = useState('');
+
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = (e) =&gt; {
+    e.preventDefault();
+    alert(<span class="string">`Hello, ${name}!`</span>);
+  };
+
+  <span class="keyword">return</span> (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input 
+        value={name}
+        onChange={(e) =&gt; setName(e.target.value)}
+        placeholder=<span class="string">"Enter name"</span>
+      /&gt;
+      &lt;button type=<span class="string">"submit"</span>&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>5. Conditional Rendering</h2>
+                <div class="code-block"><span class="keyword">function</span> <span class="function">Greeting</span>({ isLoggedIn }) {
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      {isLoggedIn ? (
+        &lt;h1&gt;Welcome back!&lt;/h1&gt;
+      ) : (
+        &lt;h1&gt;Please sign in.&lt;/h1&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>6. Lists and Keys</h2>
+                <div class="code-block"><span class="keyword">function</span> <span class="function">TodoList</span>({ todos }) {
+  <span class="keyword">return</span> (
+    &lt;ul&gt;
+      {todos.map(todo =&gt; (
+        &lt;li key={todo.id}&gt;
+          {todo.text}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</div>
+                
+                <div class="tip">
+                    <strong>ðŸ’¡ Tip:</strong> Always use unique keys when rendering lists. This helps React identify which items have changed.
+                </div>
+            </div>
+        </div>
+        
+        <!-- HOOKS SECTION -->
+        <div id="hooks" class="content-section">
+            <div class="topic">
+                <h2>1. useState Hook</h2>
+                <p>Manage state in functional components.</p>
+                <div class="code-block"><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">Example</span>() {
+  <span class="keyword">const</span> [count, setCount] = useState(0);
+  <span class="keyword">const</span> [user, setUser] = useState({ name: <span class="string">''</span>, age: 0 });
+
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;+&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>2. useEffect Hook</h2>
+                <p>Handle side effects like data fetching, subscriptions, or DOM manipulation.</p>
+                <div class="code-block"><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">DataFetcher</span>() {
+  <span class="keyword">const</span> [data, setData] = useState([]);
+  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="keyword">true</span>);
+
+  useEffect(() =&gt; {
+    <span class="comment">// Runs after component mounts</span>
+    fetch(<span class="string">'https://api.example.com/data'</span>)
+      .then(res =&gt; res.json())
+      .then(data =&gt; {
+        setData(data);
+        setLoading(<span class="keyword">false</span>);
+      });
+
+    <span class="comment">// Cleanup function (optional)</span>
+    <span class="keyword">return</span> () =&gt; {
+      <span class="comment">// Cleanup code here</span>
+    };
+  }, []); <span class="comment">// Empty array = run once on mount</span>
+
+  <span class="keyword">if</span> (loading) <span class="keyword">return</span> &lt;p&gt;Loading...&lt;/p&gt;;
+  <span class="keyword">return</span> &lt;div&gt;{<span class="comment">/* Display data */</span>}&lt;/div&gt;;
+}</div>
+                
+                <div class="tip">
+                    <strong>ðŸ’¡ Tip:</strong> The dependency array controls when useEffect runs. Empty [] = once, [value] = when value changes, no array = every render.
+                </div>
+            </div>
+            
+            <div class="topic">
+                <h2>3. useContext Hook</h2>
+                <p>Share data across components without prop drilling.</p>
+                <div class="code-block"><span class="keyword">import</span> { createContext, useContext } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">const</span> ThemeContext = createContext();
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;ThemeContext.Provider value=<span class="string">"dark"</span>&gt;
+      &lt;<span class="function">Toolbar</span> /&gt;
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+<span class="keyword">function</span> <span class="function">Toolbar</span>() {
+  <span class="keyword">const</span> theme = useContext(ThemeContext);
+  <span class="keyword">return</span> &lt;div className={theme}&gt;Current theme: {theme}&lt;/div&gt;;
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>4. useRef Hook</h2>
+                <p>Access DOM elements or persist values between renders.</p>
+                <div class="code-block"><span class="keyword">import</span> { useRef, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">TextInput</span>() {
+  <span class="keyword">const</span> inputRef = useRef(<span class="keyword">null</span>);
+
+  useEffect(() =&gt; {
+    <span class="comment">// Focus input on mount</span>
+    inputRef.current.focus();
+  }, []);
+
+  <span class="keyword">return</span> &lt;input ref={inputRef} type=<span class="string">"text"</span> /&gt;;
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>5. useMemo Hook</h2>
+                <p>Memoize expensive calculations.</p>
+                <div class="code-block"><span class="keyword">import</span> { useMemo, useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">ExpensiveComponent</span>({ numbers }) {
+  <span class="keyword">const</span> sum = useMemo(() =&gt; {
+    <span class="comment">// Only recalculates if numbers change</span>
+    <span class="keyword">return</span> numbers.reduce((a, b) =&gt; a + b, 0);
+  }, [numbers]);
+
+  <span class="keyword">return</span> &lt;div&gt;Sum: {sum}&lt;/div&gt;;
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>6. Custom Hooks</h2>
+                <p>Create reusable logic by extracting it into custom hooks.</p>
+                <div class="code-block"><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="comment">// Custom hook</span>
+<span class="keyword">function</span> <span class="function">useWindowWidth</span>() {
+  <span class="keyword">const</span> [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() =&gt; {
+    <span class="keyword">const</span> <span class="function">handleResize</span> = () =&gt; setWidth(window.innerWidth);
+    window.addEventListener(<span class="string">'resize'</span>, handleResize);
+    <span class="keyword">return</span> () =&gt; window.removeEventListener(<span class="string">'resize'</span>, handleResize);
+  }, []);
+
+  <span class="keyword">return</span> width;
+}
+
+<span class="comment">// Using the custom hook</span>
+<span class="keyword">function</span> <span class="function">MyComponent</span>() {
+  <span class="keyword">const</span> width = useWindowWidth();
+  <span class="keyword">return</span> &lt;p&gt;Window width: {width}px&lt;/p&gt;;
+}</div>
+            </div>
+        </div>
+        
+        <!-- ADVANCED SECTION -->
+        <div id="advanced" class="content-section">
+            <div class="topic">
+                <h2>1. React Router</h2>
+                <p>Add navigation and routing to your React app.</p>
+                <div class="code-block"><span class="keyword">import</span> { BrowserRouter, Routes, Route, Link } <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;BrowserRouter&gt;
+      &lt;nav&gt;
+        &lt;Link to=<span class="string">"/"</span>&gt;Home&lt;/Link&gt;
+        &lt;Link to=<span class="string">"/about"</span>&gt;About&lt;/Link&gt;
+      &lt;/nav&gt;
+      
+      &lt;Routes&gt;
+        &lt;Route path=<span class="string">"/"</span> element={&lt;<span class="function">Home</span> /&gt;} /&gt;
+        &lt;Route path=<span class="string">"/about"</span> element={&lt;<span class="function">About</span> /&gt;} /&gt;
+        &lt;Route path=<span class="string">"/users/:id"</span> element={&lt;<span class="function">User</span> /&gt;} /&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>2. Performance Optimization</h2>
+                <h3>React.memo</h3>
+                <div class="code-block"><span class="keyword">const</span> <span class="function">ExpensiveComponent</span> = React.memo(<span class="keyword">function</span>({ data }) {
+  <span class="comment">// Only re-renders if 'data' prop changes</span>
+  <span class="keyword">return</span> &lt;div&gt;{data}&lt;/div&gt;;
+});</div>
+                
+                <h3>useCallback</h3>
+                <div class="code-block"><span class="keyword">const</span> memoizedCallback = useCallback(() =&gt; {
+  doSomething(a, b);
+}, [a, b]); <span class="comment">// Only recreate if a or b changes</span></div>
+            </div>
+            
+            <div class="topic">
+                <h2>3. Error Boundaries</h2>
+                <div class="code-block"><span class="keyword">class</span> <span class="function">ErrorBoundary</span> <span class="keyword">extends</span> React.Component {
+  constructor(props) {
+    <span class="keyword">super</span>(props);
+    <span class="keyword">this</span>.state = { hasError: <span class="keyword">false</span> };
+  }
+
+  <span class="keyword">static</span> getDerivedStateFromError(error) {
+    <span class="keyword">return</span> { hasError: <span class="keyword">true</span> };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.log(error, errorInfo);
+  }
+
+  render() {
+    <span class="keyword">if</span> (<span class="keyword">this</span>.state.hasError) {
+      <span class="keyword">return</span> &lt;h1&gt;Something went wrong.&lt;/h1&gt;;
+    }
+    <span class="keyword">return this</span>.props.children;
+  }
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>4. State Management with Redux</h2>
+                <div class="code-block"><span class="comment">// Store</span>
+<span class="keyword">import</span> { createStore } <span class="keyword">from</span> <span class="string">'redux'</span>;
+
+<span class="keyword">const</span> <span class="function">reducer</span> = (state = { count: 0 }, action) =&gt; {
+  <span class="keyword">switch</span> (action.type) {
+    <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:
+      <span class="keyword">return</span> { count: state.count + 1 };
+    <span class="keyword">default</span>:
+      <span class="keyword">return</span> state;
+  }
+};
+
+<span class="keyword">const</span> store = createStore(reducer);
+
+<span class="comment">// Component</span>
+<span class="keyword">import</span> { useSelector, useDispatch } <span class="keyword">from</span> <span class="string">'react-redux'</span>;
+
+<span class="keyword">function</span> <span class="function">Counter</span>() {
+  <span class="keyword">const</span> count = useSelector(state =&gt; state.count);
+  <span class="keyword">const</span> dispatch = useDispatch();
+
+  <span class="keyword">return</span> (
+    &lt;button onClick={() =&gt; dispatch({ type: <span class="string">'INCREMENT'</span> })}&gt;
+      Count: {count}
+    &lt;/button&gt;
+  );
+}</div>
+            </div>
+            
+            <div class="topic">
+                <h2>5. API Integration Best Practices</h2>
+                <div class="code-block"><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">UserList</span>() {
+  <span class="keyword">const</span> [users, setUsers] = useState([]);
+  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="keyword">true</span>);
+  <span class="keyword">const</span> [error, setError] = useState(<span class="keyword">null</span>);
+
+  useEffect(() =&gt; {
+    <span class="keyword">const</span> <span class="function">fetchUsers</span> = <span class="keyword">async</span> () =&gt; {
+      <span class="keyword">try</span> {
+        <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">'https://api.example.com/users'</span>);
+        <span class="keyword">if</span> (!response.ok) <span class="keyword">throw new</span> Error(<span class="string">'Failed to fetch'</span>);
+        <span class="keyword">const</span> data = <span class="keyword">await</span> response.json();
+        setUsers(data);
+      } <span class="keyword">catch</span> (err) {
+        setError(err.message);
+      } <span class="keyword">finally</span> {
+        setLoading(<span class="keyword">false</span>);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  <span class="keyword">if</span> (loading) <span class="keyword">return</span> &lt;div&gt;Loading...&lt;/div&gt;;
+  <span class="keyword">if</span> (error) <span class="keyword">return</span> &lt;div&gt;Error: {error}&lt;/div&gt;;
+
+  <span class="keyword">return</span> (
+    &lt;ul&gt;
+      {users.map(user =&gt; (
+        &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</div>
+            </div>
+        </div>
+        
+        <!-- PROJECTS SECTION -->
+        <div id="projects" class="content-section">
+            <div class="topic">
+                <h2>Practice Projects</h2>
+                <p>Build these projects to solidify your React knowledge:</p>
+                
+                <h3>Beginner Level:</h3>
+                <ul>
+                    <li><strong>Todo App:</strong> Add, delete, mark tasks complete</li>
+                    <li><strong>Calculator:</strong> Basic arithmetic operations</li>
+                    <li><strong>Weather App:</strong> Fetch weather data from API</li>
+                    <li><strong>Recipe Finder:</strong> Search and display recipes</li>
+                </ul>
+                
+                <h3>Intermediate Level:</h3>
+                <ul>
+                    <li><strong>E-commerce Store:</strong> Product listing, cart, checkout</li>
+                    <li><strong>Movie Database:</strong> Search, filter, pagination</li>
+                    <li><strong>Social Media Dashboard:</strong> Posts, likes, comments</li>
+                    <li><strong>Task Management Board:</strong> Drag-and-drop Kanban board</li>
+                </ul>
+                
+                <h3>Advanced Level:</h3>
+                <ul>
+                    <li><strong>Real-time Chat Application:</strong> WebSockets, user authentication</li>
+                    <li><strong>Project Management Tool:</strong> Complex state management, multiple views</li>
+                    <li><strong>Video Streaming Platform:</strong> Video player, playlists, recommendations</li>
+                    <li><strong>Analytics Dashboard:</strong> Charts, data visualization, real-time updates</li>
+                </ul>
+            </div>
+            
+            <div class="topic">
+                <h2>Learning Resources</h2>
+                <h3>Official Documentation:</h3>
+                <ul>
+                    <li>React Official Docs: react.dev</li>
+                    <li>React Router: reactrouter.com</li>
+                    <li>Redux: redux.js.org</li>
+                </ul>
+                
+                <h3>Recommended Learning Path:</h3>
+                <ol>
+                    <li><strong>Week 1-2:</strong> Basics - JSX, Components, Props</li>
+                    <li><strong>Week 3-4:</strong> State Management, Hooks (useState, useEffect)</li>
+                    <li><strong>Week 5-6:</strong> Advanced Hooks, Context API, Custom Hooks</li>
+                    <li><strong>Week 7-8:</strong> Routing, Forms, API Integration</li>
+                    <li><strong>Week 9-10:</strong> Performance Optimization, Testing</li>
+                    <li><strong>Week 11-12:</strong> Advanced Patterns, Redux, Real Projects</li>
+                </ol>
+            </div>
+            
+            <div class="topic">
+                <h2>Best Practices</h2>
+                <ul>
+                    <li>Keep components small and focused</li>
+                    <li>Use functional components with hooks</li>
+                    <li>Avoid prop drilling - use Context API or state management</li>
+                    <li>Implement proper error handling</li>
+                    <li>Write clean, readable code with meaningful names</li>
+                    <li>Use TypeScript for type safety (optional but recommended)</li>
+                    <li>Follow React naming conventions (PascalCase for components)</li>
+                    <li>Keep useState for local state, Context/Redux for global state</li>
+                    <li>Optimize re-renders with React.memo and useMemo</li>
+                    <li>Always clean up side effects in useEffect</li>
+                </ul>
+            </div>
+            
+            <div class="topic">
+                <h2>Next Steps</h2>
+                <p>After mastering React, explore these technologies:</p>
+                <ul>
+                    <li><strong>Next.js:</strong> React framework for production with SSR</li>
+                    <li><strong>TypeScript:</strong> Add type safety to your React apps</li>
+                    <li><strong>React Native:</strong> Build mobile apps with React</li>
+                    <li><strong>Testing:</strong> Jest, React Testing Library</li>
+                    <li><strong>State Management:</strong> Redux Toolkit, Zustand, Recoil</li>
+                    <li><strong>UI Libraries:</strong> Material-UI, Chakra UI, Tailwind CSS</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-tabs button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update progress bar
+            const sectionOrder = ['basics', 'components', 'hooks', 'advanced', 'projects'];
+            const progress = ((sectionOrder.indexOf(sectionId) + 1) / sectionOrder.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        // Initialize progress bar
+        document.getElementById('progressBar').style.width = '20%';
+    </script>
+</body>
+</html>
