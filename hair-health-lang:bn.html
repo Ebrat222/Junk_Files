@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>ঘন কালো চুল: মোবাইল গাইড</title>
+    <style>
+        /* crisp bengali friendly */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Segoe UI', 'Arial Unicode MS', sans-serif;
+        }
+        body {
+            background: #f2e5d4;
+            min-height: 100vh;
+            padding: 12px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .mobile-wrap {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .header {
+            background: #2f1f10;
+            background: linear-gradient(165deg, #281b0e, #3f2c1a);
+            padding: 24px 18px 18px 18px;
+            border-radius: 40px 40px 32px 32px;
+            box-shadow: 0 12px 20px rgba(60, 30, 10, 0.35);
+            border-bottom: 4px solid #b58b54;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #fbebd2;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 3px 3px 0 #4d321b;
+            line-height: 1.3;
+        }
+        .header h1 span {
+            font-size: 2.6rem;
+            display: inline-block;
+        }
+        .header .subhead {
+            color: #e2c7a5;
+            font-size: 1.25rem;
+            font-weight: 500;
+            background: rgba(0,0,0,0.2);
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 60px;
+            margin-top: 8px;
+            border: 1px solid #a97d4e;
+        }
+        /* category cards — mobile first */
+        .category-card {
+            background: #fffcf3;
+            border-radius: 36px 36px 28px 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 18px rgba(110, 70, 30, 0.2);
+            border: 1.5px solid #cfb28b;
+            overflow: hidden;
+        }
+        .card-header {
+            background: #4d3722;
+            padding: 16px 20px;
+            color: #fef1dd;
+            font-size: 1.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid #c79a5e;
+        }
+        .card-header .emoji-badge {
+            font-size: 2.2rem;
+            background: #74583a;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 -2px 3px #1e130b;
+        }
+        .grid-panel {
+            display: flex;
+            flex-direction: column;
+        }
+        .use-box, .avoid-box, .freq-box {
+            padding: 16px 18px;
+            border-bottom: 1px solid #eedbc5;
+        }
+        .use-box {
+            background: #f0fae9;      /* light green tint */
+        }
+        .avoid-box {
+            background: #fdedea;      /* soft red tint */
+            border-bottom: 2px solid #f5cdc4;
+        }
+        .freq-box {
+            background: #fef5e6;      /* warm cream */
+            border-bottom: none;
+        }
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .use-box .section-label { color: #1f6b1f; }
+        .avoid-box .section-label { color: #aa3020; }
+        .freq-box .section-label { color: #925e2c; }
+
+        .bullet-list {
+            list-style: none;
+            padding-left: 6px;
+        }
+        .bullet-list li {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.45;
+            color: #231a10;
+        }
+        .use-list li::before {
+            content: "✔️";
+            font-size: 1.2rem;
+            display: inline-block;
+            width: 26px;
+            flex-shrink: 0;
+        }
+        .avoid-list li::before {
+            content: "🚫";
+            font-size: 1.2rem;
+            width: 26px;
+            flex-shrink: 0;
+        }
+        .freq-list li::before {
+            content: "⏳";
+            font-size: 1.2rem;
+            width: 26px;
+            flex-shrink: 0;
+        }
+        .small-note {
+            background: #f6e9d9;
+            border-radius: 26px;
+            padding: 16px 20px;
+            margin: 18px 0 10px;
+            border-left: 8px solid #8f673b;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #2f1d0c;
+        }
+        .weekly-summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 10px;
+            background: #e7d6bf;
+            border-radius: 50px;
+            padding: 16px 10px;
+            margin: 25px 0 12px;
+            border: 2px solid #b59063;
+        }
+        .pill {
+            background: #fff9ea;
+            border-radius: 60px;
+            padding: 8px 14px;
+            min-width: 100px;
+            text-align: center;
+            box-shadow: 0 3px 6px #9f7b54;
+            border: 1px solid #d6a87d;
+        }
+        .pill .label {
+            font-size: 0.95rem;
+            color: #4b351b;
+            font-weight: 600;
+        }
+        .pill .value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #264d1e;
+            line-height: 1.2;
+        }
+        .footnote {
+            background: #dbcbaf;
+            border-radius: 40px;
+            padding: 18px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #251d0e;
+            font-weight: 500;
+            border: 2px solid #b18a54;
+            margin-top: 20px;
+        }
+        .inline-highlight {
+            background: #fff2b5;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+        hr {
+            border: 2px solid #b59159;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        /* responsive tiny touch */
+        @media (max-width: 360px) {
+            .header h1 { font-size: 1.9rem; }
+            .card-header { font-size: 1.4rem; }
+            .bullet-list li { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="mobile-wrap">
+    <!-- header with bengali emphasis -->
+    <div class="header">
+        <h1><span>⚫</span> ঘন ও কালো চুল <span>⚫</span></h1>
+        <div class="subhead">মোবাইল রুটিন — কী ব্যবহার, কী এড়িয়ে</div>
+    </div>
+
+    <!-- category: তেল (oil) -->
+    <div class="category-card">
+        <div class="card-header"><span class="emoji-badge">🧴</span> তেল</div>
+        <div class="grid-panel">
+            <div class="use-box">
+                <div class="section-label">✅ যা ব্যবহার করবেন</div>
+                <ul class="bullet-list use-list">
+                    <li>নারিকেল তেল (ভার্জিন / ঠান্ডা চাপা)</li>
+                    <li>আমলা + জবা ফুলের তেল মিশ্রণ</li>
+                    <li>রোজমেরি + অলিভ অয়েল (গরম করে)</li>
+                    <li>কালোজিরা তেল (সপ্তাহে ১ বার মাস্ক)</li>
+                    <li>হালকা গরম তেলে মালিশ</li>
+                </ul>
+            </div>
+            <div class="avoid-box">
+                <div class="section-label">🚫 যা এড়াবেন</div>
+                <ul class="bullet-list avoid-list">
+                    <li>মিনারেল অয়েল / প্যারাফিন বেস</li>
+                    <li>কৃত্রিম সুগন্ধি, অ্যালকোহলযুক্ত তেল</li>
+                    <li>মেয়াদোত্তীর্ণ বা টক গন্ধ তেল</li>
+                </ul>
+            </div>
+            <div class="freq-box">
+                <div class="section-label">📆 সপ্তাহে কতবার</div>
+                <ul class="bullet-list freq-list">
+                    <li>তেল ম্যাসাজ : ২-৩ বার</li>
+                    <li>রাতভর তেল : সপ্তাহে ১ বার</li>
+                    <li>গরম তেল সপ্তাহে সর্বোচ্চ ২ বার</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- শ্যাম্পু (shampoo) -->
+    <div class="category-card">
+        <div class="card-header"><span class="emoji-badge">🧼</span> শ্যাম্পু</div>
+        <div class="grid-panel">
+            <div class="use-box">
+                <div class="section-label">✅ ব্যবহার্য</div>
+                <ul class="bullet-list use-list">
+                    <li>সালফেট-মুক্ত, প্যারাবেন-মুক্ত</li>
+                    <li>নিম, রিঠা, শিকাকাই যুক্ত ভেষজ</li>
+                    <li>বায়োটিন / কেরাটিন মিশ্রিত</li>
+                    <li>পিএইচ ৪.৫–৫.৫ (ভারসাম্যপূর্ণ)</li>
+                </ul>
+            </div>
+            <div class="avoid-box">
+                <div class="section-label">🚫 নিষিদ্ধ</div>
+                <ul class="bullet-list avoid-list">
+                    <li>সোডিয়াম লরিল সালফেট (SLS)</li>
+                    <li>অতিরিক্ত রাসায়নিক অ্যান্টি-ড্যানড্রাফ</li>
+                    <li>প্রতিদিন শ্যাম্পু করা</li>
+                </ul>
+            </div>
+            <div class="freq-box">
+                <div class="section-label">📆 কতদিন</div>
+                <ul class="bullet-list freq-list">
+                    <li>সপ্তাহে ২ বার (শুষ্ক/নরমাল)</li>
+                    <li>তৈলাক্ত চুলে সপ্তাহে ৩ বার</li>
+                    <li>ভেষজ শ্যাম্পু : ১-২ বার</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- খাদ্য (diet) -->
+    <div class="category-card">
+        <div class="card-header"><span class="emoji-badge">🥗</span> খাদ্য</div>
+        <div class="grid-panel">
+            <div class="use-box">
+                <div class="section-label">✅ খাদ্য তালিকা</div>
+                <ul class="bullet-list use-list">
+                    <li>প্রোটিন : ডিম, মুরগি, মাছ, ডাল</li>
+                    <li>আয়রন : পালং শাক, বিট, খেজুর</li>
+                    <li>ওমেগা-৩ : আখরোট, চিয়া, স্যামন</li>
+                    <li>ভিটামিন এ/সি : গাজর, কমলা, ক্যাপ্সিকাম</li>
+                    <li>জিঙ্ক : কুমড়োর বীজ, ছোলা</li>
+                </ul>
+            </div>
+            <div class="avoid-box">
+                <div class="section-label">🚫 বর্জনীয়</div>
+                <ul class="bullet-list avoid-list">
+                    <li>অতিরিক্ত ভাজা, ফাস্টফুড</li>
+                    <li>চিনি ও কৃত্রিম মিষ্টি বেশি</li>
+                    <li>অ্যালকোহল, ধূমপান</li>
+                    <li>প্রক্রিয়াজাত মাংস</li>
+                </ul>
+            </div>
+            <div class="freq-box">
+                <div class="section-label">📆 কতবার</div>
+                <ul class="bullet-list freq-list">
+                    <li>প্রতিদিন পাতে রাখতে হবে</li>
+                    <li>প্রোটিন : ২ বেলা (দৈনিক)</li>
+                    <li>শাকসবজি : ২-৩ পরিবেশন /দিন</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ভিটামিন ও ঔষধ -->
+    <div class="category-card">
+        <div class="card-header"><span class="emoji-badge">💊</span> ভিটামিন / ওষুধ</div>
+        <div class="grid-panel">
+            <div class="use-box">
+                <div class="section-label">✅ প্রয়োজনীয় সাপ্লিমেন্ট</div>
+                <ul class="bullet-list use-list">
+                    <li>বায়োটিন (ভিটামিন বি৭) ৫০০০ mcg পর্যন্ত</li>
+                    <li>ভিটামিন ডি৩ (সাপ্তাহিক)</li>
+                    <li>ভিটামিন ই ক্যাপসুল (ত্বক ও চুল)</li>
+                    <li>আয়রন + ফলিক অ্যাসিড (রক্তাল্পতায়)</li>
+                    <li>মাল্টিভিটামিন (জিঙ্ক, সেলেনিয়াম)</li>
+                </ul>
+            </div>
+            <div class="avoid-box">
+                <div class="section-label">🚫 সাবধান</div>
+                <ul class="bullet-list avoid-list">
+                    <li>অতিরিক্ত ভিটামিন এ (হেয়ার ফল)</li>
+                    <li>ডাক্তার ছাড়া স্টেরয়েড</li>
+                    <li>অতিরিক্ত হেয়ার গ্রোথ পিল</li>
+                    <li>মেয়াদোত্তীর্ণ ওষুধ</li>
+                </ul>
+            </div>
+            <div class="freq-box">
+                <div class="section-label">📆 সেবনবিধি</div>
+                <ul class="bullet-list freq-list">
+                    <li>বায়োটিন : দৈনিক ১ বার (খাবার পর)</li>
+                    <li>ভিটামিন ডি : সপ্তাহে ১ ক্যাপ (চিকিৎসকের মত)</li>
+                    <li>ভিটামিন ই তেল : সপ্তাহে ২ বার মাস্কে</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- শারীরিক ও অন্যান্য -->
+    <div class="category-card">
+        <div class="card-header"><span class="emoji-badge">🏋️</span> শারীরিক / অভ্যাস</div>
+        <div class="grid-panel">
+            <div class="use-box">
+                <div class="section-label">✅ করণীয়</div>
+                <ul class="bullet-list use-list">
+                    <li>যোগব্যায়াম / মাথা নিচু করে আসন</li>
+                    <li>প্রতিদিন ৭-৮ ঘণ্টা ঘুম</li>
+                    <li>কাঠের চিরুনি দিয়ে আঁচড়ানো</li>
+                    <li>মাথার ত্বকে ম্যাসাজ (রক্তসঞ্চালন)</li>
+                    <li>পর্যাপ্ত পানি ৮-১০ গ্লাস</li>
+                </ul>
+            </div>
+            <div class="avoid-box">
+                <div class="section-label">🚫 যা এড়িয়ে চলবেন</div>
+                <ul class="bullet-list avoid-list">
+                    <li>অতিরিক্ত হিট স্টাইলিং (ড্রায়ার, স্ট্রেইটনার)</li>
+                    <li>টাইট পনিটেল / বেণি (চুল টানা)</li>
+                    <li>ধূমপান, দূষিত জায়গায় খোলা চুল</li>
+                </ul>
+            </div>
+            <div class="freq-box">
+                <div class="section-label">📆 সাপ্তাহিক রুটিন</div>
+                <ul class="bullet-list freq-list">
+                    <li>তেল ম্যাসাজ : ২-৩ বার</li>
+                    <li>যোগ/ব্যায়াম : ৫-৬ দিন</li>
+                    <li>চুল আঁচড়ানো : প্রতিদিন সকাল-রাত</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- প্রাকৃতিক মাস্ক bonus -->
+    <div class="category-card">
+        <div class="card-header"><span class="emoji-badge">🌿</span> হেয়ার মাস্ক (প্রাকৃতিক)</div>
+        <div class="grid-panel">
+            <div class="use-box">
+                <div class="section-label">✅ উপকারী মাস্ক</div>
+                <ul class="bullet-list use-list">
+                    <li>মেথি বীজ ভিজিয়ে বাটা</li>
+                    <li>ডিম+দই+অলিভ অয়েল</li>
+                    <li>আমলা+শিকাকাই গুঁড়া প্যাক</li>
+                    <li>অ্যালোভেরা জেল (মাথার ত্বকে)</li>
+                </ul>
+            </div>
+            <div class="avoid-box">
+                <div class="section-label">🚫 ক্ষতিকর প্যাক</div>
+                <ul class="bullet-list avoid-list">
+                    <li>হাইড্রোজেন পারঅক্সাইড মিশ্রিত</li>
+                    <li>বেকিং সোডা (পিএইচ নষ্ট)</li>
+                    <li>লেবুর রস বেশি মাত্রায়</li>
+                </ul>
+            </div>
+            <div class="freq-box">
+                <div class="section-label">📆 কতবার মাস্ক</div>
+                <ul class="bullet-list freq-list">
+                    <li>ডিপ কন্ডিশনিং : সপ্তাহে ১ বার</li>
+                    <li>মেথি মাস্ক : ১ বার</li>
+                    <li>অ্যালোভেরা জেল : ২-৩ বার</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- weekly summary pills (mobile glance) -->
+    <div class="weekly-summary">
+        <div class="pill"><span class="label">🛢️ তেল</span><span class="value">২-৩</span></div>
+        <div class="pill"><span class="label">🧴 শ্যাম্পু</span><span class="value">২</span></div>
+        <div class="pill"><span class="label">🍗 প্রোটিন</span><span class="value">দৈনিক</span></div>
+        <div class="pill"><span class="label">💊 ভিটামিন</span><span class="value">⚕️</span></div>
+        <div class="pill"><span class="label">🧘 যোগ</span><span class="value">৫-৭</span></div>
+    </div>
+
+    <!-- বিশেষ টিপস (ভিটামিন ও খাদ্য) -->
+    <div class="small-note">
+        <span style="font-size:1.5rem; margin-right:8px;">📌</span> 
+        <strong>ভিটামিন ও খাদ্য টিপস :</strong> বায়োটিন, আয়রন ও জিঙ্ক চুল কালো ও ঘন রাখে। 
+        ভিটামিন ডি’র জন্য রোদে ১৫ মিনিট। কোন সাপ্লিমেন্ট ডাক্তারের পরামর্শে নিন। 
+        প্রতিদিন ৮-১০ গ্লাস পানি ও প্রোটিনসমৃদ্ধ খাবার আবশ্যক।
+    </div>
+
+    <!-- footnote -->
+    <div class="footnote">
+        ⚫ নিয়ম মেনে চলুন → পান ঘন কালো চুল ⚫
+    </div>
+
+    <!-- tiny extra example as requested : যেমন তেল, শ্যাম্পু, খাদ্য, ভিটামিন ইত্যাদি cover done -->
+    <hr>
+    <div style="text-align: center; background: #d9c3a4; border-radius: 60px; padding: 12px; font-size: 1.1rem; color: #1c2f0a;">
+        ✦ তেল, শ্যাম্পু, খাদ্য, ভিটামিন, শারীরিক — সবই আছে ✦
+    </div>
+</div> <!-- end mobile wrap -->
+</body>
+</html>
