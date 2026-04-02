@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ত্বক পরিষদ · ব্রণ ও দাগ দূর করার গাইড</title>
+    <!-- Font & Icons (clean, minimal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .guide-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .guide-header h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #075985, #115e59);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .guide-header p {
+            color: #334155;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            border-bottom: 2px solid #cbd5e1;
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        /* main grid – three vertical columns */
+        .columns-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 900px) {
+            .columns-grid {
+                grid-template-columns: repeat(3, 1fr);
+                align-items: start;
+            }
+        }
+
+        /* each column card style */
+        .card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 20px 35px -8px rgba(0, 30, 30, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            height: fit-content;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card:hover {
+            box-shadow: 0 30px 45px -12px rgba(2, 84, 99, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.8rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            font-size: 2rem;
+        }
+
+        /* food column theme */
+        .card-food .card-title {
+            color: #166534;
+            border-bottom-color: #86efac;
+        }
+
+        .card-cream .card-title {
+            color: #7a2e4e;
+            border-bottom-color: #f9a8d4;
+        }
+
+        .card-physical .card-title {
+            color: #7c3aed;
+            border-bottom-color: #c4b5fd;
+        }
+
+        /* section inside card */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 0.9rem;
+            background: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            width: fit-content;
+        }
+
+        .section-head i {
+            font-size: 1.2rem;
+        }
+
+        .good {
+            color: #166534;
+            background: #f0fdf4;
+            border-left: 5px solid #22c55e;
+        }
+
+        .bad {
+            color: #991b1b;
+            background: #fef2f2;
+            border-left: 5px solid #ef4444;
+        }
+
+        .neutral {
+            color: #92400e;
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+        }
+
+        /* bullet lists */
+        .list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .list li {
+            margin-bottom: 0.65rem;
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+            font-size: 0.98rem;
+        }
+
+        .list li i {
+            font-size: 1rem;
+            margin-top: 0.2rem;
+            min-width: 1.3rem;
+            text-align: center;
+        }
+
+        .icon-good {
+            color: #22c55e;
+        }
+
+        .icon-bad {
+            color: #ef4444;
+        }
+
+        .icon-neutral {
+            color: #eab308;
+        }
+
+        .food-highlight, .ingredient-highlight {
+            background: #f9f9f9;
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            display: inline-block;
+            margin: 0.4rem 0 0.2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .small-note {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 0.2rem;
+        }
+
+        hr {
+            margin: 1.2rem 0;
+            border: none;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        /* extra badge for do/don't */
+        .do-badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .dont-badge {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            background: #ecfdf5;
+            border-radius: 2rem;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border: 1px solid #a7f3d0;
+            color: #064e3b;
+            font-weight: 500;
+        }
+
+        .footer-note i {
+            color: #0d9488;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- header -->
+    <div class="guide-header">
+        <h1><i class="fas fa-seedling" style="color: #0f766e;"></i> ব্রণ ও ব্রণের দাগ</h1>
+        <p>খাদ্য · ক্রিম · শারীরিক যত্ন — সম্পূর্ণ নির্দেশিকা</p>
+    </div>
+
+    <!-- three column layout -->
+    <div class="columns-grid">
+
+        <!-- ############# খাদ্যাভ্যাস ############# -->
+        <div class="card card-food">
+            <div class="card-title"><i class="fas fa-carrot"></i> খাদ্যাভ্যাস</div>
+
+            <!-- খেতে হবে / উপকার -->
+            <div class="section">
+                <div class="section-head good"><i class="fas fa-check-circle"></i> খাবেন & উপকারী</div>
+                <ul class="list">
+                    <li><i class="fas fa-fish icon-good"></i> <strong>ওমেগা‑৩</strong> — স্যালমন, টুনা, আখরোট, চিয়া সিড (প্রদাহ কমায়)</li>
+                    <li><i class="fas fa-apple-alt icon-good"></i> <strong>আঁশ ও অ্যান্টিঅক্সিডেন্ট</strong> — শাক (পালং, ব্রকোলি), পেঁপে, বেরি, আঙুর</li>
+                    <li><i class="fas fa-egg icon-good"></i> <strong>জিংক</strong> — ডিম, বিনস, কুমড়ার বীজ (ব্যাকটেরিয়া প্রতিরোধ)</li>
+                    <li><i class="fas fa-cocktail icon-good"></i> <strong>ভিটামিন A, C, E</strong> — গাজর, মিষ্টি আলু, টমেটো, লেবু, বাদাম</li>
+                    <li><i class="fas fa-tint icon-good"></i> <strong>পানি</strong> — প্রতিদিন ৮-১০ গ্লাস (টক্সিন দূর করে)</li>
+                </ul>
+                <div class="food-highlight">✨ ওটস, সবুজ চা, বীজ – ত্বকের জন্য দারুণ</div>
+            </div>
+
+            <!-- বাদ দিতে হবে -->
+            <div class="section">
+                <div class="section-head bad"><i class="fas fa-ban"></i> এড়িয়ে চলবেন</div>
+                <ul class="list">
+                    <li><i class="fas fa-candy-cane icon-bad"></i> <strong>চিনি ও মিষ্টি</strong> — কোমল পানীয়, কেক, পেস্ট্রি</li>
+                    <li><i class="fas fa-pizza-slice icon-bad"></i> <strong>প্রক্রিয়াজাত খাবার</strong> — ফাস্ট ফুড, চিপস, প্যাকেট জুস</li>
+                    <li><i class="fas fa-cheese icon-bad"></i> <strong>অতিরিক্ত দুগ্ধ</strong> — পনির, আইসক্রিম (কারো জন্য ঝুঁকি)</li>
+                    <li><i class="fas fa-utensils icon-bad"></i> <strong>তেলেভাজা ও তৈলাক্ত খাবার</strong> — ব্রণ বাড়ায়</li>
+                </ul>
+            </div>
+            <!-- extra neutral note (সতর্ক) -->
+            <hr>
+            <div class="small-note"><i class="fas fa-lightbulb" style="color:#eab308;"></i> প্রতিটি খাবার সবার জন্য সমান কাজ নাও করতে পারে, লক্ষ রাখুন নিজের ত্বকের প্রতিক্রিয়া।</div>
+        </div>
+
+        <!-- ############# ক্রিম ও মলম ############# -->
+        <div class="card card-cream">
+            <div class="card-title"><i class="fas fa-cream"></i> ক্রিম ও মলম</div>
+
+            <!-- ব্যবহার করবেন / উপকারী -->
+            <div class="section">
+                <div class="section-head good"><i class="fas fa-flask"></i> ব্যবহার করবেন</div>
+                <ul class="list">
+                    <li><i class="fas fa-atom icon-good"></i> <strong>রেটিনয়েডস / রেটিনল</strong> – ট্রেটিনয়েইন, অ্যাডাপালিন (চিকিৎসকের পরামর্শে)</li>
+                    <li><i class="fas fa-biohazard icon-good"></i> <strong>বেনজয়াইল পারঅক্সাইড</strong> – ব্যাকটেরিয়া ধ্বংস করে</li>
+                    <li><i class="fas fa-leaf icon-good"></i> <strong>স্যালিসাইলিক অ্যাসিড</strong> – রোমকূপ খুলতে সাহায্য করে</li>
+                    <li><i class="fas fa-droplet icon-good"></i> <strong>আজেলেইক অ্যাসিড, নিয়াসিনামাইড</strong> – দাগ হালকা, প্রদাহ কমানো</li>
+                    <li><i class="fas fa-shield-alt icon-good"></i> <strong>হায়ালুরোনিক অ্যাসিড, সিরামাইড</strong> – হাইড্রেশন ও সুরক্ষা</li>
+                    <li><i class="fas fa-sun icon-good"></i> <strong>সানস্ক্রিন (SPF ৩০+)</strong> – দাগ কালো হওয়া রোধ করে <span style="background:#e6f7e6; padding:2px 8px; border-radius:12px;">অতি জরুরি</span></li>
+                </ul>
+            </div>
+
+            <!-- ব্যবহার করবেন না -->
+            <div class="section">
+                <div class="section-head bad"><i class="fas fa-exclamation-triangle"></i> এড়িয়ে চলবেন</div>
+                <ul class="list">
+                    <li><i class="fas fa-syringe icon-bad"></i> <strong>স্টেরয়েড ক্রিম</strong> (বেটনোভেট ইত্যাদি) ডাক্তার ছাড়া নয় – মারাত্মক ক্ষতি</li>
+                    <li><i class="fas fa-oil-can icon-bad"></i> <strong>অতিরিক্ত তেল সমৃদ্ধ কমেডোজেনিক পণ্য</strong> – তেলগ্রন্থি আটকায়</li>
+                    <li><i class="fas fa-wine-bottle icon-bad"></i> <strong>অ্যালকোহলযুক্ত টনিক/ক্রিম</strong> – ত্বক শুষ্ক ও জ্বালা করে</li>
+                </ul>
+                <div class="food-highlight" style="background:#fff1f0;">⚠️ নন-কমেডোজেনিক, অয়েল-ফ্রি প্রোডাক্ট বেছে নিন</div>
+            </div>
+            <hr>
+            <div class="small-note"><i class="fas fa-stethoscope"></i> শক্তিশালী রেটিনয়েড বা প্রেসক্রিপশন ক্রিম অবশ্যই ডাক্তারের পরামর্শে ব্যবহার্য।</div>
+        </div>
+
+        <!-- ############# শারীরিক যত্ন ############# -->
+        <div class="card card-physical">
+            <div class="card-title"><i class="fas fa-heartbeat"></i> শারীরিক যত্ন</div>
+
+            <!-- করতে হবে / উপকার -->
+            <div class="section">
+                <div class="section-head good"><i class="fas fa-check-double"></i> যা করবেন</div>
+                <ul class="list">
+                    <li><i class="fas fa-hand-sparkles icon-good"></i> <strong>মুখ পরিষ্কার</strong> – দিনে ২ বার হালকা ক্লিনজার</li>
+                    <li><i class="fas fa-bed icon-good"></i> <strong>পর্যাপ্ত ঘুম</strong> – ৭-৮ ঘণ্টা (ত্বক মেরামত)</li>
+                    <li><i class="fas fa-spa icon-good"></i> <strong>মানসিক চাপ কমান</strong> – মেডিটেশন, শখের কাজ</li>
+                    <li><i class="fas fa-dumbbell icon-good"></i> <strong>ব্যায়াম / যোগ</strong> – রক্ত সঞ্চালন বাড়ায়</li>
+                    <li><i class="fas fa-towel icon-good"></i> <strong>তোয়ালে, বালিশের কভার নিয়মিত বদলান</strong></li>
+                </ul>
+            </div>
+
+            <!-- করা যাবে না -->
+            <div class="section">
+                <div class="section-head bad"><i class="fas fa-times-circle"></i> যা এড়িয়ে চলবেন</div>
+                <ul class="list">
+                    <li><i class="fas fa-fingerprint icon-bad"></i> <strong>ব্রণ ফোঁটা বা চুলকানো</strong> – দাগ গভীর হয় ও ছড়ায়</li>
+                    <li><i class="fas fa-hand-holding-water icon-bad"></i> <strong>বারবার মুখ ধোয়া</strong> (দিনে ২-৩ বার যথেষ্ট)</li>
+                    <li><i class="fas fa-mask icon-bad"></i> <strong>ভারী মেকআপ</strong> – নন-কমেডোজেনিক ব্যবহার করুন, রাতে তুলে ফেলুন</li>
+                    <li><i class="fas fa-sun icon-bad"></i> <strong>সানস্ক্রিন ছাড়া তীব্র রোদে যাওয়া</strong></li>
+                    <li><i class="fas fa-hot-tub icon-bad"></i> <strong>অতিরিক্ত গরম পানি দিয়ে গোসল</strong> – ত্বক শুষ্ক করে</li>
+                </ul>
+                <div class="food-highlight" style="background:#fff3cd;">✅ ময়শ্চারাইজার ও সানস্ক্রিন প্রতিদিন ব্যবহার্য</div>
+            </div>
+            <hr>
+            <div class="small-note"><i class="fas fa-brain"></i> চুলকানো থেকে বিরত থাকুন; দাগ স্থায়ী হতে পারে।</div>
+        </div>
+    </div>
+
+    <!-- footer / ডাক্তারি পরামর্শ -->
+    <div class="footer-note">
+        <i class="fas fa-notes-medical"></i> মনে রাখবেন: ব্যক্তিভেদে ত্বকের ধরন ও প্রতিক্রিয়া ভিন্ন হয়। গুরুতর সমস্যায় চর্মরোগ বিশেষজ্ঞের পরামর্শ নিন। ধৈর্য্য আর নিয়মিত যত্নই সাফল্যের চাবিকাঠি।
+    </div>
+
+    <!-- tiny disclaimer with icons -->
+    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; color: #2d3c4b; font-size: 0.9rem;">
+        <span><i class="fas fa-egg" style="color:#16a34a;"></i> পুষ্টি</span>
+        <span><i class="fas fa-pump-medical" style="color:#b453b6;"></i> ত্বকের যত্ন</span>
+        <span><i class="fas fa-person-walking" style="color:#8b5cf6;"></i> জীবনচর্যা</span>
+    </div>
+</div>
+</body>
+</html>
