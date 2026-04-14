@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EGO (অহংকার)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --dark: #0d0d0d;
+      --dark-2: #161616;
+      --dark-3: #1f1f1f;
+      --dark-4: #2a2a2a;
+      --text: #e8e0d0;
+      --text-muted: #9a9080;
+      --red-accent: #8b2020;
+      --red-light: #c0392b;
+      --border: rgba(201,168,76,0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Noto Sans Bengali', sans-serif;
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 40px 20px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(139,32,32,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 60% at 50% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
+    }
+
+    .hero-arabic {
+      font-size: clamp(2.5rem, 10vw, 6rem);
+      color: var(--gold);
+      opacity: 0.12;
+      position: absolute;
+      top: 20px;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-badge {
+      background: linear-gradient(135deg, var(--red-accent), #5a1010);
+      border: 1px solid rgba(139,32,32,0.5);
+      color: #ff8080;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(3rem, 12vw, 7rem);
+      font-weight: 700;
+      line-height: 1.1;
+      position: relative;
+    }
+
+    .hero h1 .en {
+      display: block;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+    }
+
+    .hero h1 .bn {
+      display: block;
+      color: var(--text);
+      font-size: 0.55em;
+      opacity: 0.7;
+      margin-top: 8px;
+    }
+
+    .hero-line {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 28px auto;
+    }
+
+    .hero-quote {
+      max-width: 560px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .hero-quote::before, .hero-quote::after {
+      content: '"';
+      color: var(--gold);
+      font-size: 2.5rem;
+      line-height: 0;
+      vertical-align: -0.6em;
+      opacity: 0.5;
+    }
+
+    .hero-source {
+      margin-top: 12px;
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-hint::after {
+      content: '↓';
+      font-size: 1.2rem;
+      color: var(--gold);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,13,13,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+    }
+
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding: 16px 16px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      padding: 70px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    .section-num {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p {
+      margin-bottom: 18px;
+      color: #ccc5b5;
+      font-size: 0.97rem;
+    }
+
+    strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── QURAN BLOCK ── */
+    .quran-block {
+      background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.02));
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin: 28px 0;
+      position: relative;
+    }
+
+    .quran-block::before {
+      content: '☾';
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--dark);
+      padding: 0 8px;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    .quran-text {
+      font-size: 0.95rem;
+      color: var(--text);
+      font-style: italic;
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+
+    .quran-source {
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      opacity: 0.8;
+    }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 28px 0;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    thead tr {
+      background: linear-gradient(90deg, var(--dark-4), var(--dark-3));
+    }
+
+    thead th {
+      padding: 14px 18px;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr {
+      background: var(--dark-2);
+      transition: background 0.15s;
+    }
+
+    tbody tr:nth-child(even) { background: var(--dark-3); }
+    tbody tr:hover { background: rgba(201,168,76,0.05); }
+
+    td {
+      padding: 13px 18px;
+      color: #bbb5a5;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    td:first-child { color: var(--text); font-weight: 500; }
+
+    /* ── CARD GRID ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(201,168,76,0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight {
+      background: linear-gradient(135deg, rgba(139,32,32,0.12), rgba(139,32,32,0.04));
+      border: 1px solid rgba(139,32,32,0.25);
+      border-radius: 4px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    .highlight p { margin: 0; color: #d4b0b0; }
+
+    /* ── STEPS ── */
+    .steps { margin: 24px 0; }
+
+    .step {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #a07830);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-top: 2px;
+    }
+
+    .step-body { flex: 1; }
+
+    .step-title {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .step p { margin: 0; font-size: 0.88rem; }
+
+    /* ── VERDICT ROW ── */
+    .verdict-row {
+      display: flex;
+      gap: 12px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+
+    .verdict-item {
+      flex: 1;
+      min-width: 160px;
+      background: var(--dark-3);
+      border-radius: 6px;
+      padding: 18px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .verdict-item .v-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .verdict-item .v-val {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark-2);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .footer-title {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin: 4px 0;
+    }
+
+    .footer-line {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 20px auto;
+      opacity: 0.3;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .verdict-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-arabic">أنا خير منه</div>
+  <div class="hero-badge">ইসলামিক দৃষ্টিভঙ্গি</div>
+  <h1>
+    <span class="en">EGO</span>
+    <span class="bn">অহংকার</span>
+  </h1>
+  <div class="hero-line"></div>
+  <p class="hero-quote">
+    যে ব্যক্তি তার অন্তরে অণু পরিমাণ অহংকার রাখে, সে জান্নাতে প্রবেশ করবে না।
+  </p>
+  <p class="hero-source">— সহীহ মুসলিম</p>
+  <div class="scroll-hint">নিচে স্ক্রোল করুন</div>
+</section>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#shaytan">শয়তান বনাম মানুষ</a>
+    <a href="#harmful">Ego কি ক্ষতিকর?</a>
+    <a href="#selfrespect">ইগো বনাম আত্মসম্মান</a>
+    <a href="#shirk">শিরক?</a>
+    <a href="#details">বিস্তারিত</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- SECTION 1 -->
+  <section class="section" id="shaytan">
+    <p class="section-num">০১ — শয়তান বনাম মানুষ</p>
+    <h2 class="section-title">অহংকারের প্রথম পাঠ</h2>
+    <p class="section-subtitle">ইতিহাসের প্রথম অহংকারী — ইবলিস</p>
+
+    <p>ইতিহাসের প্রথম অহংকারী ছিল <strong>ইবলিস (শয়তান)</strong>। আল্লাহ যখন আদম (আ.)-কে সৃষ্টি করলেন এবং ফেরেশতাদের সিজদা করতে বললেন, সকলে সিজদা করল — কিন্তু ইবলিস <strong>অস্বীকার করল</strong>।</p>
+
+    <div class="quran-block">
+      <p class="quran-text">"আমি তার চেয়ে উত্তম। তুমি আমাকে আগুন থেকে সৃষ্টি করেছ, আর তাকে মাটি থেকে।"</p>
+      <p class="quran-source">— সূরা আল-আ'রাফ, ৭:১২</p>
+    </div>
+
+    <p>এই একটি বাক্যই ছিল অহংকারের ঘোষণাপত্র। শয়তানের পতনের কারণ ছিল না তার ইবাদতের অভাব — বরং ছিল <strong>নিজেকে শ্রেষ্ঠ মনে করার অহংকার</strong>।</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>শয়তানের অহংকার</th><th>মানুষের অহংকার</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>"আমি আগুনের, সে মাটির"</td><td>"আমি ধনী, সে গরিব"</td></tr>
+          <tr><td>"আমি বেশি ইবাদত করেছি"</td><td>"আমি বেশি শিক্ষিত/সুন্দর"</td></tr>
+          <tr><td>সৃষ্টিকর্তার আদেশ প্রত্যাখ্যান</td><td>অন্যকে তুচ্ছ মনে করা</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight">
+      <p>শয়তান মানুষকে অহংকারের দিকে ডাকে, কারণ এটিই তার নিজের পতনের কারণ ছিল। যে মানুষ অহংকারী হয়, সে আসলে <strong>শয়তানের পথ অনুসরণ করে।</strong></p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="section" id="harmful">
+    <p class="section-num">০২ — ক্ষতির বিশ্লেষণ</p>
+    <h2 class="section-title">Ego কি ক্ষতিকর?</h2>
+    <p class="section-subtitle">সংক্ষেপে — হ্যাঁ। তবে বুঝতে হবে কীভাবে।</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🕌</div>
+        <p class="card-title">আত্মিক ক্ষতি</p>
+        <p>আল্লাহর সাথে সম্পর্ক নষ্ট করে। দোয়া ও ইবাদতে একাগ্রতা হারিয়ে যায়। কৃতজ্ঞতা নষ্ট হয়।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <p class="card-title">সামাজিক ক্ষতি</p>
+        <p>সম্পর্ক ভেঙে যায়। অন্যের পরামর্শ নেওয়া যায় না। "আমি সব জানি" মানসিকতা তৈরি হয়।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <p class="card-title">মানসিক ক্ষতি</p>
+        <p>বাস্তবতা আঘাত করলে ভেঙে পড়া। সমালোচনা সহ্য করতে না পারা। ব্যর্থতা অস্বীকার করা।</p>
+      </div>
+    </div>
+
+    <div class="quran-block">
+      <p class="quran-text">"আল্লাহ তায়ালা বলেন: অহংকার আমার চাদর, মহত্ত্ব আমার পোশাক। যে এই দুটির যেকোনোটি নিয়ে আমার সাথে বিবাদ করে, আমি তাকে শাস্তি দেব।"</p>
+      <p class="quran-source">— আবু দাউদ</p>
+    </div>
+
+    <p>অহংকার আল্লাহর একচেটিয়া গুণ — মানুষ যখন এটি নিজের মধ্যে ধারণ করে, সে আসলে আল্লাহর সাথে <strong>প্রতিযোগিতায় নামে।</strong></p>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="section" id="selfrespect">
+    <p class="section-num">০৩ — পার্থক্য বোঝো</p>
+    <h2 class="section-title">ইগো বনাম আত্মসম্মান</h2>
+    <p class="section-subtitle">অনেকে মনে করেন আত্মসম্মান রক্ষা করা মানেই অহংকার — এটি ভুল ধারণা।</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>বিষয়</th><th>অহংকার (Ego)</th><th>আত্মসম্মান</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>মূল ভিত্তি</td><td>নিজেকে অন্যের চেয়ে বড় মনে করা</td><td>নিজের মূল্য সম্পর্কে সচেতন থাকা</td></tr>
+          <tr><td>অন্যের প্রতি</td><td>তুচ্ছ মনে করা</td><td>সমান মর্যাদা দেওয়া</td></tr>
+          <tr><td>সমালোচনায়</td><td>রাগ করে, প্রত্যাখ্যান করে</td><td>বিবেচনা করে, শেখে</td></tr>
+          <tr><td>ভুল স্বীকার</td><td>কখনো করে না</td><td>সহজে করতে পারে</td></tr>
+          <tr><td>ইসলামিক দৃষ্টি</td><td>নিষিদ্ধ ❌</td><td>উৎসাহিত ✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="verdict-row">
+      <div class="verdict-item">
+        <p class="v-label">অপমানে শান্তভাবে সীমা নির্ধারণ</p>
+        <p class="v-val">আত্মসম্মান ✅</p>
+      </div>
+      <div class="verdict-item">
+        <p class="v-label">"আমি কে জানিস?" বলে রাগ করা</p>
+        <p class="v-val">অহংকার ❌</p>
+      </div>
+    </div>
+
+    <p>আত্মসম্মান হল নিজের মর্যাদা জানা এবং <strong>অন্যকে ছোট না করেই</strong> তা রক্ষা করা।</p>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section class="section" id="shirk">
+    <p class="section-num">০৪ — গভীর প্রশ্ন</p>
+    <h2 class="section-title">এটা কি শিরক?</h2>
+    <p class="section-subtitle">অহংকার সরাসরি শিরক নয়, তবে এটি শিরকের দরজা খুলে দিতে পারে।</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">১</div>
+        <div class="step-body">
+          <p class="step-title">আত্মপূজা (Self-Worship)</p>
+          <p>যখন একজন মানুষ নিজেকেই সর্বোচ্চ মনে করে — এটি হল নিজের নফসকে ইলাহ বানানো।</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">২</div>
+        <div class="step-body">
+          <p class="step-title">রিয়া (লোক দেখানো)</p>
+          <p>অহংকারী মানুষ ভালো কাজও করে নিজের বড়ত্ব প্রমাণ করতে — এটি ছোট শিরক।</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">৩</div>
+        <div class="step-body">
+          <p class="step-title">আল্লাহর সিদ্ধান্তে অসন্তোষ</p>
+          <p>আল্লাহর তাকদির পছন্দ না হলে বিরক্ত হওয়া — এটি তাওহিদের বিরুদ্ধে।</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quran-block">
+      <p class="quran-text">"তুমি কি তাকে দেখেছ যে তার প্রবৃত্তিকে নিজের ইলাহ বানিয়ে নিয়েছে?"</p>
+      <p class="quran-source">— সূরা আল-ফুরকান, ২৫:৪৩</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>পাপের ধরন</th><th>মাত্রা</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>অহংকার নিজে</td><td>কবিরা গুনাহ (বড় পাপ)</td></tr>
+          <tr><td>অহংকার থেকে রিয়া</td><td>ছোট শিরক</td></tr>
+          <tr><td>নফসকে ইলাহ বানানো</td><td>শিরক</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section class="section" id="details">
+    <p class="section-num">০৫ — বিস্তারিত</p>
+    <h2 class="section-title">মুক্তির পথ</h2>
+    <p class="section-subtitle">অহংকারের প্রকারভেদ ও প্রতিকার</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">👁️</div>
+        <p class="card-title">বাহ্যিক অহংকার</p>
+        <p>পোশাকে, চালচলনে, কথায় নিজেকে বড় প্রকাশ করা। সালাম না দেওয়া। সবার আগে বসতে চাওয়া।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💭</div>
+        <p class="card-title">অভ্যন্তরীণ অহংকার</p>
+        <p>মনে মনে নিজেকে শ্রেষ্ঠ মনে করা। অন্যের সাফল্যে ঈর্ষা। হেদায়েত পেয়েও নিজেকে বিশেষ ভাবা।</p>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light); margin: 32px 0 20px; font-size:1.1rem;">অহংকার থেকে মুক্তির উপায়</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">১</div>
+        <div class="step-body">
+          <p class="step-title">মৃত্যু ও আখেরাতের স্মরণ</p>
+          <p>আমরা সবাই মাটি থেকে এসেছি, মাটিতে ফিরে যাব। কবরে কেউ জিজ্ঞেস করবে না তুমি কত ধনী ছিলে।</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">২</div>
+        <div class="step-body">
+          <p class="step-title">নিজের দুর্বলতা স্বীকার করা</p>
+          <p>প্রতিদিন নিজের একটি ভুল খোঁজো এবং সংশোধনের চেষ্টা করো।</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">৩</div>
+        <div class="step-body">
+          <p class="step-title">দোয়া করা</p>
+          <p><em style="color:var(--gold);">"আল্লাহুম্মা ইন্নি আউযুবিকা মিনাল কিবরি ওয়াল উজুব"</em><br>হে আল্লাহ, আমি তোমার কাছে অহংকার থেকে আশ্রয় চাই।</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">৪</div>
+        <div class="step-body">
+          <p class="step-title">কুরআন তেলাওয়াত ও অর্থ বোঝা</p>
+          <p>নিয়মিত কুরআন পড়লে আল্লাহর শ্রেষ্ঠত্ব ও মানুষের দুর্বলতা উপলব্ধি হয়।</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">৫</div>
+        <div class="step-body">
+          <p class="step-title">জ্ঞানীদের সাহচর্য</p>
+          <p>যারা বিনয়ী তাদের সাথে মিশলে বিনয় শেখা যায়।</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quran-block">
+      <p class="quran-text">"যে ব্যক্তি আল্লাহর জন্য বিনয়ী হয়, আল্লাহ তার মর্যাদা উঁচু করেন।"</p>
+      <p class="quran-source">— সহীহ মুসলিম</p>
+    </div>
+
+    <div class="quran-block">
+      <p class="quran-text">"তুমি পৃথিবীতে দম্ভভরে চলো না। নিশ্চয়ই তুমি পৃথিবীকে বিদীর্ণ করতে পারবে না এবং উচ্চতায় পর্বত সমান হতে পারবে না।"</p>
+      <p class="quran-source">— সূরা বনী ইসরাইল, ১৭:৩৭</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="footer-title">EGO — অহংকার</p>
+  <div class="footer-line"></div>
+  <div class="verdict-row" style="max-width:500px; margin: 0 auto 20px;">
+    <div class="verdict-item">
+      <p class="v-label">বড়ত্ব</p>
+      <p class="v-val">শুধু আল্লাহর</p>
+    </div>
+    <div class="verdict-item">
+      <p class="v-label">মানুষের জন্য</p>
+      <p class="v-val">বিনয়</p>
+    </div>
+    <div class="verdict-item">
+      <p class="v-label">নিজের জন্য</p>
+      <p class="v-val">আত্মসম্মান</p>
+    </div>
+  </div>
+  <p>লেখক: Ebrat Hoseen</p>
+  <p style="margin-top:6px; opacity:0.4;">এপ্রিল ২০২৬</p>
+</footer>
+
+</body>
+</html>
