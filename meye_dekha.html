@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="bn" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>মেয়েকে দেখা — ইসলামের দৃষ্টিতে</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dark: #9a7a30;
+    --emerald: #1a4a3a;
+    --emerald-mid: #2d6e56;
+    --emerald-light: #3d8e70;
+    --cream: #fdf6e3;
+    --cream-dark: #f5e8c0;
+    --ink: #1a1208;
+    --text: #2c1f0e;
+    --text-light: #5a4a2e;
+    --white: #ffffff;
+    --shadow: rgba(26,18,8,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans Bengali', sans-serif;
+    background-color: #0f2419;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(201,168,76,0.06) 0%, transparent 50%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 3.5rem 2.5rem 3rem;
+    background: linear-gradient(160deg, var(--emerald) 0%, #0d2e1f 60%, #0a1f14 100%);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.4rem;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 1;
+  }
+
+  .bismillah {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 1.55rem;
+    color: var(--gold-light);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.4rem;
+    text-shadow: 0 2px 12px rgba(201,168,76,0.4);
+  }
+
+  .ornament {
+    color: var(--gold);
+    font-size: 1.3rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .header h1 {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  }
+
+  .header h1 span {
+    color: var(--gold);
+  }
+
+  .header-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    margin-top: 0.8rem;
+  }
+
+  .gold-line {
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.2rem auto 0;
+  }
+
+  /* ===== INTRO BOX ===== */
+  .intro-box {
+    background: linear-gradient(135deg, var(--cream) 0%, #faefd5 100%);
+    border-left: 5px solid var(--gold);
+    padding: 1.8rem 2.2rem;
+    margin: 0.4rem 0;
+    border-radius: 0 4px 4px 0;
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 1.05rem;
+    line-height: 1.95;
+    color: var(--text);
+    box-shadow: 0 4px 24px var(--shadow);
+  }
+
+  /* ===== SECTION CARDS ===== */
+  .section-card {
+    background: var(--cream);
+    border-radius: 4px;
+    margin: 0.8rem 0;
+    overflow: hidden;
+    box-shadow: 0 6px 30px var(--shadow);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .section-header {
+    background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-mid) 100%);
+    padding: 1.1rem 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-number {
+    width: 38px;
+    height: 38px;
+    background: var(--gold);
+    color: var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 1.25rem;
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .section-body {
+    padding: 1.8rem 2rem;
+    line-height: 1.9;
+    font-size: 0.97rem;
+    color: var(--text);
+  }
+
+  /* ===== QURAN / HADITH QUOTE ===== */
+  .quote-box {
+    background: linear-gradient(135deg, #f5edd5 0%, #ede2c0 100%);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.6rem;
+    margin: 1.2rem 0;
+    font-family: 'Noto Serif Bengali', serif;
+  }
+
+  .quote-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .quote-label::before {
+    content: '❝';
+    font-size: 1rem;
+    color: var(--gold);
+  }
+
+  .quote-text {
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.85;
+    font-style: italic;
+  }
+
+  .quote-ref {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+    font-style: normal;
+  }
+
+  /* ===== TABLE ===== */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .styled-table thead tr {
+    background: var(--emerald);
+    color: var(--white);
+  }
+
+  .styled-table th, .styled-table td {
+    padding: 0.85rem 1.2rem;
+    text-align: right;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .styled-table thead th {
+    text-align: right;
+    font-weight: 600;
+    font-family: 'Noto Serif Bengali', serif;
+    letter-spacing: 0.02em;
+  }
+
+  .styled-table tbody tr:nth-child(even) {
+    background: rgba(201,168,76,0.06);
+  }
+
+  .styled-table tbody tr:hover {
+    background: rgba(201,168,76,0.12);
+  }
+
+  /* ===== PROS / CONS GRID ===== */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .pro-box, .con-box {
+    border-radius: 4px;
+    padding: 1.2rem;
+  }
+
+  .pro-box {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border: 1px solid #81c784;
+  }
+
+  .con-box {
+    background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+    border: 1px solid #ef9a9a;
+  }
+
+  .box-heading {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .pro-box .box-heading { color: #2e7d32; }
+  .con-box .box-heading { color: #c62828; }
+
+  .item-list {
+    list-style: none;
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+
+  .item-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .item-list li::before {
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .pro-box .item-list li::before { content: '✓'; color: #2e7d32; font-weight: 700; }
+  .con-box .item-list li::before { content: '✗'; color: #c62828; font-weight: 700; }
+
+  /* ===== NUMBERED LIST ===== */
+  .num-list {
+    counter-reset: item;
+    list-style: none;
+    margin: 0.8rem 0;
+  }
+
+  .num-list li {
+    counter-increment: item;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px dashed rgba(201,168,76,0.25);
+    font-size: 0.93rem;
+    line-height: 1.7;
+  }
+
+  .num-list li::before {
+    content: counter(item);
+    background: var(--emerald);
+    color: var(--gold);
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ===== SUBSECTION ===== */
+  .subsec-title {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--emerald);
+    margin: 1.4rem 0 0.7rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .subsec-title::before {
+    content: '◆';
+    color: var(--gold);
+    font-size: 0.65rem;
+  }
+
+  /* ===== COMPARE TABLE ===== */
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .compare-row { grid-template-columns: 1fr; }
+  }
+
+  .compare-cell {
+    background: var(--cream-dark);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 4px;
+    padding: 1rem;
+    font-size: 0.87rem;
+    line-height: 1.7;
+  }
+
+  .compare-cell .cell-label {
+    font-family: 'Noto Serif Bengali', serif;
+    font-weight: 700;
+    color: var(--emerald);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight-box {
+    background: linear-gradient(135deg, var(--emerald) 0%, #0d2e1f 100%);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 4px;
+    padding: 1.5rem 2rem;
+    margin: 1.2rem 0;
+    color: var(--white);
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 1rem;
+    line-height: 1.9;
+    text-align: center;
+  }
+
+  .highlight-box .h-gold { color: var(--gold-light); }
+
+  /* ===== BADGE LIST ===== */
+  .badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.8rem 0;
+  }
+
+  .badge {
+    background: var(--emerald);
+    color: var(--gold-light);
+    border-radius: 20px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: linear-gradient(135deg, var(--emerald) 0%, #0a1f14 100%);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    padding: 2rem 2.5rem;
+    margin-top: 1rem;
+    text-align: center;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.85rem;
+    line-height: 1.9;
+  }
+
+  .footer-dua {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 1.05rem;
+    color: var(--gold-light);
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-ref {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 0.8rem;
+  }
+
+  p { margin-bottom: 0.8rem; }
+  p:last-child { margin-bottom: 0; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .section-card { box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+    <span class="ornament">✦ ✦ ✦</span>
+    <h1>মেয়েকে <span>দেখা</span></h1>
+    <div class="header-sub">ইসলামের দৃষ্টিতে সম্পূর্ণ বিশ্লেষণ</div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro-box">
+    ইসলাম একটি পূর্ণাঙ্গ জীবনব্যবস্থা। নারী-পুরুষের পারস্পরিক দৃষ্টি ও সম্পর্কের ব্যাপারে ইসলামের বিধান অত্যন্ত সুশৃঙ্খল ও ভারসাম্যপূর্ণ। এই বিষয়ে কুরআন ও সুন্নাহতে বিস্তারিত আলোচনা রয়েছে, যা মানুষের কল্যাণ ও সমাজের স্থিতিশীলতা নিশ্চিত করে।
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">১</div>
+      <div class="section-title">পরিচয়ের জন্য দেখা</div>
+    </div>
+    <div class="section-body">
+      <div class="quote-box">
+        <div class="quote-label">কুরআনুল কারীম — সূরা হুজুরাত: ১৩</div>
+        <div class="quote-text">হে মানুষ! আমি তোমাদেরকে এক পুরুষ ও এক নারী থেকে সৃষ্টি করেছি এবং তোমাদেরকে বিভিন্ন জাতি ও গোত্রে বিভক্ত করেছি, যাতে তোমরা পরস্পরে পরিচিত হতে পারো।</div>
+      </div>
+
+      <div class="subsec-title">বৈধ পরিচয়ের শর্তাবলী</div>
+      <ul class="num-list">
+        <li>পরিচয়ের উদ্দেশ্য হওয়া চাই সামাজিক কল্যাণ বা বৈধ প্রয়োজন — নিয়তের বিশুদ্ধতা।</li>
+        <li>অপরিচিত নারীর সাথে একাকী সাক্ষাৎ নিষিদ্ধ — মাহরাম বা তৃতীয় ব্যক্তির উপস্থিতি।</li>
+        <li>উভয়পক্ষকে শরীয়তসম্মত পোশাক ও আচরণ বজায় রাখতে হবে।</li>
+        <li>কামনাপ্রসূত দৃষ্টি পরিহার করতে হবে।</li>
+      </ul>
+
+      <div class="subsec-title">বিধান সংক্ষেপ</div>
+      <table class="styled-table">
+        <thead><tr><th>পরিস্থিতি</th><th>বিধান</th></tr></thead>
+        <tbody>
+          <tr><td>মাহরামের সাথে দেখা</td><td>সম্পূর্ণ বৈধ</td></tr>
+          <tr><td>পেশাদার/শিক্ষাগত পরিচয়</td><td>শর্তসাপেক্ষে জায়েজ</td></tr>
+          <tr><td>বিনা প্রয়োজনে দেখা</td><td>নিষিদ্ধ</td></tr>
+          <tr><td>একাকী সাক্ষাৎ</td><td>হারাম</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">২</div>
+      <div class="section-title">বিয়ের উদ্দেশ্যে দেখা</div>
+    </div>
+    <div class="section-body">
+      <div class="quote-box">
+        <div class="quote-label">হাদিস — তিরমিজি ও নাসাঈ</div>
+        <div class="quote-text">তাকে দেখো, কারণ এটি তোমাদের মধ্যে সম্প্রীতি স্থাপনের জন্য অধিক উপযুক্ত।</div>
+        <div class="quote-ref">— রাসূলুল্লাহ ﷺ, হযরত মুগীরা ইবনে শু'বা (রা.)-কে</div>
+      </div>
+
+      <div class="subsec-title">কী দেখা যাবে? (ফুকাহায়ে কেরামের মত)</div>
+      <div class="compare-row">
+        <div class="compare-cell">
+          <span class="cell-label">হানাফি মাজহাব</span>
+          চেহারা ও হাত দেখা জায়েজ।
+        </div>
+        <div class="compare-cell">
+          <span class="cell-label">শাফেয়ী মাজহাব</span>
+          প্রয়োজনে অতিরিক্ত কিছু দেখা যেতে পারে।
+        </div>
+        <div class="compare-cell">
+          <span class="cell-label">সাধারণ নীতি</span>
+          একাধিকবার দেখা যেতে পারে প্রয়োজনে।
+        </div>
+      </div>
+
+      <div class="subsec-title">শর্তসমূহ</div>
+      <ul class="num-list">
+        <li>বিয়ের সৎ নিয়ত থাকতে হবে।</li>
+        <li>মাহরাম বা বিশ্বস্ত ব্যক্তির উপস্থিতিতে দেখতে হবে।</li>
+        <li>নির্জনে সাক্ষাৎ করা যাবে না।</li>
+        <li>শুধু বৈধ স্থান দেখা যাবে।</li>
+        <li>দীর্ঘ সময় একসাথে অবস্থান করা যাবে না।</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">৩</div>
+      <div class="section-title">প্রথম আকস্মিক দৃষ্টি</div>
+    </div>
+    <div class="section-body">
+      <div class="quote-box">
+        <div class="quote-label">কুরআনুল কারীম — সূরা নূর: ৩০</div>
+        <div class="quote-text">মুমিন পুরুষদেরকে বলুন, তারা যেন তাদের দৃষ্টি অবনমিত রাখে এবং তাদের লজ্জাস্থান হেফাজত করে।</div>
+      </div>
+
+      <div class="two-col">
+        <div class="pro-box">
+          <div class="box-heading">✦ প্রথম দৃষ্টি (ক্ষমাযোগ্য)</div>
+          <ul class="item-list">
+            <li><span>অনিচ্ছাকৃত বা আকস্মিক দৃষ্টি।</span></li>
+            <li><span>হঠাৎ চোখ পড়ে গেলে গুনাহ হবে না।</span></li>
+            <li><span>তবে সঙ্গে সঙ্গে দৃষ্টি ফেরাতে হবে।</span></li>
+          </ul>
+        </div>
+        <div class="con-box">
+          <div class="box-heading">✦ দ্বিতীয় দৃষ্টি (নিষিদ্ধ)</div>
+          <ul class="item-list">
+            <li><span>জেনেশুনে আবার তাকানো।</span></li>
+            <li><span>ইচ্ছাকৃত দৃষ্টি গুনাহ।</span></li>
+            <li><span>শয়তানের তীর বলা হয়েছে।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        <div class="quote-label">হাদিস — আবু দাউদ, তিরমিজি</div>
+        <div class="quote-text">হে আলী! প্রথম দৃষ্টির পর দ্বিতীয় দৃষ্টি দিও না। প্রথমটি ক্ষমা, কিন্তু দ্বিতীয়টি তোমার জন্য নয়।</div>
+        <div class="quote-ref">— রাসূলুল্লাহ ﷺ, হযরত আলী (রা.)-কে</div>
+      </div>
+
+      <div class="subsec-title">আকস্মিক দৃষ্টির পরে করণীয়</div>
+      <div class="badge-list">
+        <span class="badge">দ্রুত দৃষ্টি নামিয়ে নেওয়া</span>
+        <span class="badge">মনে চিন্তা না আনা</span>
+        <span class="badge">ইস্তিগফার পড়া</span>
+        <span class="badge">আউযুবিল্লাহ পড়া</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">৪</div>
+      <div class="section-title">Avoid বনাম Ignore — ফায়দা ও ক্ষতি</div>
+    </div>
+    <div class="section-body">
+      <table class="styled-table">
+        <thead><tr><th>বিষয়</th><th>Avoid (এড়িয়ে চলা)</th><th>Ignore (উপেক্ষা করা)</th></tr></thead>
+        <tbody>
+          <tr><td>অর্থ</td><td>সচেতনভাবে দূরত্ব বজায় রাখা</td><td>উপস্থিতি স্বীকার করেও মনোযোগ না দেওয়া</td></tr>
+          <tr><td>উদ্দেশ্য</td><td>ফেতনা থেকে বাঁচা</td><td>অহংকার বা অবজ্ঞা</td></tr>
+          <tr><td>ইসলামি দৃষ্টি</td><td>প্রশংসনীয় (প্রয়োজনে)</td><td>নিরুৎসাহিত</td></tr>
+        </tbody>
+      </table>
+
+      <div class="two-col">
+        <div class="pro-box">
+          <div class="box-heading">✅ Avoid করার ফায়দা</div>
+          <ul class="item-list">
+            <li><span>গুনাহ থেকে সুরক্ষা</span></li>
+            <li><span>হৃদয়ের পবিত্রতা বজায় থাকে</span></li>
+            <li><span>শয়তানের ফাঁদ থেকে মুক্তি</span></li>
+            <li><span>সমাজে সুনাম ও মর্যাদা বৃদ্ধি</span></li>
+            <li><span>আল্লাহর সন্তুষ্টি অর্জন</span></li>
+            <li><span>পারিবারিক শান্তি বজায় থাকে</span></li>
+          </ul>
+        </div>
+        <div class="con-box">
+          <div class="box-heading">❌ Ignore করার ক্ষতি</div>
+          <ul class="item-list">
+            <li><span>অহংকার ও অবজ্ঞার মনোভাব</span></li>
+            <li><span>বৈধ সম্পর্কগুলো নষ্ট হয়</span></li>
+            <li><span>সামাজিক ভারসাম্য বিঘ্নিত</span></li>
+            <li><span>প্রয়োজনীয় সাহায্য থেকে বঞ্চিত</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <span class="h-gold">ইসলামের ভারসাম্য নীতি</span><br>
+        ইসলাম অতিরিক্ত কঠোরতা বা অতিরিক্ত শিথিলতা — কোনোটিই সমর্থন করে না। বরং <strong>মধ্যমপন্থা</strong> অবলম্বন করার নির্দেশ দেয়। প্রয়োজনীয় কথা বলা, সালাম দেওয়া, সাহায্য করা — বৈধ। তবে অকারণ মেলামেশা নিষিদ্ধ।
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">৫</div>
+      <div class="section-title">আত্মীয়তার সম্পর্ক বজায় রাখা</div>
+    </div>
+    <div class="section-body">
+      <div class="quote-box">
+        <div class="quote-label">হাদিস — বুখারি ও মুসলিম</div>
+        <div class="quote-text">যে ব্যক্তি চায় তার রিজিক প্রশস্ত হোক এবং তার বয়স বৃদ্ধি পাক, সে যেন আত্মীয়তার সম্পর্ক বজায় রাখে।</div>
+        <div class="quote-ref">— রাসূলুল্লাহ ﷺ</div>
+      </div>
+
+      <div class="two-col">
+        <div class="pro-box">
+          <div class="box-heading">মাহরাম আত্মীয় (বৈধ)</div>
+          <ul class="item-list">
+            <li><span>মা, বোন, মেয়ে, ফুফু, খালা</span></li>
+            <li><span>শাশুড়ি, সৎ মা</span></li>
+            <li><span>দুধ মা ও দুধ বোন</span></li>
+          </ul>
+        </div>
+        <div class="con-box">
+          <div class="box-heading">গায়রে মাহরাম (সতর্কতা)</div>
+          <ul class="item-list">
+            <li><span>চাচাতো, মামাতো, খালাতো বোন</span></li>
+            <li><span>ভাবী, ভাসুরের স্ত্রী</span></li>
+            <li><span>দেবর — "মৃত্যুর মতো" (বুখারি)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="subsec-title">গায়রে মাহরামের সাথে সম্পর্কের নীতি</div>
+      <ul class="num-list">
+        <li>পর্দার সাথে সাক্ষাৎ করা।</li>
+        <li>তৃতীয় ব্যক্তির উপস্থিতিতে কথা বলা।</li>
+        <li>প্রয়োজনীয় বিষয়ের বাইরে দীর্ঘ আলোচনা না করা।</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">৬</div>
+      <div class="section-title">বন্ধু-বান্ধবীর ক্ষেত্রে</div>
+    </div>
+    <div class="section-body">
+      <p>ইসলামে অপরিচিত পুরুষ ও নারীর মধ্যে বন্ধুত্ব নিষিদ্ধ, কারণ এটি ফেতনার কারণ হয়। নবী ﷺ বলেন — যখন কোনো পুরুষ অপরিচিত নারীর সাথে একাকী থাকে, তখন তৃতীয় জন হলো শয়তান।</p>
+
+      <div class="subsec-title">কেন বন্ধুত্ব নিষিদ্ধ?</div>
+      <ul class="num-list">
+        <li>শয়তানের ওয়াসওয়াসা — একাকীত্বে শয়তান তৃতীয় ব্যক্তি হয়ে যায়।</li>
+        <li>হৃদয়ের দুর্বলতা — মানবিক স্বভাব অনুযায়ী ঘনিষ্ঠতা থেকে আকর্ষণ তৈরি হয়।</li>
+        <li>সমাজের কাঠামো রক্ষা — পরিবার ও বিবাহ প্রথা টিকিয়ে রাখার জন্য।</li>
+      </ul>
+
+      <div class="subsec-title">সোশ্যাল মিডিয়া ও আধুনিক প্রেক্ষাপট</div>
+      <table class="styled-table">
+        <thead><tr><th>বিষয়</th><th>বিধান</th></tr></thead>
+        <tbody>
+          <tr><td>ব্যক্তিগত ও অন্তরঙ্গ চ্যাটিং</td><td>নিষিদ্ধ</td></tr>
+          <tr><td>ছবি আদান-প্রদান, প্রশংসা</td><td>সতর্কতার বিষয়</td></tr>
+          <tr><td>পেশাদার বা শিক্ষামূলক আলোচনা</td><td>শর্তসাপেক্ষে বৈধ</td></tr>
+          <tr><td>ভিডিও কল (একাকী)</td><td>নিষিদ্ধ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">৭</div>
+      <div class="section-title">দৃষ্টি হেফাজতের ফায়দা ও আমল</div>
+    </div>
+    <div class="section-body">
+      <div class="quote-box">
+        <div class="quote-label">হাদিস — তাবারানি</div>
+        <div class="quote-text">দৃষ্টি হলো শয়তানের বিষমাখা তীর। যে আল্লাহর ভয়ে তা বর্জন করে, আল্লাহ তাকে এমন ঈমানের স্বাদ দেবেন যা তার হৃদয়ে মিষ্টতা অনুভব করাবে।</div>
+        <div class="quote-ref">— রাসূলুল্লাহ ﷺ</div>
+      </div>
+
+      <div class="subsec-title">দৃষ্টি হেফাজতের উপকারিতা</div>
+      <ul class="num-list">
+        <li><strong>হৃদয়ের আলো:</strong> অন্তরে নূর ও প্রশান্তি আসে।</li>
+        <li><strong>ইবাদতে মনোযোগ:</strong> নামাজ ও জিকিরে মনোযোগ বাড়ে।</li>
+        <li><strong>শয়তান থেকে সুরক্ষা:</strong> কুমন্ত্রণা কমে যায়।</li>
+        <li><strong>সম্মান বৃদ্ধি:</strong> সমাজে মর্যাদা ও বিশ্বাসযোগ্যতা বাড়ে।</li>
+        <li><strong>স্মৃতিশক্তি বৃদ্ধি:</strong> ইমাম শাফেয়ী (রহ.) উস্তাদ ওয়াকীকে এই পরামর্শ দিয়েছিলেন।</li>
+      </ul>
+
+      <div class="subsec-title">দৈনন্দিন আমল</div>
+      <div class="badge-list">
+        <span class="badge">সকাল-সন্ধ্যার আজকার</span>
+        <span class="badge">বেশি বেশি ইস্তিগফার</span>
+        <span class="badge">নফল রোজা রাখা</span>
+        <span class="badge">ভালো সঙ্গ বেছে নেওয়া</span>
+        <span class="badge">কুরআন তেলাওয়াত</span>
+        <span class="badge">দৃষ্টি নিচে রাখার অভ্যাস</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-dua">
+      আল্লাহ আমাদের সকলকে শরীয়তের সীমার মধ্যে জীবন যাপন করার তৌফিক দান করুন। আমিন।
+    </div>
+    <div>
+      "আল্লাহ তোমাদের সহজ করতে চান, কঠিন করতে চান না।" — সূরা বাকারা: ১৮৫
+    </div>
+    <div class="footer-ref">
+      রেফারেন্স: কুরআনুল কারীম • সহিহ বুখারি • সহিহ মুসলিম • আবু দাউদ • তিরমিজি • নাসাঈ • তাবারানি
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
