@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bet Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #161a24;
+      --border: #252b3a;
+      --accent: #f0c040;
+      --accent2: #e05c3a;
+      --text: #d8dde8;
+      --muted: #5a6070;
+      --win: #3adb76;
+      --lose: #e05c3a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 36px 16px 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    header p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 6px;
+      letter-spacing: 0.2em;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* ── Input rows ── */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .field label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .field input[type="number"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.1rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      -moz-appearance: textfield;
+    }
+    .field input[type="number"]::-webkit-inner-spin-button { display: none; }
+    .field input[type="number"]:focus { border-color: var(--accent); }
+
+    /* ── Toggle row ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle-row span {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .toggle-row.active span { color: var(--accent); }
+
+    /* pill switch */
+    .switch {
+      position: relative;
+      width: 42px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .switch input { display: none; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 22px;
+      transition: background 0.25s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      left: 3px; top: 3px;
+      background: var(--muted);
+      border-radius: 50%;
+      transition: transform 0.25s, background 0.25s;
+    }
+    .switch input:checked + .slider { background: var(--accent); }
+    .switch input:checked + .slider::before {
+      transform: translateX(20px);
+      background: var(--bg);
+    }
+
+    /* ── Button ── */
+    .calc-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin-top: 4px;
+    }
+    .calc-btn:hover { opacity: 0.88; }
+    .calc-btn:active { transform: scale(0.98); }
+
+    /* ── Results ── */
+    .results {
+      margin-top: 28px;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .results.visible { display: flex; }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* summary bar */
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .stat {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .stat .val {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .stat .lbl {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* step list */
+    .step-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      animation: fadeIn 0.3s ease both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      width: 22px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .step-bet {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      color: var(--text);
+      flex: 1;
+    }
+    .step-win {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--win);
+    }
+
+    /* warning */
+    .warning {
+      background: #2a1510;
+      border: 1px solid var(--accent2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+      display: none;
+    }
+    .warning.visible { display: block; }
+
+    /* hide utility */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Bet Calc</h1>
+  <p>MARTINGALE STRATEGY SIMULATOR</p>
+</header>
+
+<div class="card">
+
+  <!-- First Bet -->
+  <div class="field">
+    <label>First Bet (tk)</label>
+    <input id="firstbet" type="number" placeholder="e.g. 2" min="1">
+  </div>
+
+  <!-- Multiplier -->
+  <div class="field">
+    <label>Multiplier ×</label>
+    <input id="multi" type="number" placeholder="e.g. 2" min="1.01" step="0.01" value="2">
+  </div>
+
+  <!-- Toggle: Balance / Steps -->
+  <label class="toggle-row" id="toggleRow">
+    <span id="toggleLabel">Limit by Steps</span>
+    <div class="switch">
+      <input type="checkbox" id="toggle">
+      <div class="slider"></div>
+    </div>
+  </label>
+
+  <!-- Balance -->
+  <div class="field" id="balanceField">
+    <label>Your Balance (tk)</label>
+    <input id="balance" type="number" placeholder="e.g. 100" min="1">
+  </div>
+
+  <!-- Steps (hidden by default) -->
+  <div class="field hidden" id="stepsField">
+    <label>Total Steps</label>
+    <input id="steps" type="number" placeholder="e.g. 5" min="1" step="1">
+  </div>
+
+  <button class="calc-btn" id="calbtn">Calculate</button>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <div class="divider"></div>
+
+    <div class="summary" id="summary"></div>
+
+    <div class="warning" id="warning"></div>
+
+    <div class="step-list" id="stepList"></div>
+  </div>
+
+</div>
+
+<script>
+  const toggleEl    = document.getElementById('toggle');
+  const toggleRow   = document.getElementById('toggleRow');
+  const toggleLabel = document.getElementById('toggleLabel');
+  const balField    = document.getElementById('balanceField');
+  const stpField    = document.getElementById('stepsField');
+  const calcBtn     = document.getElementById('calbtn');
+  const results     = document.getElementById('results');
+  const summary     = document.getElementById('summary');
+  const stepList    = document.getElementById('stepList');
+  const warningEl   = document.getElementById('warning');
+
+  // ── Toggle switch ──────────────────────────────────────────
+  toggleEl.addEventListener('change', () => {
+    const bySteps = toggleEl.checked;
+    toggleRow.classList.toggle('active', bySteps);
+    toggleLabel.textContent = bySteps ? 'Limit by Balance' : 'Limit by Steps';
+    balField.classList.toggle('hidden', bySteps);
+    stpField.classList.toggle('hidden', !bySteps);
+  });
+
+  toggleRow.addEventListener('click', (e) => {
+    // label wraps checkbox, so click already triggers change; avoid double fire
+    if (e.target === toggleEl) return;
+  });
+
+  // ── Calculate ───────────────────────────────────────────────
+  calcBtn.addEventListener('click', calculate);
+
+  function calculate() {
+    const firstBet = parseFloat(document.getElementById('firstbet').value);
+    const multi    = parseFloat(document.getElementById('multi').value);
+    const bySteps  = toggleEl.checked;
+    const balance  = parseFloat(document.getElementById('balance').value);
+    const maxSteps = parseInt(document.getElementById('steps').value);
+
+    // Basic validation
+    if (!firstBet || firstBet <= 0) { shake(document.getElementById('firstbet')); return; }
+    if (!multi || multi <= 1)       { shake(document.getElementById('multi'));    return; }
+    if (!bySteps && (!balance || balance <= 0))   { shake(document.getElementById('balance')); return; }
+    if (bySteps  && (!maxSteps || maxSteps <= 0)) { shake(document.getElementById('steps'));   return; }
+
+    // Build step sequence
+    const steps = [];
+    let current = firstBet;
+    let totalBet = 0;
+    let stoppedEarly = false;
+    let stopReason = '';
+
+    while (true) {
+      // Step limit check
+      if (bySteps && steps.length >= maxSteps) break;
+
+      // Balance limit check (next bet would exceed remaining)
+      if (!bySteps && totalBet + current > balance) {
+        stoppedEarly = true;
+        stopReason = `Balance limit reached (${balance} tk). Cannot place next bet of ${fmt(current)} tk.`;
+        break;
+      }
+
+      const winReturn = current * multi;
+      steps.push({ bet: current, win: winReturn });
+      totalBet += current;
+      current = current * multi;
+
+      // Safety cap (avoid infinite loop for multi=1)
+      if (steps.length > 200) break;
+    }
+
+    render(steps, totalBet, balance, bySteps, stoppedEarly, stopReason, multi);
+  }
+
+  function render(steps, totalBet, balance, bySteps, stoppedEarly, stopReason, multi) {
+    // Summary
+    const remaining = bySteps ? '—' : fmt(balance - totalBet);
+    summary.innerHTML = `
+      <div class="stat">
+        <div class="val">${steps.length}</div>
+        <div class="lbl">Steps</div>
+      </div>
+      <div class="stat">
+        <div class="val">${fmt(totalBet)}<small style="font-size:0.65rem;color:var(--muted)"> tk</small></div>
+        <div class="lbl">Total Bet</div>
+      </div>
+      <div class="stat">
+        <div class="val">${bySteps ? '—' : remaining + '<small style="font-size:0.65rem;color:var(--muted)"> tk</small>'}</div>
+        <div class="lbl">Left</div>
+      </div>
+    `;
+
+    // Warning
+    if (stoppedEarly) {
+      warningEl.textContent = '⚠ ' + stopReason;
+      warningEl.classList.add('visible');
+    } else {
+      warningEl.classList.remove('visible');
+    }
+
+    // Step list
+    stepList.innerHTML = '';
+    steps.forEach((s, i) => {
+      const el = document.createElement('div');
+      el.className = 'step-item';
+      el.style.animationDelay = `${i * 45}ms`;
+      el.innerHTML = `
+        <span class="step-num">#${i + 1}</span>
+        <span class="step-bet">Bet ${fmt(s.bet)} tk &nbsp;×${multi}</span>
+        <span class="step-win">▲ ${fmt(s.win)} tk</span>
+      `;
+      stepList.appendChild(el);
+    });
+
+    results.classList.add('visible');
+  }
+
+  function fmt(n) {
+    // up to 4 decimals, strip trailing zeros
+    return parseFloat(n.toFixed(4)).toString();
+  }
+
+  function shake(el) {
+    el.style.borderColor = 'var(--accent2)';
+    el.animate([
+      { transform: 'translateX(0)' },
+      { transform: 'translateX(-6px)' },
+      { transform: 'translateX(6px)' },
+      { transform: 'translateX(-4px)' },
+      { transform: 'translateX(0)' },
+    ], { duration: 300, easing: 'ease-out' });
+    el.addEventListener('input', () => el.style.borderColor = '', { once: true });
+  }
+</script>
+</body>
+</html>
