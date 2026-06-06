@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSC গণিত — অধ্যায় ২.১ সেট ও জ্যামিতিক উদাহরণ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0d14;
+    --surface: #111520;
+    --surface2: #171d2e;
+    --border: rgba(99,120,210,0.18);
+    --accent: #4f7cff;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #f59e0b;
+    --accent5: #f87171;
+    --text: #e8eaf6;
+    --text2: #8892b0;
+    --text3: #ccd6f6;
+    --mono: 'Space Mono', monospace;
+    --serif: 'Noto Serif Bengali', serif;
+    --sans: 'Noto Sans Bengali', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(99,120,210,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 10%, rgba(167,139,250,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 70%, rgba(79,124,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 80%, rgba(52,211,153,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 50%, rgba(245,158,11,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(79,124,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,124,255,0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-55%);
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,124,255,0.12) 0%, rgba(167,139,250,0.06) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(79,124,255,0.12);
+    border: 1px solid rgba(79,124,255,0.3);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+    opacity: 0;
+  }
+
+  .hero-badge span { width:6px; height:6px; border-radius:50%; background:var(--accent); animation: pulse 2s infinite; display:inline-block; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text3);
+    margin-bottom: 1rem;
+    opacity: 0;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text2);
+    max-width: 560px;
+    opacity: 0;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    opacity: 0;
+  }
+
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .hero-stat .lbl { font-size: 0.75rem; color: var(--text2); }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,13,20,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  nav::-webkit-scrollbar { display:none; }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    white-space: nowrap;
+    margin-right: auto;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-pill {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-size: 12.5px;
+    white-space: nowrap;
+    color: var(--text2);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .nav-pill:hover { color: var(--accent); border-color: rgba(79,124,255,0.3); }
+
+  /* ── MAIN ── */
+  main { position: relative; z-index: 1; }
+
+  .section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: var(--text3);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-desc { color: var(--text2); max-width: 600px; margin-bottom: 3rem; }
+
+  /* ── DEFINITION CARDS ── */
+  .def-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .def-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .def-card::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height:2px;
+    background: var(--card-accent, linear-gradient(90deg, var(--accent), var(--accent2)));
+    border-radius: 16px 16px 0 0;
+  }
+
+  .def-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(79,124,255,0.35);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(79,124,255,0.1);
+  }
+
+  .def-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.1em;
+  }
+
+  .def-name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text3);
+    margin-bottom: 0.6rem;
+  }
+
+  .def-text { font-size: 0.93rem; color: var(--text2); line-height: 1.7; margin-bottom: 1rem; }
+
+  .code-block {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(99,120,210,0.15);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--accent3);
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .code-block .label {
+    font-size: 10px;
+    color: var(--text2);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--sans);
+  }
+
+  .code-block .highlight { color: var(--accent4); }
+  .code-block .dim { color: var(--text2); }
+
+  /* ── GEOMETRY DEMO ── */
+  .geo-section { padding: 5rem 2rem; }
+
+  .geo-container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .geo-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    padding: 8px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    background: rgba(79,124,255,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .geo-panel {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  .geo-panel.active { display: grid; }
+
+  @media(max-width:720px) {
+    .geo-panel { grid-template-columns: 1fr; }
+  }
+
+  .geo-canvas-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .geo-canvas-wrap::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(79,124,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,124,255,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .geo-svg { width: 100%; height: 100%; max-width: 340px; position: relative; z-index: 1; }
+
+  .geo-info { }
+
+  .geo-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text3);
+    margin-bottom: 0.75rem;
+  }
+
+  .geo-def { color: var(--text2); font-size: 0.95rem; margin-bottom: 1.2rem; line-height: 1.8; }
+
+  .set-notation {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .set-notation .sn-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .set-notation .sn-code {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent3);
+    line-height: 1.8;
+  }
+
+  .info-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
+
+  .info-pill {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: var(--mono);
+  }
+
+  .pill-blue { background: rgba(79,124,255,0.12); color: var(--accent); border: 1px solid rgba(79,124,255,0.2); }
+  .pill-green { background: rgba(52,211,153,0.1); color: var(--accent3); border: 1px solid rgba(52,211,153,0.2); }
+  .pill-amber { background: rgba(245,158,11,0.1); color: var(--accent4); border: 1px solid rgba(245,158,11,0.2); }
+  .pill-purple { background: rgba(167,139,250,0.1); color: var(--accent2); border: 1px solid rgba(167,139,250,0.2); }
+
+  /* ── VENN DIAGRAM ── */
+  .venn-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+  }
+
+  .venn-controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .ctrl-btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .ctrl-btn.on { background: rgba(79,124,255,0.15); border-color: var(--accent); color: var(--accent); }
+
+  /* ── CARTESIAN SECTION ── */
+  .cart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .cart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .cart-card h4 {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--text3);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── FORMULAE TABLE ── */
+  .formula-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    font-size: 14px;
+  }
+
+  .formula-table th {
+    background: rgba(79,124,255,0.1);
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+  }
+
+  .formula-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(99,120,210,0.08);
+    vertical-align: middle;
+  }
+
+  .formula-table tr:hover td { background: rgba(79,124,255,0.04); }
+
+  .formula-table td:nth-child(2) {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent3);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    color: var(--text2);
+    font-size: 13px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-up { opacity:0; transform:translateY(32px); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:600px) {
+    .hero-stats { gap: 1.5rem; }
+    .def-grid { grid-template-columns: 1fr; }
+    nav { padding: 0.7rem 1rem; }
+    .section { padding: 3.5rem 1rem; }
+  }
+
+  /* ── ANIMATED ELEMENTS ── */
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes draw { from{stroke-dashoffset:400} to{stroke-dashoffset:0} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+  .animated-set circle, .animated-set ellipse { animation: draw 1.2s ease forwards; }
+  .geo-svg path.animated { stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw 1.2s ease forwards; }
+
+  .float { animation: float 4s ease-in-out infinite; }
+
+  /* ── HIGHLIGHT ── */
+  mark { background: rgba(79,124,255,0.18); color: var(--accent); padding: 1px 4px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge" id="badge"><span></span> SSC Mathematics · Chapter 2.1</div>
+  <h1 id="h1">সেট তত্ত্ব ও <em>জ্যামিতিক উদাহরণ</em></h1>
+  <p class="hero-sub" id="hsub">সেটের সংজ্ঞা, সেট গঠন পদ্ধতি এবং জ্যামিতিক আকৃতির সাহায্যে সম্পূর্ণ ভিজ্যুয়াল গাইড।</p>
+  <div class="hero-stats" id="hstats">
+    <div class="hero-stat"><div class="num">১৫+</div><div class="lbl">সংজ্ঞা</div></div>
+    <div class="hero-stat"><div class="num">৫টি</div><div class="lbl">জ্যামিতিক উদাহরণ</div></div>
+    <div class="hero-stat"><div class="num">ইন্টারেক্টিভ</div><div class="lbl">ভেন ডায়াগ্রাম</div></div>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">∑ SET THEORY</div>
+  <a class="nav-pill" href="#definitions">সংজ্ঞা</a>
+  <a class="nav-pill" href="#geometry">জ্যামিতিক উদাহরণ</a>
+  <a class="nav-pill" href="#venn">ভেন ডায়াগ্রাম</a>
+  <a class="nav-pill" href="#cartesian">কার্তেসীয়</a>
+  <a class="nav-pill" href="#formulae">সূত্রাবলী</a>
+</nav>
+
+<main>
+
+<!-- DEFINITIONS -->
+<section class="section" id="definitions">
+  <div class="section-eyebrow">// DEFINITIONS</div>
+  <h2 class="section-title">মূল সংজ্ঞাসমূহ</h2>
+  <p class="section-desc">প্রতিটি সংজ্ঞা তালিকা পদ্ধতি ও সেট গঠন পদ্ধতি উভয়ভাবে উপস্থাপন করা হয়েছে।</p>
+
+  <div class="def-grid">
+
+    <div class="def-card" style="--card-accent: linear-gradient(90deg, #4f7cff, #a78bfa)">
+      <div class="def-num">DEF · 01</div>
+      <div class="def-name">সেট</div>
+      <div class="def-text">সুনির্দিষ্ট ও সুপরিচিত বস্তুর সংগ্রহকে <mark>সেট</mark> বলে। প্রতিটি উপাদানকে সদস্য বলা হয়।</div>
+      <div class="code-block">
+        <span class="label">▸ তালিকা পদ্ধতি</span>
+        A = {<span class="highlight">2, 4, 6, 8, 10</span>}
+        <br>
+        <span class="label" style="margin-top:8px;display:block">▸ সেট গঠন পদ্ধতি</span>
+        A = {x : <span class="highlight">x</span> জোড়, <span class="highlight">1 ≤ x ≤ 10</span>}
+      </div>
+    </div>
+
+    <div class="def-card" style="--card-accent: linear-gradient(90deg, #34d399, #4f7cff)">
+      <div class="def-num">DEF · 02</div>
+      <div class="def-name">উপসেট</div>
+      <div class="def-text">A-এর প্রতিটি উপাদান যদি B-তেও থাকে, তাহলে A হলো B-এর <mark>উপসেট</mark>। চিহ্ন: A ⊆ B</div>
+      <div class="code-block">
+        <span class="label">▸ উদাহরণ</span>
+        A = {<span class="highlight">1, 3, 5</span>}, B = {1, 2, 3, 4, 5}
+        <br>∴ A ⊆ B <span class="dim">✓</span>
+        <br>
+        <span class="label" style="margin-top:8px;display:block">▸ সেট গঠন পদ্ধতি</span>
+        A = {x : x ∈ B, <span class="highlight">x বিজোড়</span>}
+      </div>
+    </div>
+
+    <div class="def-card" style="--card-accent: linear-gradient(90deg, #f59e0b, #f87171)">
+      <div class="def-num">DEF · 03</div>
+      <div class="def-name">শক্তি সেট</div>
+      <div class="def-text">A-এর সকল উপসেট নিয়ে গঠিত সেটকে <mark>শক্তি সেট</mark> বলে। |A|=n হলে |P(A)| = 2ⁿ</div>
+      <div class="code-block">
+        <span class="label">▸ উদাহরণ (A = {1,2})</span>
+        P(A) = {<span class="highlight">∅, {1}, {2}, {1,2}</span>}
+        <br>|P(A)| = 2² = <span class="highlight">4</span>
+        <br>
+        <span class="label" style="margin-top:8px;display:block">▸ সেট গঠন পদ্ধতি</span>
+        P(A) = {<span class="highlight">B : B ⊆ A</span>}
+      </div>
+    </div>
+
+    <div class="def-card" style="--card-accent: linear-gradient(90deg, #a78bfa, #f87171)">
+      <div class="def-num">DEF · 04</div>
+      <div class="def-name">কার্তেসীয় গুণজ</div>
+      <div class="def-text">A ও B-এর সকল ক্রমজোড় (a, b) নিয়ে গঠিত সেটকে <mark>কার্তেসীয় গুণজ</mark> বলে। চিহ্ন: A × B</div>
+      <div class="code-block">
+        <span class="label">▸ উদাহরণ</span>
+        A={1,2}, B={a,b}
+        <br>A×B = {<span class="highlight">(1,a),(1,b),(2,a),(2,b)</span>}
+        <br>
+        <span class="label" style="margin-top:8px;display:block">▸ সেট গঠন পদ্ধতি</span>
+        A×B = {(x,y) : <span class="highlight">x∈A, y∈B</span>}
+      </div>
+    </div>
+
+    <div class="def-card" style="--card-accent: linear-gradient(90deg, #34d399, #a78bfa)">
+      <div class="def-num">DEF · 05</div>
+      <div class="def-name">মিলন সেট (Union)</div>
+      <div class="def-text">A ও B-এর সকল উপাদান নিয়ে গঠিত সেটকে <mark>মিলন সেট</mark> বলে। চিহ্ন: A ∪ B</div>
+      <div class="code-block">
+        <span class="label">▸ উদাহরণ</span>
+        A={1,2,3}, B={3,4,5}
+        <br>A∪B = {<span class="highlight">1,2,3,4,5</span>}
+        <br>
+        <span class="label" style="margin-top:8px;display:block">▸ সেট গঠন পদ্ধতি</span>
+        A∪B = {x : <span class="highlight">x∈A অথবা x∈B</span>}
+      </div>
+    </div>
+
+    <div class="def-card" style="--card-accent: linear-gradient(90deg, #4f7cff, #34d399)">
+      <div class="def-num">DEF · 06</div>
+      <div class="def-name">ছেদ সেট (Intersection)</div>
+      <div class="def-text">A ও B-এর সাধারণ উপাদান নিয়ে গঠিত সেটকে <mark>ছেদ সেট</mark> বলে। চিহ্ন: A ∩ B</div>
+      <div class="code-block">
+        <span class="label">▸ উদাহরণ</span>
+        A={1,2,3,4}, B={3,4,5,6}
+        <br>A∩B = {<span class="highlight">3,4</span>}
+        <br>
+        <span class="label" style="margin-top:8px;display:block">▸ সেট গঠন পদ্ধতি</span>
+        A∩B = {x : <span class="highlight">x∈A এবং x∈B</span>}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GEOMETRY -->
+<section class="geo-section" id="geometry">
+  <div class="geo-container">
+    <div class="section-eyebrow">// GEOMETRIC EXAMPLES</div>
+    <h2 class="section-title">জ্যামিতিক উদাহরণ</h2>
+    <p class="section-desc">জ্যামিতিক আকৃতি ব্যবহার করে সেটের ধারণা বোঝা যাক।</p>
+
+    <div class="geo-tabs">
+      <button class="tab-btn active" onclick="showTab('triangle')">△ ত্রিভুজ</button>
+      <button class="tab-btn" onclick="showTab('circle')">◯ বৃত্ত</button>
+      <button class="tab-btn" onclick="showTab('polygon')">⬡ বহুভুজ</button>
+      <button class="tab-btn" onclick="showTab('angle')">∠ কোণ</button>
+      <button class="tab-btn" onclick="showTab('coord')">⊹ স্থানাঙ্ক</button>
+    </div>
+
+    <!-- TRIANGLE -->
+    <div class="geo-panel active" id="tab-triangle">
+      <div class="geo-canvas-wrap">
+        <svg class="geo-svg" viewBox="0 0 300 300">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="#4f7cff" stroke-width="1.5"/>
+            </marker>
+          </defs>
+          <!-- Triangle -->
+          <polygon points="150,40 40,250 260,250" fill="rgba(79,124,255,0.06)" stroke="#4f7cff" stroke-width="2" stroke-linejoin="round"/>
+          <!-- Vertices -->
+          <circle cx="150" cy="40" r="6" fill="#4f7cff"/>
+          <circle cx="40" cy="250" r="6" fill="#a78bfa"/>
+          <circle cx="260" cy="250" r="6" fill="#34d399"/>
+          <!-- Labels -->
+          <text x="150" y="28" text-anchor="middle" fill="#ccd6f6" font-size="16" font-family="Space Mono">A</text>
+          <text x="22" y="265" fill="#ccd6f6" font-size="16" font-family="Space Mono">B</text>
+          <text x="265" y="265" fill="#ccd6f6" font-size="16" font-family="Space Mono">C</text>
+          <!-- Midpoints -->
+          <circle cx="95" cy="145" r="4" fill="#f59e0b" opacity="0.8"/>
+          <circle cx="205" cy="145" r="4" fill="#f59e0b" opacity="0.8"/>
+          <circle cx="150" cy="250" r="4" fill="#f59e0b" opacity="0.8"/>
+          <text x="72" y="142" fill="#f59e0b" font-size="11" font-family="Space Mono">D</text>
+          <text x="210" y="142" fill="#f59e0b" font-size="11" font-family="Space Mono">E</text>
+          <text x="145" y="245" fill="#f59e0b" font-size="11" font-family="Space Mono" dy="-8">F</text>
+          <!-- Median lines (dashed) -->
+          <line x1="150" y1="250" x2="150" y2="40" stroke="#4f7cff" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+          <!-- Angle arcs -->
+          <path d="M150,60 Q165,75 148,80" fill="none" stroke="#34d399" stroke-width="1.5" opacity="0.7"/>
+          <path d="M60,242 Q75,235 80,248" fill="none" stroke="#a78bfa" stroke-width="1.5" opacity="0.7"/>
+          <path d="M242,243 Q235,235 228,248" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="geo-info">
+        <div class="geo-title">ত্রিভুজের বিন্দু ও বাহুর সেট</div>
+        <div class="geo-def">একটি ত্রিভুজ ABC-তে শীর্ষবিন্দু, বাহু ও মধ্যবিন্দুগুলো আলাদা আলাদা সেট হিসেবে প্রকাশ করা যায়।</div>
+        <div class="set-notation">
+          <span class="sn-label">▸ শীর্ষবিন্দুর সেট (তালিকা পদ্ধতি)</span>
+          <div class="sn-code">V = {A, B, C}</div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ মধ্যবিন্দুর সেট</span>
+          <div class="sn-code">M = {D, E, F}<br><span style="color:var(--text2);font-size:11px">// D=মধ্যবিন্দু AB, E=মধ্যবিন্দু AC, F=মধ্যবিন্দু BC</span></div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ সেট গঠন পদ্ধতি</span>
+          <div class="sn-code">V = {x : x ত্রিভুজ ABC-এর শীর্ষবিন্দু}<br>M = {x : x কোনো বাহুর মধ্যবিন্দু}</div>
+        </div>
+        <div class="info-pills">
+          <span class="info-pill pill-blue">|V| = 3</span>
+          <span class="info-pill pill-amber">|M| = 3</span>
+          <span class="info-pill pill-green">V ∩ M = ∅</span>
+          <span class="info-pill pill-purple">|P(V)| = 2³ = 8</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CIRCLE -->
+    <div class="geo-panel" id="tab-circle">
+      <div class="geo-canvas-wrap">
+        <svg class="geo-svg" viewBox="0 0 300 300">
+          <!-- Main circle -->
+          <circle cx="150" cy="150" r="100" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="2"/>
+          <!-- Center -->
+          <circle cx="150" cy="150" r="5" fill="#a78bfa"/>
+          <text x="158" y="148" fill="#ccd6f6" font-size="12" font-family="Space Mono">O</text>
+          <!-- Radii -->
+          <line x1="150" y1="150" x2="220" y2="80" stroke="#4f7cff" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="150" y1="150" x2="250" y2="150" stroke="#34d399" stroke-width="1.5"/>
+          <line x1="150" y1="150" x2="150" y2="50" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Points on circle -->
+          <circle cx="220" cy="80" r="5" fill="#4f7cff"/>
+          <circle cx="250" cy="150" r="5" fill="#34d399"/>
+          <circle cx="150" cy="50" r="5" fill="#f59e0b"/>
+          <circle cx="80" cy="220" r="5" fill="#f87171"/>
+          <text x="226" y="76" fill="#ccd6f6" font-size="12" font-family="Space Mono">P₁</text>
+          <text x="255" y="154" fill="#ccd6f6" font-size="12" font-family="Space Mono">P₂</text>
+          <text x="155" y="46" fill="#ccd6f6" font-size="12" font-family="Space Mono">P₃</text>
+          <text x="60" y="226" fill="#ccd6f6" font-size="12" font-family="Space Mono">P₄</text>
+          <!-- Diameter -->
+          <line x1="50" y1="150" x2="250" y2="150" stroke="#34d399" stroke-width="1" opacity="0.4"/>
+          <circle cx="50" cy="150" r="5" fill="#34d399" opacity="0.6"/>
+          <!-- r label -->
+          <text x="198" y="145" fill="#34d399" font-size="11" font-family="Space Mono">r</text>
+        </svg>
+      </div>
+      <div class="geo-info">
+        <div class="geo-title">বৃত্তের বিন্দুর সেট</div>
+        <div class="geo-def">একটি বৃত্তের উপরের সকল বিন্দু, ব্যাসার্ধ রেখাংশ ইত্যাদি সেট আকারে লেখা যায়।</div>
+        <div class="set-notation">
+          <span class="sn-label">▸ বৃত্তের উপরের বিন্দুর সেট</span>
+          <div class="sn-code">C = {P₁, P₂, P₃, P₄, ...}<br><span style="color:var(--text2);font-size:11px">// অসীম সেট (infinite set)</span></div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ সেট গঠন পদ্ধতি</span>
+          <div class="sn-code">C = {(x,y) : x²+y² = r²}<br>P = {P : |OP| = r, P ∈ সমতল}</div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ অভ্যন্তরীণ বিন্দুর সেট</span>
+          <div class="sn-code">I = {(x,y) : x²+y² &lt; r²}</div>
+        </div>
+        <div class="info-pills">
+          <span class="info-pill pill-purple">|C| = ∞ (অসীম সেট)</span>
+          <span class="info-pill pill-blue">C ∩ I = ∅</span>
+          <span class="info-pill pill-green">C ∪ I = বদ্ধ চাকতি</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLYGON -->
+    <div class="geo-panel" id="tab-polygon">
+      <div class="geo-canvas-wrap">
+        <svg class="geo-svg" viewBox="0 0 300 300">
+          <!-- Hexagon -->
+          <polygon points="150,40 240,95 240,205 150,260 60,205 60,95" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="2"/>
+          <!-- Vertices -->
+          <circle cx="150" cy="40" r="5" fill="#34d399"/>
+          <circle cx="240" cy="95" r="5" fill="#4f7cff"/>
+          <circle cx="240" cy="205" r="5" fill="#a78bfa"/>
+          <circle cx="150" cy="260" r="5" fill="#f59e0b"/>
+          <circle cx="60" cy="205" r="5" fill="#f87171"/>
+          <circle cx="60" cy="95" r="5" fill="#34d399"/>
+          <text x="152" y="32" fill="#ccd6f6" font-size="11" font-family="Space Mono">A₁</text>
+          <text x="244" y="99" fill="#ccd6f6" font-size="11" font-family="Space Mono">A₂</text>
+          <text x="244" y="212" fill="#ccd6f6" font-size="11" font-family="Space Mono">A₃</text>
+          <text x="152" y="274" fill="#ccd6f6" font-size="11" font-family="Space Mono">A₄</text>
+          <text x="36" y="212" fill="#ccd6f6" font-size="11" font-family="Space Mono">A₅</text>
+          <text x="36" y="99" fill="#ccd6f6" font-size="11" font-family="Space Mono">A₆</text>
+          <!-- Center -->
+          <circle cx="150" cy="150" r="4" fill="#f59e0b" opacity="0.7"/>
+          <!-- Diagonals (some) -->
+          <line x1="150" y1="40" x2="150" y2="260" stroke="#4f7cff" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+          <line x1="60" y1="95" x2="240" y2="205" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+          <line x1="240" y1="95" x2="60" y2="205" stroke="#34d399" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="geo-info">
+        <div class="geo-title">ষড়ভুজের শীর্ষবিন্দুর সেট</div>
+        <div class="geo-def">একটি নিয়মিত ষড়ভুজের শীর্ষবিন্দু, বাহু ও কর্ণ আলাদা সেট হিসেবে প্রকাশ করা যায়।</div>
+        <div class="set-notation">
+          <span class="sn-label">▸ শীর্ষবিন্দুর সেট</span>
+          <div class="sn-code">V = {A₁, A₂, A₃, A₄, A₅, A₆}</div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ সেট গঠন পদ্ধতি</span>
+          <div class="sn-code">V = {Aᵢ : i ∈ ℕ, 1 ≤ i ≤ 6}<br>D = {x : x ষড়ভুজের কর্ণ}</div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ বাহুর সেট</span>
+          <div class="sn-code">S = {A₁A₂, A₂A₃, A₃A₄, A₄A₅, A₅A₆, A₆A₁}</div>
+        </div>
+        <div class="info-pills">
+          <span class="info-pill pill-green">|V| = 6</span>
+          <span class="info-pill pill-blue">|S| = 6</span>
+          <span class="info-pill pill-amber">|D| = 9 (কর্ণ)</span>
+          <span class="info-pill pill-purple">|P(V)| = 2⁶ = 64</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANGLE -->
+    <div class="geo-panel" id="tab-angle">
+      <div class="geo-canvas-wrap">
+        <svg class="geo-svg" viewBox="0 0 300 300">
+          <!-- Axes -->
+          <line x1="40" y1="260" x2="270" y2="260" stroke="rgba(99,120,210,0.3)" stroke-width="1"/>
+          <line x1="40" y1="260" x2="40" y2="30" stroke="rgba(99,120,210,0.3)" stroke-width="1"/>
+          <!-- Acute angle -->
+          <line x1="40" y1="260" x2="240" y2="260" stroke="#4f7cff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="40" y1="260" x2="180" y2="80" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Angle arc -->
+          <path d="M90,260 A50,50 0 0,0 66.5,210" fill="none" stroke="#34d399" stroke-width="2"/>
+          <text x="90" y="242" fill="#34d399" font-size="14" font-family="Space Mono">θ</text>
+          <!-- Right angle marker -->
+          <polyline points="40,230 70,230 70,260" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.6"/>
+          <!-- Labels -->
+          <text x="245" y="264" fill="#ccd6f6" font-size="13" font-family="Space Mono">B</text>
+          <text x="32" y="268" fill="#ccd6f6" font-size="13" font-family="Space Mono">O</text>
+          <text x="182" y="72" fill="#ccd6f6" font-size="13" font-family="Space Mono">A</text>
+          <!-- Obtuse angle line -->
+          <line x1="40" y1="260" x2="260" y2="120" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.5"/>
+          <text x="262" y="118" fill="#f87171" font-size="12" font-family="Space Mono">A'</text>
+          <text x="140" y="175" fill="#f87171" font-size="11" font-family="Space Mono" opacity="0.7">স্থূলকোণ</text>
+        </svg>
+      </div>
+      <div class="geo-info">
+        <div class="geo-title">কোণের সেট</div>
+        <div class="geo-def">বিভিন্ন ধরনের কোণ (সূক্ষ্মকোণ, সমকোণ, স্থূলকোণ) আলাদা সেট গঠন করে।</div>
+        <div class="set-notation">
+          <span class="sn-label">▸ সূক্ষ্মকোণের সেট</span>
+          <div class="sn-code">A = {θ : 0° &lt; θ &lt; 90°}</div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ সমকোণের সেট</span>
+          <div class="sn-code">R = {θ : θ = 90°}<br><span style="color:var(--text2);font-size:11px">// এক উপাদানের সেট (singleton)</span></div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ স্থূলকোণের সেট</span>
+          <div class="sn-code">O = {θ : 90° &lt; θ &lt; 180°}</div>
+        </div>
+        <div class="info-pills">
+          <span class="info-pill pill-blue">A ∩ R = ∅</span>
+          <span class="info-pill pill-green">R ∩ O = ∅</span>
+          <span class="info-pill pill-amber">A ∩ O = ∅</span>
+          <span class="info-pill pill-purple">বিচ্ছিন্ন সেট</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COORDINATE -->
+    <div class="geo-panel" id="tab-coord">
+      <div class="geo-canvas-wrap">
+        <svg class="geo-svg" viewBox="0 0 300 300">
+          <!-- Grid -->
+          <g opacity="0.12" stroke="#6378d2" stroke-width="0.5">
+            <line x1="60" y1="20" x2="60" y2="280"/><line x1="100" y1="20" x2="100" y2="280"/>
+            <line x1="140" y1="20" x2="140" y2="280"/><line x1="180" y1="20" x2="180" y2="280"/>
+            <line x1="220" y1="20" x2="220" y2="280"/><line x1="260" y1="20" x2="260" y2="280"/>
+            <line x1="20" y1="60" x2="280" y2="60"/><line x1="20" y1="100" x2="280" y2="100"/>
+            <line x1="20" y1="140" x2="280" y2="140"/><line x1="20" y1="180" x2="280" y2="180"/>
+            <line x1="20" y1="220" x2="280" y2="220"/><line x1="20" y1="260" x2="280" y2="260"/>
+          </g>
+          <!-- Axes -->
+          <line x1="20" y1="150" x2="280" y2="150" stroke="#4f7cff" stroke-width="1.5" opacity="0.6"/>
+          <line x1="150" y1="20" x2="150" y2="280" stroke="#4f7cff" stroke-width="1.5" opacity="0.6"/>
+          <text x="272" y="144" fill="#4f7cff" font-size="12" font-family="Space Mono">x</text>
+          <text x="154" y="18" fill="#4f7cff" font-size="12" font-family="Space Mono">y</text>
+          <!-- Points -->
+          <circle cx="190" cy="110" r="6" fill="#34d399"/>
+          <circle cx="230" cy="70" r="6" fill="#a78bfa"/>
+          <circle cx="110" cy="190" r="6" fill="#f59e0b"/>
+          <circle cx="70" cy="230" r="6" fill="#f87171"/>
+          <!-- Dotted lines to axes -->
+          <line x1="190" y1="110" x2="190" y2="150" stroke="#34d399" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <line x1="190" y1="110" x2="150" y2="110" stroke="#34d399" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <!-- Labels -->
+          <text x="196" y="108" fill="#ccd6f6" font-size="11" font-family="Space Mono">P(2,1)</text>
+          <text x="236" y="68" fill="#ccd6f6" font-size="11" font-family="Space Mono">Q(4,2)</text>
+          <text x="64" y="188" fill="#ccd6f6" font-size="11" font-family="Space Mono">R(-1,-2)</text>
+          <text x="36" y="228" fill="#ccd6f6" font-size="11" font-family="Space Mono">S(-3,-4)</text>
+        </svg>
+      </div>
+      <div class="geo-info">
+        <div class="geo-title">স্থানাঙ্ক তলের বিন্দুর সেট</div>
+        <div class="geo-def">কার্তেসীয় স্থানাঙ্ক তলের বিন্দুগুলো ক্রমজোড় (x, y) হিসেবে প্রকাশিত হয় এবং এগুলো ℝ × ℝ = ℝ² সেটের উপাদান।</div>
+        <div class="set-notation">
+          <span class="sn-label">▸ ক্রমজোড় হিসেবে বিন্দুর সেট</span>
+          <div class="sn-code">S = {P, Q, R, T} = {(2,1),(4,2),(-1,-2),(-3,-4)}</div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ সেট গঠন পদ্ধতি (প্রথম পাদ)</span>
+          <div class="sn-code">Q₁ = {(x,y) : x &gt; 0 এবং y &gt; 0}</div>
+        </div>
+        <div class="set-notation">
+          <span class="sn-label">▸ কার্তেসীয় গুণজ</span>
+          <div class="sn-code">ℝ² = ℝ × ℝ = {(x,y) : x,y ∈ ℝ}</div>
+        </div>
+        <div class="info-pills">
+          <span class="info-pill pill-blue">বিন্দু = ক্রমজোড়</span>
+          <span class="info-pill pill-green">|ℝ²| = অসীম</span>
+          <span class="info-pill pill-amber">৪টি পাদ = ৪টি সেট</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VENN DIAGRAM -->
+<section class="section" id="venn">
+  <div class="section-eyebrow">// VENN DIAGRAM · INTERACTIVE</div>
+  <h2 class="section-title">ইন্টারেক্টিভ ভেন ডায়াগ্রাম</h2>
+
+  <div class="venn-section">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center">
+      <div>
+        <svg viewBox="0 0 320 200" width="100%">
+          <!-- U box -->
+          <rect x="10" y="10" width="300" height="180" rx="12" fill="rgba(99,120,210,0.04)" stroke="rgba(99,120,210,0.25)" stroke-width="1.5"/>
+          <text x="20" y="30" fill="#8892b0" font-size="12" font-family="Space Mono">U</text>
+          <!-- Circle A -->
+          <circle id="circleA" cx="120" cy="100" r="70" fill="rgba(79,124,255,0.15)" stroke="#4f7cff" stroke-width="2"/>
+          <!-- Circle B -->
+          <circle id="circleB" cx="200" cy="100" r="70" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="2"/>
+          <!-- Intersection highlight (hidden initially) -->
+          <clipPath id="clipA"><circle cx="120" cy="100" r="70"/></clipPath>
+          <circle id="intersect" cx="200" cy="100" r="70" fill="rgba(52,211,153,0.35)" clip-path="url(#clipA)" opacity="0"/>
+          <!-- Labels -->
+          <text x="90" y="95" text-anchor="middle" fill="#ccd6f6" font-size="14" font-family="Space Mono" font-weight="700">A</text>
+          <text x="230" y="95" text-anchor="middle" fill="#ccd6f6" font-size="14" font-family="Space Mono" font-weight="700">B</text>
+          <text x="162" y="95" text-anchor="middle" fill="#34d399" font-size="12" font-family="Space Mono" id="intersectLabel" opacity="0">A∩B</text>
+          <!-- Elements -->
+          <text x="80" y="115" text-anchor="middle" fill="#8892b0" font-size="11" font-family="Space Mono" id="elemA">1, 3</text>
+          <text x="242" y="115" text-anchor="middle" fill="#8892b0" font-size="11" font-family="Space Mono" id="elemB">5, 7</text>
+          <text x="162" y="115" text-anchor="middle" fill="#34d399" font-size="11" font-family="Space Mono" id="elemAB">4</text>
+          <!-- U elements -->
+          <text x="30" y="170" fill="#8892b0" font-size="10" font-family="Space Mono">8, 9</text>
+          <text x="270" y="170" fill="#8892b0" font-size="10" font-family="Space Mono">10</text>
+        </svg>
+        <div style="text-align:center;font-family:var(--mono);font-size:12px;color:var(--text2);margin-top:0.5rem">
+          U = {1,3,4,5,7,8,9,10} &nbsp;|&nbsp; A = {1,3,4} &nbsp;|&nbsp; B = {4,5,7}
+        </div>
+      </div>
+
+      <div>
+        <div id="venn-output" style="font-family:var(--mono);font-size:13px;line-height:2.2;color:var(--accent3)">
+          <div>A = {<span style="color:var(--accent)">1, 3, 4</span>}</div>
+          <div>B = {<span style="color:var(--accent2)">4, 5, 7</span>}</div>
+          <div style="color:var(--text2)">── ক্লিক করে দেখুন ──</div>
+        </div>
+        <div class="venn-controls">
+          <button class="ctrl-btn" onclick="showVenn('union')">A ∪ B</button>
+          <button class="ctrl-btn" onclick="showVenn('inter')">A ∩ B</button>
+          <button class="ctrl-btn" onclick="showVenn('diff')">A − B</button>
+          <button class="ctrl-btn" onclick="showVenn('comp')">A'</button>
+          <button class="ctrl-btn" onclick="showVenn('reset')">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTESIAN -->
+<section class="section" id="cartesian">
+  <div class="section-eyebrow">// CARTESIAN PRODUCT</div>
+  <h2 class="section-title">কার্তেসীয় গুণজ — বিস্তারিত</h2>
+  <p class="section-desc">A × B মানে A ও B-এর সকল সম্ভাব্য ক্রমজোড়ের সেট।</p>
+
+  <div class="cart-grid">
+    <div class="cart-card">
+      <h4>উদাহরণ ১ — বিন্দু সেট</h4>
+      <div style="color:var(--text2);font-size:14px;margin-bottom:1rem;line-height:1.8">A = {1, 2} এবং B = {a, b, c}</div>
+      <div class="code-block">
+        A × B = {
+          <br>&nbsp;&nbsp;(1,a), (1,b), (1,c),
+          <br>&nbsp;&nbsp;<span class="highlight">(2,a), (2,b), (2,c)</span>
+        <br>}
+        <br><span class="dim">|A×B| = 2 × 3 = 6</span>
+      </div>
+    </div>
+    <div class="cart-card">
+      <h4>উদাহরণ ২ — জ্যামিতিক বিন্দু</h4>
+      <div style="color:var(--text2);font-size:14px;margin-bottom:1rem;line-height:1.8">x-স্থানাঙ্ক সেট × y-স্থানাঙ্ক সেট</div>
+      <div class="code-block">
+        X = {0, 1}, Y = {0, 1}
+        <br>X×Y = {<span class="highlight">(0,0),(0,1),(1,0),(1,1)</span>}
+        <br><span class="dim">// একক বর্গের ৪ শীর্ষ</span>
+      </div>
+    </div>
+    <div class="cart-card">
+      <h4>উদাহরণ ৩ — ত্রিভুজ শীর্ষ</h4>
+      <div style="color:var(--text2);font-size:14px;margin-bottom:1rem;line-height:1.8">V = {A, B, C} হলে V × V</div>
+      <div class="code-block">
+        V×V = {(A,A),(A,B),(A,C),
+        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">(B,A),(B,B),(B,C),</span>
+        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(C,A),(C,B),(C,C)}
+        <br><span class="dim">|V×V| = 3² = 9</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULAE -->
+<section class="section" id="formulae">
+  <div class="section-eyebrow">// FORMULAE</div>
+  <h2 class="section-title">গুরুত্বপূর্ণ সূত্রাবলী</h2>
+
+  <table class="formula-table">
+    <thead>
+      <tr>
+        <th>সেট অপারেশন</th>
+        <th>সেট গঠন পদ্ধতি</th>
+        <th>উদাহরণ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>মিলন (Union)</td>
+        <td>A ∪ B = {x : x∈A ∨ x∈B}</td>
+        <td style="color:var(--text2);font-size:13px">{1,2}∪{2,3} = {1,2,3}</td>
+      </tr>
+      <tr>
+        <td>ছেদ (Intersection)</td>
+        <td>A ∩ B = {x : x∈A ∧ x∈B}</td>
+        <td style="color:var(--text2);font-size:13px">{1,2}∩{2,3} = {2}</td>
+      </tr>
+      <tr>
+        <td>পার্থক্য (Difference)</td>
+        <td>A − B = {x : x∈A ∧ x∉B}</td>
+        <td style="color:var(--text2);font-size:13px">{1,2,3}−{2} = {1,3}</td>
+      </tr>
+      <tr>
+        <td>পূরক (Complement)</td>
+        <td>A' = {x : x∈U ∧ x∉A}</td>
+        <td style="color:var(--text2);font-size:13px">U={1..5},A={1,2} → A'={3,4,5}</td>
+      </tr>
+      <tr>
+        <td>কার্তেসীয় গুণজ</td>
+        <td>A×B = {(x,y) : x∈A, y∈B}</td>
+        <td style="color:var(--text2);font-size:13px">|A×B| = |A|·|B|</td>
+      </tr>
+      <tr>
+        <td>শক্তি সেট</td>
+        <td>P(A) = {B : B ⊆ A}</td>
+        <td style="color:var(--text2);font-size:13px">|P(A)| = 2^|A|</td>
+      </tr>
+      <tr>
+        <td>অন্তর্ভুক্তি-বর্জন</td>
+        <td>|A∪B| = |A|+|B|−|A∩B|</td>
+        <td style="color:var(--text2);font-size:13px">De Morgan's Law প্রযোজ্য</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+
+<footer>
+  <div style="font-family:var(--mono);color:var(--accent);margin-bottom:0.5rem;font-size:14px">∑ SSC Mathematics · Chapter 2.1</div>
+  সেট তত্ত্ব ও সেট ক্রিয়া — জ্যামিতিক উদাহরণসহ সম্পূর্ণ গাইড
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero entrance
+gsap.to('#badge', { opacity:1, y:0, duration:.7, delay:.2, ease:'power2.out' });
+gsap.to('#h1', { opacity:1, y:0, duration:.8, delay:.4, ease:'power2.out' });
+gsap.to('#hsub', { opacity:1, y:0, duration:.8, delay:.6, ease:'power2.out' });
+gsap.to('#hstats', { opacity:1, y:0, duration:.8, delay:.8, ease:'power2.out' });
+
+// Def cards scroll
+gsap.utils.toArray('.def-card').forEach((el, i) => {
+  gsap.to(el, {
+    opacity:1, y:0, duration:.6, delay: i * 0.08,
+    scrollTrigger: { trigger: el, start: 'top 88%', once:true }
+  });
+});
+
+// Cart cards
+gsap.utils.toArray('.cart-card').forEach((el, i) => {
+  gsap.to(el, {
+    opacity:1, y:0, duration:.6, delay: i * 0.1,
+    scrollTrigger: { trigger: el, start: 'top 88%', once:true }
+  });
+});
+
+// Tab switching
+function showTab(name) {
+  document.querySelectorAll('.geo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Venn logic
+const A = new Set([1,3,4]);
+const B = new Set([4,5,7]);
+const U = new Set([1,3,4,5,7,8,9,10]);
+
+function fmt(s) { return '{' + [...s].sort((a,b)=>a-b).join(', ') + '}'; }
+
+function showVenn(op) {
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('on'));
+  event.target.classList.add('on');
+  const out = document.getElementById('venn-output');
+  const inter = document.getElementById('intersect');
+  const interLabel = document.getElementById('intersectLabel');
+  let html = '';
+
+  if(op === 'union') {
+    const r = new Set([...A,...B]);
+    html = `<div style="color:var(--accent2)">A = ${fmt(A)}</div><div style="color:var(--accent)">B = ${fmt(B)}</div><div style="color:#f59e0b;margin-top:.5rem">A ∪ B = <span style="color:#f59e0b">${fmt(r)}</span></div><div style="color:var(--text2);font-size:12px;margin-top:.3rem">|A∪B| = |A|+|B|−|A∩B| = 3+3−1 = 5</div>`;
+    inter.style.opacity = '0.5';
+    interLabel.style.opacity = '1';
+  } else if(op === 'inter') {
+    const r = new Set([...A].filter(x => B.has(x)));
+    html = `<div>A ∩ B = <span style="color:#34d399">${fmt(r)}</span></div><div style="color:var(--text2);font-size:12px;margin-top:.3rem">শুধুমাত্র সাধারণ উপাদান 4</div>`;
+    inter.style.opacity = '0.8';
+    interLabel.style.opacity = '1';
+  } else if(op === 'diff') {
+    const r = new Set([...A].filter(x => !B.has(x)));
+    html = `<div>A − B = <span style="color:#f59e0b">${fmt(r)}</span></div><div style="color:var(--text2);font-size:12px;margin-top:.3rem">A থেকে B-এর উপাদান বাদ দেওয়া হয়েছে</div>`;
+    inter.style.opacity = '0';
+    interLabel.style.opacity = '0';
+  } else if(op === 'comp') {
+    const r = new Set([...U].filter(x => !A.has(x)));
+    html = `<div>A' = <span style="color:#f87171">${fmt(r)}</span></div><div style="color:var(--text2);font-size:12px;margin-top:.3rem">U − A = সার্বিক সেট থেকে A বাদ</div>`;
+    inter.style.opacity = '0';
+    interLabel.style.opacity = '0';
+  } else {
+    html = `<div>A = <span style="color:var(--accent)">${fmt(A)}</span></div><div>B = <span style="color:var(--accent2)">${fmt(B)}</span></div><div style="color:var(--text2)">── ক্লিক করে দেখুন ──</div>`;
+    inter.style.opacity = '0';
+    interLabel.style.opacity = '0';
+  }
+  out.innerHTML = html;
+}
+</script>
+</body>
+</html>
