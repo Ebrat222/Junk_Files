@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factor Finder — break any number apart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF2F6;
+    --surface:#FFFFFF;
+    --surface-alt:#F6F9FC;
+    --ink:#14213D;
+    --ink-soft:#5A6B8A;
+    --grid-line:#C9D6E3;
+    --accent-prime:#2E8B6F;
+    --accent-warm:#E8A33D;
+    --accent-danger:#D6483F;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background-color:var(--bg);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(201,214,227,0.55) 0px, rgba(201,214,227,0.55) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, rgba(201,214,227,0.55) 0px, rgba(201,214,227,0.55) 1px, transparent 1px, transparent 24px);
+    color:var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    padding:28px 16px 60px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:460px;
+    margin:0 auto;
+  }
+
+  header.page-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:22px;
+  }
+
+  .dotmark{
+    flex:none;
+    width:34px;
+    height:34px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    gap:3px;
+  }
+  .dotmark span{
+    background:var(--ink);
+    border-radius:2px;
+  }
+  .dotmark span:nth-child(5){ background:var(--accent-warm); }
+
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.5rem;
+    font-weight:700;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .tagline{
+    margin:2px 0 0;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--grid-line);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:16px;
+  }
+
+  label.field-label{
+    display:block;
+    font-size:0.78rem;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+
+  .input-row{
+    display:flex;
+    gap:10px;
+  }
+
+  input#numInput{
+    flex:1;
+    min-width:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.1rem;
+    padding:12px 14px;
+    border:1.5px solid var(--grid-line);
+    border-radius:10px;
+    background:var(--surface-alt);
+    color:var(--ink);
+    outline:none;
+  }
+  input#numInput:focus{
+    border-color:var(--ink);
+  }
+
+  button{
+    font-family:'Inter', sans-serif;
+    cursor:pointer;
+    border:none;
+  }
+  button:focus-visible, .pairbtn:focus-visible, .examplebtn:focus-visible{
+    outline:3px solid var(--accent-warm);
+    outline-offset:2px;
+  }
+
+  #findBtn{
+    flex:none;
+    background:var(--ink);
+    color:#fff;
+    font-weight:600;
+    font-size:0.95rem;
+    padding:0 18px;
+    border-radius:10px;
+    transition:transform 0.08s ease, background 0.15s ease;
+  }
+  #findBtn:active{ transform:scale(0.96); }
+
+  .examples{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+  .examplebtn{
+    background:var(--surface-alt);
+    border:1px solid var(--grid-line);
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    padding:6px 11px;
+    border-radius:8px;
+  }
+  .examplebtn:hover{ border-color:var(--ink); color:var(--ink); }
+
+  #errorMsg{
+    color:var(--accent-danger);
+    font-size:0.88rem;
+    font-weight:500;
+    margin-top:10px;
+    display:none;
+  }
+
+  #results{ display:none; }
+
+  .resultheadline{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.05rem;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .resultheadline .bignum{ color:var(--accent-warm); }
+  .classification{
+    font-size:0.88rem;
+    color:var(--ink-soft);
+    margin:0 0 16px;
+  }
+
+  .stat-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .stat{
+    flex:1;
+    background:var(--surface-alt);
+    border:1px solid var(--grid-line);
+    border-radius:10px;
+    padding:10px 8px;
+    text-align:center;
+  }
+  .stat .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.2rem;
+    font-weight:600;
+    display:block;
+  }
+  .stat .lbl{
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+  }
+
+  .section-label{
+    font-size:0.78rem;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .copybtn{
+    background:none;
+    border:1px solid var(--grid-line);
+    border-radius:7px;
+    padding:3px 9px;
+    font-size:0.68rem;
+    color:var(--ink-soft);
+    text-transform:none;
+    letter-spacing:0;
+  }
+  .copybtn:hover{ border-color:var(--ink); color:var(--ink); }
+
+  .primeformula{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.15rem;
+    background:var(--surface-alt);
+    border:1px solid var(--grid-line);
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:18px;
+  }
+  .primeformula sup{ color:var(--accent-prime); font-size:0.7em; }
+
+  .factor-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-bottom:18px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.88rem;
+    background:var(--surface-alt);
+    border:1.5px solid var(--grid-line);
+    border-radius:8px;
+    padding:5px 10px;
+    position:relative;
+  }
+  .chip.isprime{
+    border-color:var(--accent-prime);
+    color:var(--accent-prime);
+    font-weight:600;
+  }
+
+  .pair-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-bottom:18px;
+  }
+  .pairbtn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.92rem;
+    background:var(--surface-alt);
+    border:1.5px solid var(--grid-line);
+    border-radius:9px;
+    padding:9px 12px;
+    text-align:left;
+    color:var(--ink);
+    transition:border-color 0.12s ease, background 0.12s ease;
+  }
+  .pairbtn.active{
+    background:var(--ink);
+    color:#fff;
+    border-color:var(--ink);
+  }
+
+  .arraybox{
+    background:var(--surface-alt);
+    border:1px solid var(--grid-line);
+    border-radius:10px;
+    padding:14px;
+  }
+  .arraybox .arraycaption{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+    text-align:center;
+  }
+  #arrayGrid{
+    display:grid;
+    gap:2px;
+    margin:0 auto;
+    max-width:100%;
+  }
+  .unitsq{
+    background:var(--accent-warm);
+    border-radius:2px;
+    aspect-ratio:1/1;
+  }
+  .toolarge{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    text-align:center;
+    padding:20px 0;
+  }
+
+  footer{
+    text-align:center;
+    font-size:0.75rem;
+    color:var(--ink-soft);
+    margin-top:8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="page-head">
+    <div class="dotmark" aria-hidden="true">
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+    </div>
+    <div>
+      <h1>Factor Finder</h1>
+      <p class="tagline">Every way a number breaks apart.</p>
+    </div>
+  </header>
+
+  <div class="card">
+    <label class="field-label" for="numInput">Enter a whole number</label>
+    <div class="input-row">
+      <input type="number" id="numInput" inputmode="numeric" placeholder="e.g. 36" min="1">
+      <button id="findBtn">Find</button>
+    </div>
+    <div id="errorMsg"></div>
+    <div class="examples" aria-label="Try an example">
+      <button class="examplebtn" data-n="36">36</button>
+      <button class="examplebtn" data-n="100">100</button>
+      <button class="examplebtn" data-n="97">97</button>
+      <button class="examplebtn" data-n="28">28</button>
+      <button class="examplebtn" data-n="360">360</button>
+    </div>
+  </div>
+
+  <div id="results">
+
+    <div class="card">
+      <p class="resultheadline">Result for <span class="bignum" id="echoNum">—</span></p>
+      <p class="classification" id="classification"></p>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="num" id="statCount">—</span>
+          <span class="lbl">Factors</span>
+        </div>
+        <div class="stat">
+          <span class="num" id="statSum">—</span>
+          <span class="lbl">Sum</span>
+        </div>
+        <div class="stat">
+          <span class="num" id="statType">—</span>
+          <span class="lbl">Type</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="section-label">Prime factorization</p>
+      <div class="primeformula" id="primeFormula">—</div>
+
+      <p class="section-label">
+        All factors
+        <button class="copybtn" id="copyFactorsBtn">Copy</button>
+      </p>
+      <div class="factor-chips" id="factorChips"></div>
+    </div>
+
+    <div class="card">
+      <p class="section-label">Factor pairs — tap one to see it as a grid</p>
+      <div class="pair-list" id="pairList"></div>
+
+      <div class="arraybox">
+        <p class="arraycaption" id="arrayCaption"></p>
+        <div id="arrayGrid"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>Works fully offline once loaded · no data leaves your phone</footer>
+
+</div>
+
+<script>
+  const numInput = document.getElementById('numInput');
+  const findBtn = document.getElementById('findBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const results = document.getElementById('results');
+
+  const MAX_N = 1e12;
+  const MAX_ARRAY_CELLS = 2500; // 50x50 — beyond this we skip drawing the grid
+
+  document.querySelectorAll('.examplebtn').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      numInput.value = b.dataset.n;
+      run();
+    });
+  });
+
+  findBtn.addEventListener('click', run);
+  numInput.addEventListener('keydown', e=>{
+    if(e.key === 'Enter') run();
+  });
+
+  function showError(msg){
+    errorMsg.textContent = msg;
+    errorMsg.style.display = 'block';
+    results.style.display = 'none';
+  }
+
+  function clearError(){
+    errorMsg.style.display = 'none';
+  }
+
+  function run(){
+    const raw = numInput.value.trim();
+    if(raw === ''){
+      showError('Type a number first.');
+      return;
+    }
+    const n = Number(raw);
+    if(!Number.isFinite(n) || !Number.isInteger(n) || n < 1){
+      showError('Please enter a whole number, 1 or greater.');
+      return;
+    }
+    if(n > MAX_N){
+      showError('That number is too large for this tool (max 1,000,000,000,000).');
+      return;
+    }
+    clearError();
+    render(n);
+  }
+
+  function getFactorPairs(n){
+    const pairs = [];
+    const limit = Math.floor(Math.sqrt(n));
+    for(let i=1; i<=limit; i++){
+      if(n % i === 0){
+        pairs.push([i, n / i]);
+      }
+    }
+    return pairs;
+  }
+
+  function getAllFactorsSorted(pairs, n){
+    const set = new Set();
+    pairs.forEach(([a,b])=>{ set.add(a); set.add(b); });
+    return Array.from(set).sort((x,y)=>x-y);
+  }
+
+  function isPrime(n){
+    if(n < 2) return false;
+    if(n < 4) return true;
+    if(n % 2 === 0) return false;
+    for(let i=3; i*i<=n; i+=2){
+      if(n % i === 0) return false;
+    }
+    return true;
+  }
+
+  function primeFactorize(n){
+    const factors = [];
+    let remaining = n;
+    for(let p=2; p*p<=remaining; p++){
+      let exp = 0;
+      while(remaining % p === 0){
+        remaining /= p;
+        exp++;
+      }
+      if(exp > 0) factors.push([p, exp]);
+    }
+    if(remaining > 1) factors.push([remaining, 1]);
+    return factors;
+  }
+
+  function formatNumber(n){
+    return n.toLocaleString('en-US');
+  }
+
+  function render(n){
+    const pairs = getFactorPairs(n);
+    const allFactors = getAllFactorsSorted(pairs, n);
+    const sum = allFactors.reduce((a,b)=>a+b, 0);
+    const primeFactors = primeFactorize(n);
+    const isP = isPrime(n);
+    const properSum = sum - n;
+    const isPerfect = n > 1 && properSum === n;
+
+    document.getElementById('echoNum').textContent = formatNumber(n);
+
+    let cls;
+    if(n === 1) cls = '1 is neither prime nor composite — it only has itself as a factor.';
+    else if(isP) cls = `${formatNumber(n)} is a prime number — its only factors are 1 and itself.`;
+    else if(isPerfect) cls = `${formatNumber(n)} is a perfect number — its proper factors add up to itself.`;
+    else cls = `${formatNumber(n)} is a composite number.`;
+    document.getElementById('classification').textContent = cls;
+
+    document.getElementById('statCount').textContent = allFactors.length;
+    document.getElementById('statSum').textContent = formatNumber(sum);
+    document.getElementById('statType').textContent = n===1 ? 'Unit' : (isP ? 'Prime' : (isPerfect ? 'Perfect' : 'Composite'));
+
+    const primeFormulaEl = document.getElementById('primeFormula');
+    if(n === 1){
+      primeFormulaEl.textContent = '1 has no prime factorization.';
+    } else {
+      primeFormulaEl.innerHTML = primeFactors.map(([p,e])=>{
+        return e > 1 ? `${p}<sup>${e}</sup>` : `${p}`;
+      }).join(' &times; ');
+    }
+
+    const chipsEl = document.getElementById('factorChips');
+    chipsEl.innerHTML = '';
+    allFactors.forEach(f=>{
+      const chip = document.createElement('span');
+      chip.className = 'chip' + (isPrime(f) && f > 1 ? ' isprime' : '');
+      chip.textContent = f;
+      chipsEl.appendChild(chip);
+    });
+
+    const pairListEl = document.getElementById('pairList');
+    pairListEl.innerHTML = '';
+    pairs.forEach(([a,b], idx)=>{
+      const btn = document.createElement('button');
+      btn.className = 'pairbtn';
+      btn.textContent = `${formatNumber(a)} \u00D7 ${formatNumber(b)}`;
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.pairbtn').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        drawArray(a, b, n);
+      });
+      pairListEl.appendChild(btn);
+      if(idx === pairs.length - 1){
+        btn.classList.add('active');
+      }
+    });
+
+    if(pairs.length){
+      const [a,b] = pairs[pairs.length - 1];
+      drawArray(a, b, n);
+    }
+
+    document.getElementById('copyFactorsBtn').onclick = ()=>{
+      const text = allFactors.join(', ');
+      navigator.clipboard.writeText(text).then(()=>{
+        const btn = document.getElementById('copyFactorsBtn');
+        const old = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(()=>{ btn.textContent = old; }, 1200);
+      });
+    };
+
+    results.style.display = 'block';
+  }
+
+  function drawArray(rows, cols, n){
+    const caption = document.getElementById('arrayCaption');
+    const grid = document.getElementById('arrayGrid');
+    caption.textContent = `${formatNumber(rows)} rows \u00D7 ${formatNumber(cols)} columns = ${formatNumber(n)} squares`;
+
+    grid.parentElement.querySelectorAll('.toolarge').forEach(el=>el.remove());
+
+    if(rows * cols > MAX_ARRAY_CELLS){
+      grid.style.display = 'none';
+      grid.innerHTML = '';
+      const msg = document.createElement('div');
+      msg.className = 'toolarge';
+      msg.textContent = 'Too many squares to draw clearly — the pair is shown as numbers above.';
+      grid.parentElement.appendChild(msg);
+      return;
+    }
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    grid.style.width = Math.min(280, cols * 14) + 'px';
+    grid.innerHTML = '';
+    for(let i=0; i<rows*cols; i++){
+      const sq = document.createElement('div');
+      sq.className = 'unitsq';
+      grid.appendChild(sq);
+    }
+  }
+</script>
+
+</body>
+</html>
