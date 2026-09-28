@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clash Upgrade Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    const initialBuildingsData = [
+      {
+        id: 'b-mortar-10',
+        name: 'Mortar level 10',
+        level: 10,
+        characters: [
+          { id: 'm-vikings', name: 'Vikings', status: 'pending' },
+          { id: 'm-hunter', name: 'Hunter', status: 'pending' },
+          { id: 'm-superman', name: 'Superman', status: 'pending' },
+          { id: 'm-batman', name: 'Batman', status: 'pending' },
+          { id: 'm-kakarot', name: 'Kakarot', status: 'completed' },
+          { id: 'm-vegeta', name: 'Vegeta', status: 'pending' },
+          { id: 'm-trunks', name: 'Trunks', status: 'pending' },
+          { id: 'm-spiderman', name: 'Spider Man', status: 'pending' },
+          { id: 'm-naruto', name: 'Naruto', status: 'pending' },
+          { id: 'm-zoro', name: 'Zoro', status: 'pending' },
+          { id: 'm-gojo', name: 'Gojo', status: 'completed' },
+        ]
+      },
+      {
+        id: 'b-cannon-10',
+        name: 'Cannon Level 10',
+        level: 10,
+        characters: [
+          { id: 'c-vikings', name: 'Vikings', status: 'pending' },
+          { id: 'c-hunter', name: 'Hunter', status: 'skipped' },
+          { id: 'c-superman', name: 'Superman', status: 'pending' },
+          { id: 'c-batman', name: 'Batman', status: 'pending' },
+          { id: 'c-kakarot', name: 'Kakarot', status: 'pending' },
+          { id: 'c-vegeta', name: 'Vegeta', status: 'completed' },
+          { id: 'c-trunks', name: 'Trunks', status: 'pending' },
+          { id: 'c-spiderman', name: 'Spider Man', status: 'pending' },
+          { id: 'c-naruto', name: 'Naruto', status: 'pending' },
+          { id: 'c-zoro', name: 'Zoro', status: 'pending' },
+          { id: 'c-gojo', name: 'Gojo', status: 'pending' },
+        ]
+      }
+    ];
+
+    const defaultAccounts = [
+      { id: 'acc-main', name: 'Main Account', buildings: initialBuildingsData }
+    ];
+
+    function App() {
+      const [accounts, setAccounts] = useState(() => {
+        const saved = localStorage.getItem('clash_upgrade_accounts_v2');
+        return saved ? JSON.parse(saved) : defaultAccounts;
+      });
+
+      const [activeAccId, setActiveAccId] = useState(() => {
+        const saved = localStorage.getItem('clash_active_acc_v2');
+        return saved || 'acc-main';
+      });
+
+      const [history, setHistory] = useState([]);
+      const [future, setFuture] = useState([]);
+
+      const [searchQuery, setSearchQuery] = useState('');
+      const [statusFilter, setStatusFilter] = useState('all');
+      const [newBuildingName, setNewBuildingName] = useState('');
+      const [newCharName, setNewCharName] = useState('');
+      const [selectedBuildingForChar, setSelectedBuildingForChar] = useState('');
+      const [newAccName, setNewAccName] = useState('');
+      const [showNewAccModal, setShowNewAccModal] = useState(false);
+      const [toastMsg, setToastMsg] = useState(null);
+
+      const activeAccount = accounts.find(a => a.id === activeAccId) || accounts[0] || defaultAccounts[0];
+
+      useEffect(() => {
+        localStorage.setItem('clash_upgrade_accounts_v2', JSON.stringify(accounts));
+      }, [accounts]);
+
+      useEffect(() => {
+        localStorage.setItem('clash_active_acc_v2', activeAccId);
+      }, [activeAccId]);
+
+      const showToast = (msg) => {
+        setToastMsg(msg);
+        setTimeout(() => setToastMsg(null), 2500);
+      };
+
+      const updateActiveAccountBuildings = (newBuildings, actionName = 'Action') => {
+        setHistory(prev => [...prev, { accounts, activeAccId }]);
+        setFuture([]);
+
+        setAccounts(prev => prev.map(acc => {
+          if (acc.id === activeAccId) {
+            return { ...acc, buildings: newBuildings };
+          }
+          return acc;
+        }));
+
+        if (actionName) showToast(actionName);
+      };
+
+      const handleUndo = useCallback(() => {
+        if (history.length === 0) return;
+        const lastState = history[history.length - 1];
+        setFuture(prev => [{ accounts, activeAccId }, ...prev]);
+        setAccounts(lastState.accounts);
+        setActiveAccId(lastState.activeAccId);
+        setHistory(prev => prev.slice(0, prev.length - 1));
+        showToast('Undo successful');
+      }, [history, accounts, activeAccId]);
+
+      const handleRedo = useCallback(() => {
+        if (future.length === 0) return;
+        const nextState = future[0];
+        setHistory(prev => [...prev, { accounts, activeAccId }]);
+        setAccounts(nextState.accounts);
+        setActiveAccId(nextState.activeAccId);
+        setFuture(prev => prev.slice(1));
+        showToast('Redo successful');
+      }, [future, accounts, activeAccId]);
+
+      useEffect(() => {
+        const handleKeyDown = (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+            if (e.shiftKey) {
+              handleRedo();
+            } else {
+              handleUndo();
+            }
+          } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+            handleRedo();
+          }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+      }, [handleUndo, handleRedo]);
+
+      const cycleStatus = (buildingId, charId) => {
+        const newBuildings = activeAccount.buildings.map(b => {
+          if (b.id !== buildingId) return b;
+          const updatedChars = b.characters.map(c => {
+            if (c.id !== charId) return c;
+            const nextStatus = c.status === 'pending' ? 'completed' : c.status === 'completed' ? 'skipped' : 'pending';
+            return { ...c, status: nextStatus };
+          });
+          return { ...b, characters: updatedChars };
+        });
+        updateActiveAccountBuildings(newBuildings, 'Status updated');
+      };
+
+      const addBuilding = (presetName) => {
+        const nameToUse = presetName || newBuildingName.trim();
+        if (!nameToUse) return;
+
+        const templateChars = ['Vikings', 'Hunter', 'Superman', 'Batman', 'Kakarot', 'Vegeta', 'Trunks', 'Spider Man', 'Naruto', 'Zoro', 'Gojo'];
+        const newB = {
+          id: `b-${Date.now()}`,
+          name: nameToUse,
+          level: 10,
+          characters: templateChars.map(name => ({
+            id: `c-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+            name,
+            status: 'pending'
+          }))
+        };
+
+        updateActiveAccountBuildings([...activeAccount.buildings, newB], `Added ${nameToUse}`);
+        setNewBuildingName('');
+      };
+
+      const deleteBuilding = (buildingId, buildingName) => {
+        if (!confirm(`Are you sure you want to delete "${buildingName}"?`)) return;
+        const newBuildings = activeAccount.buildings.filter(b => b.id !== buildingId);
+        updateActiveAccountBuildings(newBuildings, `Deleted ${buildingName}`);
+      };
+
+      const addCharacter = (e) => {
+        e.preventDefault();
+        if (!newCharName.trim() || !selectedBuildingForChar) return;
+
+        const newBuildings = activeAccount.buildings.map(b => {
+          if (b.id !== selectedBuildingForChar) return b;
+          return {
+            ...b,
+            characters: [...b.characters, {
+              id: `c-${Date.now()}`,
+              name: newCharName.trim(),
+              status: 'pending'
+            }]
+          };
+        });
+
+        updateActiveAccountBuildings(newBuildings, `Added ${newCharName.trim()}`);
+        setNewCharName('');
+      };
+
+      const deleteCharacter = (buildingId, charId, charName) => {
+        const newBuildings = activeAccount.buildings.map(b => {
+          if (b.id !== buildingId) return b;
+          return {
+            ...b,
+            characters: b.characters.filter(c => c.id !== charId)
+          };
+        });
+        updateActiveAccountBuildings(newBuildings, `Removed ${charName}`);
+      };
+
+      const createNewAccount = () => {
+        if (!newAccName.trim()) return;
+        const newAcc = {
+          id: `acc-${Date.now()}`,
+          name: newAccName.trim(),
+          buildings: JSON.parse(JSON.stringify(initialBuildingsData))
+        };
+
+        setHistory(prev => [...prev, { accounts, activeAccId }]);
+        setFuture([]);
+        setAccounts(prev => [...prev, newAcc]);
+        setActiveAccId(newAcc.id);
+        setNewAccName('');
+        setShowNewAccModal(false);
+        showToast(`Created profile: ${newAcc.name}`);
+      };
+
+      const totalItems = activeAccount.buildings.reduce((acc, b) => acc + b.characters.length, 0);
+      const completedItems = activeAccount.buildings.reduce((acc, b) => acc + b.characters.filter(c => c.status === 'completed').length, 0);
+      const skippedItems = activeAccount.buildings.reduce((acc, b) => acc + b.characters.filter(c => c.status === 'skipped').length, 0);
+      const activeTotal = totalItems - skippedItems;
+      const overallPercent = activeTotal > 0 ? Math.round((completedItems / activeTotal) * 100) : 0;
+
+      return (
+        <div class="max-w-6xl mx-auto px-4 py-8">
+          {/* Header & Controls */}
+          <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-slate-800 p-6 rounded-2xl border border-slate-700/60 shadow-xl">
+            <div>
+              <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+                Clash Upgrade Tracker
+              </h1>
+              <p class="text-slate-400 text-sm mt-1">Manage upgrades, tracks & accounts seamlessly</p>
+            </div>
+
+            {/* Account Switcher & History Actions */}
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="flex items-center bg-slate-900/80 rounded-xl p-1.5 border border-slate-700">
+                <select 
+                  value={activeAccId}
+                  onChange={(e) => setActiveAccId(e.target.value)}
+                  class="bg-transparent text-amber-400 font-semibold px-2 py-1 outline-none cursor-pointer text-sm"
+                >
+                  {accounts.map(acc => (
+                    <option key={acc.id} value={acc.id} class="bg-slate-800 text-slate-100">
+                      {acc.name}
+                    </option>
+                  ))}
+                </select>
+                <button 
+                  onClick={() => setShowNewAccModal(true)}
+                  class="ml-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-2.5 py-1 rounded-lg text-xs transition"
+                  title="Add Account"
+                >
+                  + New
+                </button>
+              </div>
+
+              <div class="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-700">
+                <button 
+                  onClick={handleUndo} 
+                  disabled={history.length === 0}
+                  class={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition ${history.length > 0 ? 'bg-slate-700 text-slate-200 hover:bg-slate-600' : 'bg-slate-800 text-slate-600 cursor-not-allowed'}`}
+                  title="Undo (Ctrl+Z)"
+                >
+                  ↩ Undo
+                </button>
+                <button 
+                  onClick={handleRedo} 
+                  disabled={future.length === 0}
+                  class={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition ${future.length > 0 ? 'bg-slate-700 text-slate-200 hover:bg-slate-600' : 'bg-slate-800 text-slate-600 cursor-not-allowed'}`}
+                  title="Redo (Ctrl+Y)"
+                >
+                  ↪ Redo
+                </button>
+              </div>
+            </div>
+          </header>
+
+          {/* Overall Progress Bar */}
+          <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700/60 shadow-lg mb-8">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm font-semibold text-slate-300">Overall Progress ({activeAccount.name})</span>
+              <span class="text-lg font-bold text-amber-400">{overallPercent}%</span>
+            </div>
+            <div class="w-full bg-slate-900 rounded-full h-3.5 overflow-hidden p-0.5 border border-slate-700">
+              <div 
+                class="bg-gradient-to-r from-amber-500 to-orange-500 h-full rounded-full transition-all duration-500" 
+                style={{ width: `${overallPercent}%` }}
+              ></div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-400 mt-2">
+              <span>Completed: {completedItems}</span>
+              <span>Pending: {activeTotal - completedItems}</span>
+              <span>Skipped: {skippedItems}</span>
+            </div>
+          </div>
+
+          {/* Quick Add Preset Buildings */}
+          <div class="mb-8 bg-slate-800/60 p-4 rounded-xl border border-slate-700/40">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Quick Add Building:</span>
+            <div class="flex flex-wrap gap-2">
+              {['Archer Tower Lvl 10', 'Wizard Tower Lvl 10', 'Air Defense Lvl 10', 'Hidden Tesla Lvl 10'].map(preset => (
+                <button 
+                  key={preset}
+                  onClick={() => addBuilding(preset)}
+                  class="bg-slate-700/60 hover:bg-slate-700 border border-slate-600/50 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium transition"
+                >
+                  + {preset}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Buildings Grid */}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {activeAccount.buildings.map(building => {
+              const bCompleted = building.characters.filter(c => c.status === 'completed').length;
+              const bSkipped = building.characters.filter(c => c.status === 'skipped').length;
+              const bTotal = building.characters.length - bSkipped;
+              const bPercent = bTotal > 0 ? Math.round((bCompleted / bTotal) * 100) : 0;
+
+              return (
+                <div key={building.id} class="bg-slate-800 rounded-2xl p-5 border border-slate-700/80 shadow-xl">
+                  <div class="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 class="text-xl font-bold text-slate-100">{building.name}</h3>
+                      <span class="text-xs text-slate-400">{bCompleted}/{bTotal} Completed</span>
+                    </div>
+                    <button 
+                      onClick={() => deleteBuilding(building.id, building.name)}
+                      class="text-red-400 hover:text-red-300 text-xs px-2 py-1 rounded bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
+
+                  <div class="w-full bg-slate-900 rounded-full h-2 mb-4 overflow-hidden">
+                    <div class="bg-amber-400 h-full transition-all duration-300" style={{ width: `${bPercent}%` }}></div>
+                  </div>
+
+                  {/* Character List */}
+                  <div class="space-y-2">
+                    {building.characters.map(char => (
+                      <div 
+                        key={char.id}
+                        onClick={() => cycleStatus(building.id, char.id)}
+                        class={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer select-none transition ${
+                          char.status === 'completed' ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300' :
+                          char.status === 'skipped' ? 'bg-rose-950/20 border-rose-900/30 text-rose-400/60 line-through' :
+                          'bg-slate-900/60 border-slate-700/50 hover:border-slate-500 text-slate-200'
+                        }`}
+                      >
+                        <span class="font-medium text-sm">{char.name}</span>
+                        <div class="flex items-center gap-2">
+                          <span class={`text-xs px-2 py-0.5 rounded-md font-bold uppercase ${
+                            char.status === 'completed' ? 'bg-emerald-500/20 text-emerald-400' :
+                            char.status === 'skipped' ? 'bg-rose-500/20 text-rose-400' :
+                            'bg-slate-700 text-slate-300'
+                          }`}>
+                            {char.status === 'completed' ? '✓ Done' : char.status === 'skipped' ? '× Skipped' : 'Pending'}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* New Account Modal */}
+          {showNewAccModal && (
+            <div class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+              <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl max-w-sm w-full">
+                <h3 class="text-xl font-bold text-amber-400 mb-4">Create New Account / Profile</h3>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Alt Account, TH12 Base"
+                  value={newAccName}
+                  onChange={(e) => setNewAccName(e.target.value)}
+                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-slate-100 outline-none mb-4 focus:border-amber-400"
+                />
+                <div class="flex justify-end gap-2">
+                  <button onClick={() => setShowNewAccModal(false)} class="px-4 py-2 rounded-xl text-slate-400 hover:bg-slate-700 text-sm">Cancel</button>
+                  <button onClick={createNewAccount} class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm">Create</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Toast Notification */}
+          {toastMsg && (
+            <div class="fixed bottom-6 right-6 bg-amber-500 text-slate-950 px-4 py-2 rounded-xl font-bold text-sm shadow-2xl animate-bounce">
+              {toastMsg}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
