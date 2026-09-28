@@ -1,423 +1,538 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Clash Upgrade Tracker</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>COC Upgrade Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef1f7; --panel:#ffffff; --panel-2:#f4f6fb; --ink:#1b2340; --muted:#5d6788; --line:#d9deec;
+  --brand:#2a4bd7; --brand-ink:#ffffff; --gold:#e0a100;
+  --done:#1f8f3a; --done-bg:#dcf4e2; --skip:#c23a32; --skip-bg:#fbe2df; --pend-bg:#ffffff;
+  --shadow:0 1px 0 rgba(27,35,64,.06), 0 6px 18px -10px rgba(27,35,64,.25);
+  --head:"Lilita One","Trebuchet MS",Impact,sans-serif;
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1226; --panel:#161d3a; --panel-2:#1c2547; --ink:#eaeefc; --muted:#98a3cc; --line:#2a3563;
+    --brand:#7a95ff; --brand-ink:#0d1226; --gold:#ffc83d;
+    --done:#4cd47a; --done-bg:#12382a; --skip:#ff7a70; --skip-bg:#452021; --pend-bg:#161d3a;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 8px 20px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1226; --panel:#161d3a; --panel-2:#1c2547; --ink:#eaeefc; --muted:#98a3cc; --line:#2a3563;
+  --brand:#7a95ff; --brand-ink:#0d1226; --gold:#ffc83d;
+  --done:#4cd47a; --done-bg:#12382a; --skip:#ff7a70; --skip-bg:#452021; --pend-bg:#161d3a;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 8px 20px -12px rgba(0,0,0,.7);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:18px 14px 90px}
+
+/* header */
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-family:var(--head);font-weight:400;font-size:clamp(28px,6vw,40px);margin:0;letter-spacing:.3px;line-height:1.05}
+.sub{color:var(--muted);margin:4px 0 0;font-size:14px}
+.hdr-actions{display:flex;gap:8px}
+.icon-btn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px}
+.icon-btn:hover{background:var(--panel-2)}
+
+/* overall bar */
+.overall{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);margin-bottom:14px}
+.overall-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.overall-top b{font-family:var(--head);font-weight:400;font-size:22px}
+.overall-top span{color:var(--muted);font-size:14px}
+
+.bar{height:10px;border-radius:99px;background:var(--panel-2);overflow:hidden;display:flex;margin-top:8px;border:1px solid var(--line)}
+.bar i{display:block;height:100%}
+.bar .b-done{background:var(--done)}
+.bar .b-skip{background:var(--skip);opacity:.75}
+
+/* tabs */
+.tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:12px}
+.tab{flex:1;border:0;background:transparent;padding:9px 6px;border-radius:9px;font-weight:800;font-size:14px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--brand);color:var(--brand-ink)}
+
+/* toolbar */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.toolbar input[type=search]{flex:1 1 180px;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel)}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{border:0;background:transparent;padding:9px 12px;font-weight:700;font-size:14px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--ink);box-shadow:inset 0 -3px 0 var(--gold)}
+.btn{border:0;background:var(--brand);color:var(--brand-ink);padding:10px 16px;border-radius:10px;font-weight:800}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:var(--panel-2);color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:var(--skip);color:#fff}
+
+/* upgrade cards */
+.cards{display:grid;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.card-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.card-h h2{font-family:var(--head);font-weight:400;font-size:22px;margin:0;flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.lvl{background:var(--gold);color:#241a00;font-family:var(--head);border-radius:8px;padding:2px 10px;font-size:17px;white-space:nowrap}
+.card-tools{display:flex;gap:6px;flex-wrap:wrap}
+.mini{border:1px solid var(--line);background:var(--panel-2);border-radius:8px;padding:5px 9px;font-size:13px;font-weight:700}
+.mini:hover{border-color:var(--brand)}
+.mini.del:hover{border-color:var(--skip);color:var(--skip)}
+.card-p{padding:10px 14px 0}
+.card-p small{color:var(--muted);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px 14px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--line);background:var(--pend-bg);border-radius:99px;padding:6px 12px 6px 8px;font-weight:700;font-size:14px;transition:transform .08s}
+.chip:active{transform:scale(.96)}
+.chip .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;line-height:1;font-weight:800}
+.chip[data-s="done"]{background:var(--done-bg);border-color:var(--done)}
+.chip[data-s="done"] .dot{background:var(--done);border-color:var(--done);color:#fff}
+.chip[data-s="skip"]{background:var(--skip-bg);border-color:var(--skip);text-decoration:line-through;text-decoration-color:var(--skip)}
+.chip[data-s="skip"] .dot{background:var(--skip);border-color:var(--skip);color:#fff}
+.none{color:var(--muted);padding:2px 0}
+
+/* by account */
+.pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px}
+.pill{flex:0 0 auto;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:7px 12px;font-weight:700;font-size:14px;display:flex;gap:8px;align-items:center}
+.pill[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.badge{background:var(--gold);color:#241a00;border-radius:99px;font-size:12px;padding:0 7px;font-weight:800;min-width:20px;text-align:center}
+.badge.ok{background:var(--done);color:#fff}
+.rows{display:grid;gap:8px}
+.row{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.row .nm{flex:1;font-weight:800;overflow-wrap:anywhere}
+.row .nm em{font-style:normal;color:var(--muted);font-weight:700;margin-left:6px}
+.status{border:2px solid var(--line);background:var(--pend-bg);border-radius:10px;padding:7px 12px;font-weight:800;font-size:14px;min-width:132px}
+.status[data-s="done"]{background:var(--done-bg);border-color:var(--done);color:var(--done)}
+.status[data-s="skip"]{background:var(--skip-bg);border-color:var(--skip);color:var(--skip)}
+
+/* manage */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.add-line{display:flex;gap:8px;margin-bottom:12px}
+.add-line input{flex:1;min-width:0}
+input[type=text],input[type=number],input[type=search],textarea{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);width:100%}
+textarea{min-height:170px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.acc-list{display:grid;gap:6px}
+.acc{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2)}
+.acc span{flex:1;font-weight:800;overflow-wrap:anywhere}
+.acc small{color:var(--muted);font-weight:700}
+
+.empty{text-align:center;color:var(--muted);padding:34px 12px;border:2px dashed var(--line);border-radius:14px}
+.empty b{display:block;font-family:var(--head);font-weight:400;font-size:20px;color:var(--ink);margin-bottom:4px}
+
+/* fab */
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--gold);color:#241a00;border:0;border-radius:99px;padding:14px 20px;font-family:var(--head);font-size:18px;box-shadow:0 10px 24px -8px rgba(0,0,0,.5)}
+.fab:hover{filter:brightness(1.06)}
+
+/* dialog */
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--ink);padding:18px;width:min(440px,calc(100vw - 28px));box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(6,10,28,.55)}
+dialog h3{font-family:var(--head);font-weight:400;font-size:24px;margin:0 0 12px}
+label{display:block;font-weight:800;font-size:14px;margin:10px 0 4px}
+.dlg-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.hint{color:var(--muted);font-size:13px;margin:6px 0 0}
+
+/* toast */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:12px;display:flex;gap:12px;align-items:center;font-weight:700;z-index:50;max-width:calc(100vw - 28px)}
+.toast button{background:transparent;border:0;color:var(--gold);font-weight:800;text-decoration:underline}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:520px){.status{min-width:112px}}
+</style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen">
-  <div id="root"></div>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Upgrade Tracker</h1>
+      <p class="sub">Which account has which building upgraded? Tap a name to change its status.</p>
+    </div>
+    <div class="hdr-actions">
+      <button class="icon-btn" id="btnBackup" type="button">Backup</button>
+      <button class="icon-btn" id="btnTheme" type="button" aria-label="Switch light or dark theme">Theme</button>
+    </div>
+  </header>
 
-  <script type="text/babel">
-    const { useState, useEffect, useCallback, useRef } = React;
+  <section class="overall" aria-live="polite">
+    <div class="overall-top"><b id="ovTitle"></b><span id="ovSub"></span></div>
+    <div class="bar" id="ovBar"></div>
+  </section>
 
-    const initialBuildingsData = [
-      {
-        id: 'b-mortar-10',
-        name: 'Mortar level 10',
-        level: 10,
-        characters: [
-          { id: 'm-vikings', name: 'Vikings', status: 'pending' },
-          { id: 'm-hunter', name: 'Hunter', status: 'pending' },
-          { id: 'm-superman', name: 'Superman', status: 'pending' },
-          { id: 'm-batman', name: 'Batman', status: 'pending' },
-          { id: 'm-kakarot', name: 'Kakarot', status: 'completed' },
-          { id: 'm-vegeta', name: 'Vegeta', status: 'pending' },
-          { id: 'm-trunks', name: 'Trunks', status: 'pending' },
-          { id: 'm-spiderman', name: 'Spider Man', status: 'pending' },
-          { id: 'm-naruto', name: 'Naruto', status: 'pending' },
-          { id: 'm-zoro', name: 'Zoro', status: 'pending' },
-          { id: 'm-gojo', name: 'Gojo', status: 'completed' },
-        ]
-      },
-      {
-        id: 'b-cannon-10',
-        name: 'Cannon Level 10',
-        level: 10,
-        characters: [
-          { id: 'c-vikings', name: 'Vikings', status: 'pending' },
-          { id: 'c-hunter', name: 'Hunter', status: 'skipped' },
-          { id: 'c-superman', name: 'Superman', status: 'pending' },
-          { id: 'c-batman', name: 'Batman', status: 'pending' },
-          { id: 'c-kakarot', name: 'Kakarot', status: 'pending' },
-          { id: 'c-vegeta', name: 'Vegeta', status: 'completed' },
-          { id: 'c-trunks', name: 'Trunks', status: 'pending' },
-          { id: 'c-spiderman', name: 'Spider Man', status: 'pending' },
-          { id: 'c-naruto', name: 'Naruto', status: 'pending' },
-          { id: 'c-zoro', name: 'Zoro', status: 'pending' },
-          { id: 'c-gojo', name: 'Gojo', status: 'pending' },
-        ]
-      }
-    ];
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-view="upgrades" type="button">By upgrade</button>
+    <button class="tab" role="tab" data-view="byaccount" type="button">By account</button>
+    <button class="tab" role="tab" data-view="accounts" type="button">Accounts</button>
+  </div>
 
-    const defaultAccounts = [
-      { id: 'acc-main', name: 'Main Account', buildings: initialBuildingsData }
-    ];
+  <div class="toolbar" id="toolbar">
+    <input type="search" id="q" placeholder="Search buildings" aria-label="Search buildings">
+    <div class="seg" role="group" aria-label="Filter by status">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="pending" aria-pressed="false">Not upgraded</button>
+      <button type="button" data-f="done" aria-pressed="false">Upgraded</button>
+    </div>
+  </div>
 
-    function App() {
-      const [accounts, setAccounts] = useState(() => {
-        const saved = localStorage.getItem('clash_upgrade_accounts_v2');
-        return saved ? JSON.parse(saved) : defaultAccounts;
-      });
+  <main id="main"></main>
+</div>
 
-      const [activeAccId, setActiveAccId] = useState(() => {
-        const saved = localStorage.getItem('clash_active_acc_v2');
-        return saved || 'acc-main';
-      });
+<button class="fab" id="fab" type="button">+ Add upgrade</button>
 
-      const [history, setHistory] = useState([]);
-      const [future, setFuture] = useState([]);
+<!-- upgrade dialog -->
+<dialog id="dlgUp">
+  <form method="dialog" id="fUp">
+    <h3 id="upTitle">Add upgrade</h3>
+    <label for="upB">Building</label>
+    <input type="text" id="upB" list="bList" placeholder="Archer Tower" autocomplete="off" required>
+    <datalist id="bList"></datalist>
+    <label for="upL">Level</label>
+    <input type="number" id="upL" min="1" max="99" placeholder="10" required>
+    <p class="hint">Every account starts as not upgraded. Tap a name to mark it.</p>
+    <div class="dlg-actions">
+      <button type="button" class="btn ghost" data-close>Cancel</button>
+      <button type="submit" class="btn" id="upSave">Save</button>
+    </div>
+  </form>
+</dialog>
 
-      const [searchQuery, setSearchQuery] = useState('');
-      const [statusFilter, setStatusFilter] = useState('all');
-      const [newBuildingName, setNewBuildingName] = useState('');
-      const [newCharName, setNewCharName] = useState('');
-      const [selectedBuildingForChar, setSelectedBuildingForChar] = useState('');
-      const [newAccName, setNewAccName] = useState('');
-      const [showNewAccModal, setShowNewAccModal] = useState(false);
-      const [toastMsg, setToastMsg] = useState(null);
+<!-- account dialog -->
+<dialog id="dlgAcc">
+  <form method="dialog" id="fAcc">
+    <h3 id="accTitle">Rename account</h3>
+    <label for="accN">Account name</label>
+    <input type="text" id="accN" autocomplete="off" required>
+    <div class="dlg-actions">
+      <button type="button" class="btn ghost" data-close>Cancel</button>
+      <button type="submit" class="btn">Save</button>
+    </div>
+  </form>
+</dialog>
 
-      const activeAccount = accounts.find(a => a.id === activeAccId) || accounts[0] || defaultAccounts[0];
+<!-- backup dialog -->
+<dialog id="dlgBk">
+  <h3>Backup</h3>
+  <p class="hint" style="margin-top:0">Your data lives in this browser only. Copy this text somewhere safe, or paste a saved copy and press Restore.</p>
+  <textarea id="bkText" spellcheck="false"></textarea>
+  <p class="hint" id="bkMsg"></p>
+  <div class="dlg-actions">
+    <button type="button" class="btn ghost" data-close>Close</button>
+    <button type="button" class="btn ghost" id="bkCopy">Copy</button>
+    <button type="button" class="btn" id="bkRestore">Restore</button>
+  </div>
+</dialog>
 
-      useEffect(() => {
-        localStorage.setItem('clash_upgrade_accounts_v2', JSON.stringify(accounts));
-      }, [accounts]);
+<div class="toast" id="toast" hidden><span id="toastMsg"></span><button type="button" id="toastUndo">Undo</button></div>
 
-      useEffect(() => {
-        localStorage.setItem('clash_active_acc_v2', activeAccId);
-      }, [activeAccId]);
+<script>
+(function(){
+"use strict";
+var KEY = "coc-upgrade-tracker-v1";
+var THEME_KEY = "coc-upgrade-tracker-theme";
+var BUILDINGS = ["Archer Tower","Wizard Tower","Cannon","Mortar","Air Defense","Air Sweeper","X-Bow","Inferno Tower","Eagle Artillery","Scattershot","Bomb Tower","Hidden Tesla","Spell Tower","Monolith","Multi-Archer Tower","Ricochet Cannon","Firespitter","Builder's Hut","Town Hall","Laboratory","Clan Castle","Army Camp","Barracks","Gold Mine","Elixir Collector","Dark Elixir Drill","Gold Storage","Elixir Storage","Dark Elixir Storage","Walls","King","Queen","Grand Warden","Royal Champion","Minion Prince"];
 
-      const showToast = (msg) => {
-        setToastMsg(msg);
-        setTimeout(() => setToastMsg(null), 2500);
-      };
+var DEFAULT_ACCOUNTS = ["Vikings","Hunter","Superman","Batman","Kakarot","Vegeta","Trunks","Spider Man","Naruto","Zoro","Gojo"];
 
-      const updateActiveAccountBuildings = (newBuildings, actionName = 'Action') => {
-        setHistory(prev => [...prev, { accounts, activeAccId }]);
-        setFuture([]);
+function uid(){ return Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-3); }
 
-        setAccounts(prev => prev.map(acc => {
-          if (acc.id === activeAccId) {
-            return { ...acc, buildings: newBuildings };
-          }
-          return acc;
-        }));
+function seed(){
+  var accounts = DEFAULT_ACCOUNTS.map(function(n){ return {id:uid(), name:n}; });
+  function idOf(n){ for (var i=0;i<accounts.length;i++) if (accounts[i].name===n) return accounts[i].id; }
+  var mortarMarks = {}; mortarMarks[idOf("Kakarot")]="done"; mortarMarks[idOf("Gojo")]="done"; mortarMarks[idOf("Spider Man")]="skip";
+  var cannonMarks = {}; cannonMarks[idOf("Vegeta")]="done"; cannonMarks[idOf("Hunter")]="skip";
+  return {
+    accounts: accounts,
+    upgrades: [
+      {id:uid(), building:"Mortar", level:10, marks:mortarMarks},
+      {id:uid(), building:"Cannon", level:10, marks:cannonMarks}
+    ]
+  };
+}
 
-        if (actionName) showToast(actionName);
-      };
-
-      const handleUndo = useCallback(() => {
-        if (history.length === 0) return;
-        const lastState = history[history.length - 1];
-        setFuture(prev => [{ accounts, activeAccId }, ...prev]);
-        setAccounts(lastState.accounts);
-        setActiveAccId(lastState.activeAccId);
-        setHistory(prev => prev.slice(0, prev.length - 1));
-        showToast('Undo successful');
-      }, [history, accounts, activeAccId]);
-
-      const handleRedo = useCallback(() => {
-        if (future.length === 0) return;
-        const nextState = future[0];
-        setHistory(prev => [...prev, { accounts, activeAccId }]);
-        setAccounts(nextState.accounts);
-        setActiveAccId(nextState.activeAccId);
-        setFuture(prev => prev.slice(1));
-        showToast('Redo successful');
-      }, [future, accounts, activeAccId]);
-
-      useEffect(() => {
-        const handleKeyDown = (e) => {
-          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
-            if (e.shiftKey) {
-              handleRedo();
-            } else {
-              handleUndo();
-            }
-          } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
-            handleRedo();
-          }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-      }, [handleUndo, handleRedo]);
-
-      const cycleStatus = (buildingId, charId) => {
-        const newBuildings = activeAccount.buildings.map(b => {
-          if (b.id !== buildingId) return b;
-          const updatedChars = b.characters.map(c => {
-            if (c.id !== charId) return c;
-            const nextStatus = c.status === 'pending' ? 'completed' : c.status === 'completed' ? 'skipped' : 'pending';
-            return { ...c, status: nextStatus };
-          });
-          return { ...b, characters: updatedChars };
-        });
-        updateActiveAccountBuildings(newBuildings, 'Status updated');
-      };
-
-      const addBuilding = (presetName) => {
-        const nameToUse = presetName || newBuildingName.trim();
-        if (!nameToUse) return;
-
-        const templateChars = ['Vikings', 'Hunter', 'Superman', 'Batman', 'Kakarot', 'Vegeta', 'Trunks', 'Spider Man', 'Naruto', 'Zoro', 'Gojo'];
-        const newB = {
-          id: `b-${Date.now()}`,
-          name: nameToUse,
-          level: 10,
-          characters: templateChars.map(name => ({
-            id: `c-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-            name,
-            status: 'pending'
-          }))
-        };
-
-        updateActiveAccountBuildings([...activeAccount.buildings, newB], `Added ${nameToUse}`);
-        setNewBuildingName('');
-      };
-
-      const deleteBuilding = (buildingId, buildingName) => {
-        if (!confirm(`Are you sure you want to delete "${buildingName}"?`)) return;
-        const newBuildings = activeAccount.buildings.filter(b => b.id !== buildingId);
-        updateActiveAccountBuildings(newBuildings, `Deleted ${buildingName}`);
-      };
-
-      const addCharacter = (e) => {
-        e.preventDefault();
-        if (!newCharName.trim() || !selectedBuildingForChar) return;
-
-        const newBuildings = activeAccount.buildings.map(b => {
-          if (b.id !== selectedBuildingForChar) return b;
-          return {
-            ...b,
-            characters: [...b.characters, {
-              id: `c-${Date.now()}`,
-              name: newCharName.trim(),
-              status: 'pending'
-            }]
-          };
-        });
-
-        updateActiveAccountBuildings(newBuildings, `Added ${newCharName.trim()}`);
-        setNewCharName('');
-      };
-
-      const deleteCharacter = (buildingId, charId, charName) => {
-        const newBuildings = activeAccount.buildings.map(b => {
-          if (b.id !== buildingId) return b;
-          return {
-            ...b,
-            characters: b.characters.filter(c => c.id !== charId)
-          };
-        });
-        updateActiveAccountBuildings(newBuildings, `Removed ${charName}`);
-      };
-
-      const createNewAccount = () => {
-        if (!newAccName.trim()) return;
-        const newAcc = {
-          id: `acc-${Date.now()}`,
-          name: newAccName.trim(),
-          buildings: JSON.parse(JSON.stringify(initialBuildingsData))
-        };
-
-        setHistory(prev => [...prev, { accounts, activeAccId }]);
-        setFuture([]);
-        setAccounts(prev => [...prev, newAcc]);
-        setActiveAccId(newAcc.id);
-        setNewAccName('');
-        setShowNewAccModal(false);
-        showToast(`Created profile: ${newAcc.name}`);
-      };
-
-      const totalItems = activeAccount.buildings.reduce((acc, b) => acc + b.characters.length, 0);
-      const completedItems = activeAccount.buildings.reduce((acc, b) => acc + b.characters.filter(c => c.status === 'completed').length, 0);
-      const skippedItems = activeAccount.buildings.reduce((acc, b) => acc + b.characters.filter(c => c.status === 'skipped').length, 0);
-      const activeTotal = totalItems - skippedItems;
-      const overallPercent = activeTotal > 0 ? Math.round((completedItems / activeTotal) * 100) : 0;
-
-      return (
-        <div class="max-w-6xl mx-auto px-4 py-8">
-          {/* Header & Controls */}
-          <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-slate-800 p-6 rounded-2xl border border-slate-700/60 shadow-xl">
-            <div>
-              <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                Clash Upgrade Tracker
-              </h1>
-              <p class="text-slate-400 text-sm mt-1">Manage upgrades, tracks & accounts seamlessly</p>
-            </div>
-
-            {/* Account Switcher & History Actions */}
-            <div class="flex flex-wrap items-center gap-3">
-              <div class="flex items-center bg-slate-900/80 rounded-xl p-1.5 border border-slate-700">
-                <select 
-                  value={activeAccId}
-                  onChange={(e) => setActiveAccId(e.target.value)}
-                  class="bg-transparent text-amber-400 font-semibold px-2 py-1 outline-none cursor-pointer text-sm"
-                >
-                  {accounts.map(acc => (
-                    <option key={acc.id} value={acc.id} class="bg-slate-800 text-slate-100">
-                      {acc.name}
-                    </option>
-                  ))}
-                </select>
-                <button 
-                  onClick={() => setShowNewAccModal(true)}
-                  class="ml-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-2.5 py-1 rounded-lg text-xs transition"
-                  title="Add Account"
-                >
-                  + New
-                </button>
-              </div>
-
-              <div class="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-700">
-                <button 
-                  onClick={handleUndo} 
-                  disabled={history.length === 0}
-                  class={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition ${history.length > 0 ? 'bg-slate-700 text-slate-200 hover:bg-slate-600' : 'bg-slate-800 text-slate-600 cursor-not-allowed'}`}
-                  title="Undo (Ctrl+Z)"
-                >
-                  ↩ Undo
-                </button>
-                <button 
-                  onClick={handleRedo} 
-                  disabled={future.length === 0}
-                  class={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition ${future.length > 0 ? 'bg-slate-700 text-slate-200 hover:bg-slate-600' : 'bg-slate-800 text-slate-600 cursor-not-allowed'}`}
-                  title="Redo (Ctrl+Y)"
-                >
-                  ↪ Redo
-                </button>
-              </div>
-            </div>
-          </header>
-
-          {/* Overall Progress Bar */}
-          <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700/60 shadow-lg mb-8">
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-sm font-semibold text-slate-300">Overall Progress ({activeAccount.name})</span>
-              <span class="text-lg font-bold text-amber-400">{overallPercent}%</span>
-            </div>
-            <div class="w-full bg-slate-900 rounded-full h-3.5 overflow-hidden p-0.5 border border-slate-700">
-              <div 
-                class="bg-gradient-to-r from-amber-500 to-orange-500 h-full rounded-full transition-all duration-500" 
-                style={{ width: `${overallPercent}%` }}
-              ></div>
-            </div>
-            <div class="flex justify-between text-xs text-slate-400 mt-2">
-              <span>Completed: {completedItems}</span>
-              <span>Pending: {activeTotal - completedItems}</span>
-              <span>Skipped: {skippedItems}</span>
-            </div>
-          </div>
-
-          {/* Quick Add Preset Buildings */}
-          <div class="mb-8 bg-slate-800/60 p-4 rounded-xl border border-slate-700/40">
-            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Quick Add Building:</span>
-            <div class="flex flex-wrap gap-2">
-              {['Archer Tower Lvl 10', 'Wizard Tower Lvl 10', 'Air Defense Lvl 10', 'Hidden Tesla Lvl 10'].map(preset => (
-                <button 
-                  key={preset}
-                  onClick={() => addBuilding(preset)}
-                  class="bg-slate-700/60 hover:bg-slate-700 border border-slate-600/50 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium transition"
-                >
-                  + {preset}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Buildings Grid */}
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {activeAccount.buildings.map(building => {
-              const bCompleted = building.characters.filter(c => c.status === 'completed').length;
-              const bSkipped = building.characters.filter(c => c.status === 'skipped').length;
-              const bTotal = building.characters.length - bSkipped;
-              const bPercent = bTotal > 0 ? Math.round((bCompleted / bTotal) * 100) : 0;
-
-              return (
-                <div key={building.id} class="bg-slate-800 rounded-2xl p-5 border border-slate-700/80 shadow-xl">
-                  <div class="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 class="text-xl font-bold text-slate-100">{building.name}</h3>
-                      <span class="text-xs text-slate-400">{bCompleted}/{bTotal} Completed</span>
-                    </div>
-                    <button 
-                      onClick={() => deleteBuilding(building.id, building.name)}
-                      class="text-red-400 hover:text-red-300 text-xs px-2 py-1 rounded bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 transition"
-                    >
-                      Delete
-                    </button>
-                  </div>
-
-                  <div class="w-full bg-slate-900 rounded-full h-2 mb-4 overflow-hidden">
-                    <div class="bg-amber-400 h-full transition-all duration-300" style={{ width: `${bPercent}%` }}></div>
-                  </div>
-
-                  {/* Character List */}
-                  <div class="space-y-2">
-                    {building.characters.map(char => (
-                      <div 
-                        key={char.id}
-                        onClick={() => cycleStatus(building.id, char.id)}
-                        class={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer select-none transition ${
-                          char.status === 'completed' ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300' :
-                          char.status === 'skipped' ? 'bg-rose-950/20 border-rose-900/30 text-rose-400/60 line-through' :
-                          'bg-slate-900/60 border-slate-700/50 hover:border-slate-500 text-slate-200'
-                        }`}
-                      >
-                        <span class="font-medium text-sm">{char.name}</span>
-                        <div class="flex items-center gap-2">
-                          <span class={`text-xs px-2 py-0.5 rounded-md font-bold uppercase ${
-                            char.status === 'completed' ? 'bg-emerald-500/20 text-emerald-400' :
-                            char.status === 'skipped' ? 'bg-rose-500/20 text-rose-400' :
-                            'bg-slate-700 text-slate-300'
-                          }`}>
-                            {char.status === 'completed' ? '✓ Done' : char.status === 'skipped' ? '× Skipped' : 'Pending'}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* New Account Modal */}
-          {showNewAccModal && (
-            <div class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-              <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl max-w-sm w-full">
-                <h3 class="text-xl font-bold text-amber-400 mb-4">Create New Account / Profile</h3>
-                <input 
-                  type="text" 
-                  placeholder="e.g. Alt Account, TH12 Base"
-                  value={newAccName}
-                  onChange={(e) => setNewAccName(e.target.value)}
-                  class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-slate-100 outline-none mb-4 focus:border-amber-400"
-                />
-                <div class="flex justify-end gap-2">
-                  <button onClick={() => setShowNewAccModal(false)} class="px-4 py-2 rounded-xl text-slate-400 hover:bg-slate-700 text-sm">Cancel</button>
-                  <button onClick={createNewAccount} class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm">Create</button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Toast Notification */}
-          {toastMsg && (
-            <div class="fixed bottom-6 right-6 bg-amber-500 text-slate-950 px-4 py-2 rounded-xl font-bold text-sm shadow-2xl animate-bounce">
-              {toastMsg}
-            </div>
-          )}
-        </div>
-      );
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if (raw){
+      var d = JSON.parse(raw);
+      if (d && Array.isArray(d.accounts) && Array.isArray(d.upgrades)) return d;
     }
+  }catch(e){}
+  return seed();
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+}
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+var state = load();
+var view = "upgrades";
+var filter = "all";
+var query = "";
+var selAcc = null;
+var editingUp = null, editingAcc = null;
+
+function $(s){ return document.querySelector(s); }
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function accById(id){ for (var i=0;i<state.accounts.length;i++) if (state.accounts[i].id===id) return state.accounts[i]; }
+function upById(id){ for (var i=0;i<state.upgrades.length;i++) if (state.upgrades[i].id===id) return state.upgrades[i]; }
+function st(u,accId){ return (u.marks && u.marks[accId]) || "pending"; }
+function nextStatus(s){ return s==="pending" ? "done" : s==="done" ? "skip" : "pending"; }
+function mark(u,accId,s){ if(!u.marks) u.marks={}; if (s==="pending") delete u.marks[accId]; else u.marks[accId]=s; }
+function matchFilter(s){ return filter==="all" || (filter==="pending" && s==="pending") || (filter==="done" && s==="done"); }
+function counts(u){
+  var d=0,s=0;
+  state.accounts.forEach(function(a){ var x=st(u,a.id); if(x==="done")d++; else if(x==="skip")s++; });
+  return {done:d, skip:s, total:state.accounts.length, pending:state.accounts.length-d-s};
+}
+var ICON = {pending:"", done:"\u2713", skip:"\u00d7"};
+var LABEL = {pending:"Not upgraded", done:"Upgraded", skip:"Skipped"};
+
+/* ---------- overall ---------- */
+function renderOverall(){
+  var d=0,s=0,t=0;
+  state.upgrades.forEach(function(u){ var c=counts(u); d+=c.done; s+=c.skip; t+=c.total; });
+  var eff = t - s;
+  $("#ovTitle").textContent = eff ? (d + " of " + eff + " upgraded") : "Nothing to track yet";
+  $("#ovSub").textContent = state.accounts.length + " accounts \u2022 " + state.upgrades.length + " upgrades" + (s ? " \u2022 " + s + " skipped" : "");
+  var pd = t ? d/t*100 : 0, ps = t ? s/t*100 : 0;
+  $("#ovBar").innerHTML = '<i class="b-done" style="width:'+pd+'%"></i><i class="b-skip" style="width:'+ps+'%"></i>';
+}
+
+/* ---------- by upgrade ---------- */
+function renderUpgrades(){
+  var q = query.trim().toLowerCase();
+  var list = state.upgrades.filter(function(u){ return !q || u.building.toLowerCase().indexOf(q)>-1; });
+  if (!state.upgrades.length){
+    return '<div class="empty"><b>No upgrades yet</b>Press "Add upgrade" and pick a building and level, like Mortar 10.</div>';
+  }
+  if (!list.length) return '<div class="empty"><b>No match</b>No building matches "'+esc(query)+'".</div>';
+  var html = '<div class="cards">';
+  list.forEach(function(u){
+    var c = counts(u);
+    var chips = state.accounts.filter(function(a){ return matchFilter(st(u,a.id)); }).map(function(a){
+      var s = st(u,a.id);
+      return '<button type="button" class="chip" data-act="chip" data-u="'+u.id+'" data-a="'+a.id+'" data-s="'+s+'" aria-label="'+esc(a.name)+': '+LABEL[s]+'. Tap to change.">'
+        + '<span class="dot" aria-hidden="true">'+ICON[s]+'</span>'+esc(a.name)+'</button>';
+    }).join("");
+    if (!chips) chips = '<span class="none">No accounts in this filter.</span>';
+    var eff = c.total - c.skip;
+    html += '<article class="card">'
+      + '<div class="card-h"><h2>'+esc(u.building)+'</h2><span class="lvl">Lv '+esc(u.level)+'</span>'
+      + '<div class="card-tools">'
+      + '<button type="button" class="mini" data-act="all" data-u="'+u.id+'">All \u2713</button>'
+      + '<button type="button" class="mini" data-act="reset" data-u="'+u.id+'">Reset</button>'
+      + '<button type="button" class="mini" data-act="edit" data-u="'+u.id+'">Edit</button>'
+      + '<button type="button" class="mini del" data-act="del" data-u="'+u.id+'">Delete</button>'
+      + '</div></div>'
+      + '<div class="card-p"><small>'+c.done+' of '+eff+' upgraded'+(c.skip?' \u2022 '+c.skip+' skipped':'')+'</small>'
+      + '<div class="bar"><i class="b-done" style="width:'+(c.total?c.done/c.total*100:0)+'%"></i><i class="b-skip" style="width:'+(c.total?c.skip/c.total*100:0)+'%"></i></div></div>'
+      + '<div class="chips">'+chips+'</div></article>';
+  });
+  return html + '</div>';
+}
+
+/* ---------- by account ---------- */
+function renderByAccount(){
+  if (!state.accounts.length) return '<div class="empty"><b>No accounts</b>Add your accounts in the Accounts tab.</div>';
+  if (!selAcc || !accById(selAcc)) selAcc = state.accounts[0].id;
+  var pills = state.accounts.map(function(a){
+    var pend = state.upgrades.filter(function(u){ return st(u,a.id)==="pending"; }).length;
+    return '<button type="button" class="pill" data-act="pick" data-a="'+a.id+'" aria-pressed="'+(a.id===selAcc)+'">'+esc(a.name)
+      + '<span class="badge'+(pend?'':' ok')+'">'+(pend?pend:'\u2713')+'</span></button>';
+  }).join("");
+  var q = query.trim().toLowerCase();
+  var rows = state.upgrades.filter(function(u){
+    return (!q || u.building.toLowerCase().indexOf(q)>-1) && matchFilter(st(u,selAcc));
+  }).map(function(u){
+    var s = st(u,selAcc);
+    return '<div class="row"><div class="nm">'+esc(u.building)+'<em>Lv '+esc(u.level)+'</em></div>'
+      + '<button type="button" class="status" data-act="chip" data-u="'+u.id+'" data-a="'+selAcc+'" data-s="'+s+'">'
+      + (ICON[s]?ICON[s]+' ':'')+LABEL[s]+'</button></div>';
+  }).join("");
+  if (!rows) rows = '<div class="empty"><b>Nothing here</b>'+(state.upgrades.length?'No upgrades in this filter for this account.':'Add an upgrade first.')+'</div>';
+  return '<div class="pills">'+pills+'</div><div class="rows">'+rows+'</div>';
+}
+
+/* ---------- accounts ---------- */
+function renderAccounts(){
+  var list = state.accounts.map(function(a){
+    var d = state.upgrades.filter(function(u){ return st(u,a.id)==="done"; }).length;
+    return '<div class="acc"><span>'+esc(a.name)+'</span><small>'+d+'/'+state.upgrades.length+'</small>'
+      + '<button type="button" class="mini" data-act="renAcc" data-a="'+a.id+'">Rename</button>'
+      + '<button type="button" class="mini del" data-act="delAcc" data-a="'+a.id+'">Delete</button></div>';
+  }).join("");
+  return '<div class="panel"><div class="add-line"><input type="text" id="newAcc" placeholder="New account name" aria-label="New account name" autocomplete="off">'
+    + '<button type="button" class="btn" data-act="addAcc">Add</button></div>'
+    + '<div class="acc-list">'+(list || '<div class="empty"><b>No accounts</b>Type a name above and press Add.</div>')+'</div></div>';
+}
+
+function render(){
+  document.querySelectorAll(".tab").forEach(function(t){ t.setAttribute("aria-selected", t.dataset.view===view); });
+  $("#toolbar").hidden = (view==="accounts");
+  $("#fab").hidden = (view==="accounts");
+  renderOverall();
+  var main = $("#main");
+  main.innerHTML = view==="upgrades" ? renderUpgrades() : view==="byaccount" ? renderByAccount() : renderAccounts();
+}
+function commit(){ save(); render(); }
+
+/* ---------- toast / undo ---------- */
+var toastTimer = null, undoFn = null;
+function toast(msg, undo){
+  $("#toastMsg").textContent = msg;
+  undoFn = undo || null;
+  $("#toastUndo").hidden = !undo;
+  $("#toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ $("#toast").hidden = true; undoFn = null; }, 6000);
+}
+$("#toastUndo").addEventListener("click", function(){ if (undoFn) undoFn(); $("#toast").hidden = true; undoFn = null; });
+
+/* ---------- dialogs ---------- */
+function openDlg(d){ if (d.showModal) d.showModal(); else d.setAttribute("open",""); }
+function closeDlg(d){ if (d.close) d.close(); else d.removeAttribute("open"); }
+document.querySelectorAll("[data-close]").forEach(function(b){ b.addEventListener("click", function(){ closeDlg(b.closest("dialog")); }); });
+
+function openUpgrade(id){
+  editingUp = id || null;
+  var u = id ? upById(id) : null;
+  $("#upTitle").textContent = u ? "Edit upgrade" : "Add upgrade";
+  $("#upB").value = u ? u.building : "";
+  $("#upL").value = u ? u.level : "";
+  openDlg($("#dlgUp"));
+  setTimeout(function(){ $("#upB").focus(); }, 30);
+}
+$("#fUp").addEventListener("submit", function(e){
+  e.preventDefault();
+  var b = $("#upB").value.trim(), l = parseInt($("#upL").value,10);
+  if (!b || !l) return;
+  if (editingUp){ var u = upById(editingUp); u.building=b; u.level=l; }
+  else state.upgrades.unshift({id:uid(), building:b, level:l, marks:{}});
+  closeDlg($("#dlgUp"));
+  commit();
+});
+
+function openAccount(id){
+  editingAcc = id;
+  $("#accN").value = accById(id).name;
+  openDlg($("#dlgAcc"));
+  setTimeout(function(){ $("#accN").select(); }, 30);
+}
+$("#fAcc").addEventListener("submit", function(e){
+  e.preventDefault();
+  var n = $("#accN").value.trim();
+  if (!n) return;
+  accById(editingAcc).name = n;
+  closeDlg($("#dlgAcc"));
+  commit();
+});
+
+/* ---------- actions ---------- */
+function addAccount(){
+  var inp = $("#newAcc"), n = inp.value.trim();
+  if (!n) { inp.focus(); return; }
+  state.accounts.push({id:uid(), name:n});
+  commit();
+  var again = $("#newAcc"); if (again) again.focus();
+}
+
+document.addEventListener("click", function(e){
+  var el = e.target.closest("[data-act]");
+  if (!el) return;
+  var act = el.dataset.act, uId = el.dataset.u, aId = el.dataset.a;
+  if (act==="chip"){
+    var u = upById(uId); mark(u, aId, nextStatus(st(u,aId))); commit();
+  } else if (act==="all"){
+    var u1 = upById(uId), prev1 = JSON.stringify(u1.marks);
+    state.accounts.forEach(function(a){ mark(u1,a.id,"done"); });
+    commit(); toast("All accounts marked upgraded", function(){ u1.marks = JSON.parse(prev1); commit(); });
+  } else if (act==="reset"){
+    var u2 = upById(uId), prev2 = JSON.stringify(u2.marks);
+    u2.marks = {}; commit(); toast("Reset to not upgraded", function(){ u2.marks = JSON.parse(prev2); commit(); });
+  } else if (act==="edit"){
+    openUpgrade(uId);
+  } else if (act==="del"){
+    var idx = state.upgrades.findIndex(function(x){ return x.id===uId; }), removed = state.upgrades[idx];
+    state.upgrades.splice(idx,1); commit();
+    toast(removed.building+" "+removed.level+" deleted", function(){ state.upgrades.splice(idx,0,removed); commit(); });
+  } else if (act==="pick"){
+    selAcc = aId; render();
+  } else if (act==="addAcc"){
+    addAccount();
+  } else if (act==="renAcc"){
+    openAccount(aId);
+  } else if (act==="delAcc"){
+    var ai = state.accounts.findIndex(function(x){ return x.id===aId; }), acc = state.accounts[ai];
+    var saved = state.upgrades.map(function(u){ return {id:u.id, s:u.marks[aId]}; });
+    state.accounts.splice(ai,1);
+    state.upgrades.forEach(function(u){ delete u.marks[aId]; });
+    commit();
+    toast(acc.name+" deleted", function(){
+      state.accounts.splice(ai,0,acc);
+      saved.forEach(function(x){ var u=upById(x.id); if(u && x.s) u.marks[aId]=x.s; });
+      commit();
+    });
+  }
+});
+document.addEventListener("keydown", function(e){
+  if (e.key==="Enter" && e.target && e.target.id==="newAcc"){ e.preventDefault(); addAccount(); }
+});
+
+/* tabs, filters, search */
+document.querySelectorAll(".tab").forEach(function(t){ t.addEventListener("click", function(){ view = t.dataset.view; render(); }); });
+document.querySelectorAll(".seg button").forEach(function(b){
+  b.addEventListener("click", function(){
+    filter = b.dataset.f;
+    document.querySelectorAll(".seg button").forEach(function(x){ x.setAttribute("aria-pressed", x===b); });
+    render();
+  });
+});
+$("#q").addEventListener("input", function(e){ query = e.target.value; render(); });
+$("#fab").addEventListener("click", function(){ openUpgrade(null); });
+
+/* ---------- backup ---------- */
+$("#btnBackup").addEventListener("click", function(){
+  $("#bkText").value = JSON.stringify(state, null, 2);
+  $("#bkMsg").textContent = "";
+  openDlg($("#dlgBk"));
+});
+$("#bkCopy").addEventListener("click", function(){
+  var ta = $("#bkText"); ta.focus(); ta.select();
+  var ok = false;
+  try{ ok = document.execCommand("copy"); }catch(e){}
+  $("#bkMsg").textContent = ok ? "Copied." : "Text selected. Press copy on your device.";
+});
+$("#bkRestore").addEventListener("click", function(){
+  try{
+    var d = JSON.parse($("#bkText").value);
+    if (!d || !Array.isArray(d.accounts) || !Array.isArray(d.upgrades)) throw new Error("bad");
+    d.upgrades.forEach(function(u){ if (!u.marks) u.marks = {}; });
+    state = d; selAcc = null;
+    closeDlg($("#dlgBk")); commit(); toast("Backup restored");
+  }catch(e){
+    $("#bkMsg").textContent = "That text is not a valid backup. Paste the full copied text and try again.";
+  }
+});
+
+/* ---------- theme ---------- */
+function applyTheme(t){ if (t) document.documentElement.setAttribute("data-theme", t); else document.documentElement.removeAttribute("data-theme"); }
+try{ applyTheme(localStorage.getItem(THEME_KEY)); }catch(e){}
+$("#btnTheme").addEventListener("click", function(){
+  var cur = document.documentElement.getAttribute("data-theme");
+  var isDark = cur ? cur==="dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var next = isDark ? "light" : "dark";
+  applyTheme(next);
+  try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+});
+
+/* datalist */
+$("#bList").innerHTML = BUILDINGS.map(function(b){ return '<option value="'+esc(b)+'">'; }).join("");
+
+render();
+})();
+</script>
 </body>
 </html>
