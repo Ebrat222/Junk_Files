@@ -9,4 +9,3 @@ https://ebrat222.github.io/Junk_Files/COC
 https://ebrat222.github.io/Junk_Files/Best%20Framework.md
 
 https://ebrat222.github.io/Junk_Files/learn_react
-https://ebrat222.github.io/Junk_Files/factor_finder
